@@ -1,3 +1,3 @@
 # District Opportunity Score
 
-Complicated Math ;-)
+What is the District Opportunity Score (DOS)? It is **Complicated Math** ;-)
