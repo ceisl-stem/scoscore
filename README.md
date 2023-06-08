@@ -1,4 +1,4 @@
-# District Opportunity Score
+# School Corporation Opportunity Score (scoScore)
 
 ![DOS](images/dos.jpg)
 
