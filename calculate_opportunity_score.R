@@ -47,7 +47,12 @@ split_rows <- total_rows %/% 3
 df1 <- districts_df[1:split_rows, ]
 df2 <- districts_df[(split_rows+1):(split_rows*2), ]
 df3 <- districts_df[(split_rows*2+1):total_rows, ]
-
+row.names(df1) <- NULL
+row.names(df2) <- NULL
+row.names(df3) <- NULL
+write_csv(df1, file = "data/aj.csv")
+write_csv(df2, file = "data/akaash.csv")
+write_csv(df3, file = "data/maxim.csv")
 
 #frl_frame <- masterpull(data_year = "2018", data_type = "geo") |>
 #  filter(State == "Indiana") |>
