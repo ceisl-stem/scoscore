@@ -25,7 +25,7 @@ state_3rd_proficiency <- .816
 state_6th_proficiency <- .341
 state_gpc <- .864
 
-school_corp_frame <- read_csv(here("data", "test_metrics.csv")) |>
+school_corp_frame <- read_csv(here("data", "maxim.csv")) |>
   na.omit() |>
   # mutate(ela_3rd = if_else(
   #   is.na(ela_3rd),
@@ -75,16 +75,25 @@ school_corp_frame <- read_csv(here("data", "test_metrics.csv")) |>
     frl_pct,
     adj_academic,
     scoScore
-  )
+  ) |>
+  mutate(urm_pct = urm_pct * 100) |>
+  mutate(frl_pct = frl_pct * 100)
 
 school_corp_frame$urban_centric_locale <- factor(
   school_corp_frame$urban_centric_locale,
   levels = c(
     "City large",
+    "City midsize",
     "City small",
     "Suburb large",
+    "Suburb midsize",
+    "Suburb small",
+    "Town fringe",
     "Town distant",
-    "Rural distant"
+    "Town remote",
+    "Rural fringe",
+    "Rural distant",
+    "Rural remote"
   )
 )
 
