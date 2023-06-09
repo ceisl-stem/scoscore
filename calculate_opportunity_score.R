@@ -1,100 +1,109 @@
-library(edbuildmapr)
-library(edbuildr)
-library(educationdata)
-library(tidyr)
+library(readr)
 library(dplyr)
+library(here)
 library(ggplot2)
 library(ggpubr)
-library(readr)
 
-df <- get_education_data(level = 'school-districts', 
-                         source = 'ccd', 
-                         topic = 'directory', 
-                         #subtopic = list('agency_type'),
-                         filters = list(fips = 18,
-                                        year = 2021
-                                        ),
-                         add_labels = TRUE) |>
-  filter(
-    agency_type == "Regular local school district"
+ucl_palette <- c(
+  "City large" = "#990000",
+  "City midsize" = "#DC231E",
+  "City small" = "#F23A3F",
+  "Suburb large" = "#FFAA00",
+  "Suburb midsize" = "#FFC132",
+  "Suburb small" = "#FFD563",
+  "Town fringe" = "#056E41",
+  "Town distant" = "#329345",
+  "Town remote" = "#63B363",
+  "Rural fringe" = "#006298",
+  "Rural distant" = "#328BB8",
+  "Rural remote" = "#63B1D3"
+)
+
+iu_ramp_palette = colorRampPalette(c("#990000", "#59264D", "#006298"))
+
+state_3rd_proficiency <- .816
+state_6th_proficiency <- .341
+state_gpc <- .864
+
+school_corp_frame <- read_csv(here("data", "test_metrics.csv")) |>
+  na.omit() |>
+  # mutate(ela_3rd = if_else(
+  #   is.na(ela_3rd),
+  #   state_3rd_proficiency,
+  #   ela_3rd
+  # )) |>
+  # mutate(math_6th = if_else(
+  #   is.na(math_6th),
+  #   state_6th_proficiency,
+  #   math_6th
+  # )) |>
+  # mutate(grad_comp = if_else(
+  #   is.na(grad_comp),
+  #   state_gpc,
+  #   grad_comp
+  # )) |>
+  mutate(adj_3rd = if_else(
+    ela_3rd < state_3rd_proficiency,
+    (state_3rd_proficiency - ela_3rd + 1),
+    0
+  )) |>
+  mutate(adj_6th = if_else(
+    math_6th < state_6th_proficiency,
+    (state_6th_proficiency - math_6th + 1),
+    0
+  )) |>
+  mutate(adj_gpc = if_else(
+    grad_comp < state_gpc,
+    (state_gpc - grad_comp + 1),
+    0
+  )) |>
+  mutate(
+    adj_academic = (
+      (((adj_3rd) + (adj_6th) + (adj_gpc)) / 3)) + 1
+  ) |>
+  mutate(
+    scoScore = (
+      ((urm_pct * 1.5) + (frl_pct * 1.5) + (adj_academic)) / 3
+    )
   ) |>
   select(
-    leaid, lea_name, state_leaid, enrollment, urban_centric_locale, enrollment
+    leaid,
+    lea_name,
+    enrollment,
+    urban_centric_locale,
+    urm_pct,
+    frl_pct,
+    adj_academic,
+    scoScore
   )
-#View(df)
-df2 <- get_education_data(level = 'school-districts', 
-                         source = 'ccd', 
-                         topic = 'enrollment', 
-                         subtopic = list('race'),
-                         filters = list(fips = 18,
-                                        year = 2021,
-                                        grade = 99
-                         ),
-                         add_labels = TRUE) |>
-  select(leaid, race, enrollment) |>
-  pivot_wider(id_cols = leaid, names_from = race, values_from = enrollment) |>
-  mutate(urm_pct = 1 - (White / Total)) |>
-  select(leaid, urm_pct)
-#View(df2)
-districts_df <- left_join(df, df2, by = "leaid") |>
-  filter(leaid != 1800009) |>
-  select(leaid, lea_name, enrollment, urban_centric_locale, urm_pct) |>
-  arrange(leaid)
-#View(districts_df)
 
-total_rows <- nrow(districts_df)
-split_rows <- total_rows %/% 3
-df1 <- districts_df[1:split_rows, ]
-df2 <- districts_df[(split_rows+1):(split_rows*2), ]
-df3 <- districts_df[(split_rows*2+1):total_rows, ]
-row.names(df1) <- NULL
-row.names(df2) <- NULL
-row.names(df3) <- NULL
-write_csv(df1, file = "data/aj.csv")
-write_csv(df2, file = "data/akaash.csv")
-write_csv(df3, file = "data/maxim.csv")
+school_corp_frame$urban_centric_locale <- factor(
+  school_corp_frame$urban_centric_locale,
+  levels = c(
+    "City large",
+    "City small",
+    "Suburb large",
+    "Town distant",
+    "Rural distant"
+  )
+)
 
-#frl_frame <- masterpull(data_year = "2018", data_type = "geo") |>
-#  filter(State == "Indiana") |>
-#  select("leaid" = "NCESID", "frl_pct" = "FRL_rate")
+urcl_plot <- ggboxplot(
+  school_corp_frame,
+ "urban_centric_locale",
+ "scoScore",
+ outlier.shape = NA,
+ fill = "urban_centric_locale",
+ palette = ucl_palette) +
+ theme_pubr()
+urcl_plot
 
-#districts_df <- left_join(districts_df, frl_frame, by = "leaid")
-
-#scatter_plot <- ggscatter(
-#  districts_df,
-#  "urm_pct",
-#  "frl_pct",
-#  size = "enrollment",
-#  color = "urban_centric_locale",
-#  add = "reg.line",
-#  add.params = list(color = "blue", fill = "lightgray"),
-#  conf.int = TRUE) + 
-#  stat_cor(method = "pearson") +
-#  theme_pubr()
-#scatter_plot
-
-#scatter_plot2 <- ggboxplot(
-#   districts_df,
-#   "urban_centric_locale",
-#   "frl_pct",
-#   size = "enrollment",
-#   color = "urban_centric_locale",
-#   add = "reg.line",
-#   add.params = list(color = "blue", fill = "lightgray"),
-#   conf.int = TRUE) + 
-#   stat_cor(method = "pearson") +
-#   theme_pubr()
-# scatter_plot2
-# 
-# scatter_plot3 <- ggboxplot(
-#   districts_df,
-#   "urban_centric_locale",
-#   "urm_pct",
-#   size = "enrollment",
-#   color = "urban_centric_locale",
-#   add = "reg.line",
-#   add.params = list(color = "blue", fill = "lightgray"),
-#   conf.int = TRUE) + 
-#   stat_cor(method = "pearson") +
-#   theme_pubr()
-# scatter_plot3
+opp_plot <- ggscatter(
+  school_corp_frame,
+  "urm_pct",
+  "frl_pct",
+  size = "enrollment",
+  color = "urban_centric_locale",
+  palette = ucl_palette) +
+  theme_pubr()
+opp_plot
