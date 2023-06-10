@@ -8,11 +8,13 @@ library(ggplot2)
 library(ggpubr)
 library(ggrepel)
 library(waffle)
+library(ggbeeswarm)
 library(maps)
 library(mapdata)
 library(sf)
 library(edbuildmapr)
 library(educationdata)
+library(linearpackcircles)
 
 ucl_palette <- c(
   "City large" = "#990000",
@@ -29,7 +31,6 @@ ucl_palette <- c(
   "Rural remote" = "#94D2E7"
 )
 
-iu_ramp_palette = colorRampPalette(c("#FFAA00", "#990000", "#59264D"))
 
 state_3rd_proficiency <- .816
 state_6th_proficiency <- .341
@@ -112,16 +113,63 @@ school_corp_frame$urban_centric_locale <- factor(
   )
 )
 
+urcl_pack = linearpackcircles(school_corp_frame,
+                          
+                          ID_var = "lea_name",
+                          group_var = "urban_centric_locale",
+                          area_var = "enrollment",
+                          x_var = "scoScore",
+                          
+                          separation_factor = 200,
+                          width_plot = 2000,
+                          height_group = 100,
+                          
+                          label_circles = TRUE,
+                          max_overlaps = 8,
+                          size_text = 2,
+                          area_multiplier = 1000)
+urcl_pack
+
+
+urcl_swarm <- ggplot(
+  school_corp_frame,
+  aes(
+  x = urban_centric_locale,
+  y = scoScore,
+  color = urban_centric_locale
+  )
+) +
+  geom_beeswarm(method = "center", cex = 1.5, corral = "wrap", shape = 18, size = 3) +
+  geom_text_repel(aes(x = urban_centric_locale, 
+                      y = scoScore, 
+                      label = lea_name), size = 2.75, color = "#243142",
+                  max.overlaps = 4,
+                  point.padding = 0.5) +
+  annotate("segment", x = 0, xend = 12.5, y = 1, yend = 1, color = "#A7A9AB",
+           linetype = "longdash") +
+  scale_color_manual(values = ucl_palette) +
+  ylim(0, 2) +
+  ylab("School Corporation Opportunity Score") +
+  xlab("NCES Urban-Centric Locale Category") +
+  theme_pubr() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+    legend.position = "none"
+  )
+urcl_swarm
+ggsave(here("outputs", "urcl_swarm.png"), urcl_swarm, dpi = 300, width = 16, height = 9, units = "in")
+
 urcl_plot <- ggboxplot(
   school_corp_frame,
  "urban_centric_locale",
  "scoScore",
  outlier.shape = NA,
  fill = "urban_centric_locale",
- palette = ucl_palette) +
+ palette = ucl_palette,
+ ylim = c(0, 2)) +
  theme_pubr()
 urcl_plot <- ggpar(urcl_plot, legend = "none")
-ggsave(here("outputs", "urcl_box.png"), urcl_plot, dpi = 300, width = 16, height = 9, units = "in")
+#ggsave(here("outputs", "urcl_box.png"), urcl_plot, dpi = 300, width = 16, height = 9, units = "in")
 
 opp_plot <- ggscatter(
   school_corp_frame,
@@ -148,16 +196,19 @@ urcl_enrollment <- ggdonutchart(
   label = "urban_centric_locale",
   fill = "urban_centric_locale",
   palette = ucl_palette,
-  legend = "none")
+  legend.title = "NCES Urban-Centric Locale Category")
 urcl_enrollment
+ggsave(here("outputs", "enrollment_donut.png"), urcl_enrollment, dpi = 300, width = 8.5, height = 11, units = "in")
 
 urcl_n <- ggdonutchart(
   urcl_frame,
   "num",
   label = "urban_centric_locale",
   fill = "urban_centric_locale",
-  palette = ucl_palette)
+  palette = ucl_palette,
+  legend.title = "NCES Urban-Centric Locale Category")
 urcl_n
+ggsave(here("outputs", "scn_donut.png"), urcl_n, dpi = 300, width = 8.5, height = 11, units = "in")
 
 urcl_city <- urcl_frame[1,3] +
   urcl_frame[2,3] +
@@ -171,13 +222,13 @@ urcl_town <- urcl_frame[7,3] +
 urcl_rural <- urcl_frame[10,3] +
   urcl_frame[11,3] +
   urcl_frame[12,3]
-urcl_condensed_frame <- data.frame(urcl = c("city", "suburb", "town", "rural"),
+urcl_condensed_frame <- data.frame(urcl = c("City", "Suburb", "Town", "Rural"),
                                    enrollment = c(as.numeric(urcl_city),
                                                   as.numeric(urcl_suburb),
                                                   as.numeric(urcl_town),
                                                   as.numeric(urcl_rural)))
 urcl_condensed_frame$urcl <- factor(urcl_condensed_frame$urcl,
-                                    levels = c("city", "suburb", "town", "rural"))
+                                    levels = c("City", "Suburb", "Town", "Rural"))
 urcl_c <- ggdonutchart(
   urcl_condensed_frame,
   "enrollment",
@@ -193,7 +244,8 @@ enr_waffle <- urcl_frame |>
   mutate(total_enrollment = total_enrollment / 2000)
 enr_waffle_plot <- waffle(enr_waffle, rows = 10,
        colors = ucl_palette, legend_pos = "bottom")
-ggsave(here("outputs", "enr_waffle.png"), enr_waffle_plot, dpi = 300, width = 18, height = 6, units = "in")
+enr_waffle_plot
+#ggsave(here("outputs", "enr_waffle.png"), enr_waffle_plot, dpi = 300, width = 18, height = 6, units = "in")
 
 
 n_waffle <- urcl_frame |>
@@ -201,11 +253,12 @@ n_waffle <- urcl_frame |>
 n_waffle_plot <- waffle(n_waffle, rows = 8,
        colors = ucl_palette,
        legend_pos = "bottom")
-ggsave(here("outputs", "n_waffle.png"), n_waffle_plot, dpi = 300, width = 18, height = 6, units = "in")
+n_waffle_plot
+#ggsave(here("outputs", "n_waffle.png"), n_waffle_plot, dpi = 300, width = 18, height = 6, units = "in")
 
 tern_plot <- school_corp_frame |>
-  #mutate(urm_pct = urm_pct / 100) |>
-  #mutate(frl_pct = frl_pct / 100) |>
+mutate(urm_pct = urm_pct / 100) |>
+mutate(frl_pct = frl_pct / 100) |>
   mutate(adj_academic = rescale(adj_academic, to = c(1, 100))) |>
   ggtern(aes(urm_pct, frl_pct, adj_academic, color = urban_centric_locale, size = enrollment)) +
   geom_point() +
@@ -213,7 +266,8 @@ tern_plot <- school_corp_frame |>
   scale_size_continuous(breaks = c(1000, 5000, 10000, 15000, 20000, 25000)) +
   theme_ggtern() +
   theme_arrowdefault()
-ggsave(here("outputs", "tern.png"), tern_plot, dpi = 300, width = 11, height = 8.5, units = "in")
+tern_plot
+# ggsave(here("outputs", "tern.png"), tern_plot, dpi = 300, width = 11, height = 8.5, units = "in")
 
 enrollment_plot <- ggscatter(school_corp_frame, x = "enrollment", y = "scoScore", color = "urban_centric_locale",
           palette = ucl_palette,
@@ -221,7 +275,13 @@ enrollment_plot <- ggscatter(school_corp_frame, x = "enrollment", y = "scoScore"
           add.params = list(color = "blue", fill = "lightgray"),
           conf.int = TRUE,
           cor.coef = TRUE) +
+  geom_text_repel(aes(x = enrollment, 
+                      y = scoScore, 
+                      label = lea_name), size = 2.75, color = "#243142",
+                  max.overlaps = 4,
+                  point.padding = 0.5) +
   theme_pubr()
+enrollment_plot
 ggsave(here("outputs", "enr_scoscore.png"), enrollment_plot, dpi = 300, width = 16, height = 9, units = "in")
 
 sc_locations <- get_education_data(level = 'school-districts', 
@@ -274,13 +334,15 @@ school_corp_frame <- school_corp_frame |>
 
 states <- st_as_sf(map("state", plot = FALSE, fill = TRUE))
 
+school_corp_map <- st_as_sf(school_corp_frame)
+
 corp_map <- school_corp_frame |>
   select(leaid, scoScore, geometry) |>
   st_as_sf(map("state", plot = FALSE, fill = TRUE))
 
 sco_map <- ggplot(data = states) +
   geom_sf(data = states, fill = "#eeeeee") +
-  geom_sf(data = corp_map, color = "#243142", aes(fill = scoScore)) +
+  geom_sf(data = school_corp_map, color = "#243142", aes(fill = scoScore)) +
   scale_fill_steps2(
     low = "#FFF4C6",
     high = "#990000",
