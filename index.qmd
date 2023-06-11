@@ -7,7 +7,7 @@ author:
     affiliation_url: https://education.iupui.edu/
     orcid: 0000-0002-6506-3526
 license: "CC BY-SA"
-code-annotations: TRUE
+code-annotations: true
 mainfont: spectral
 sansfont: rubik
 monofont: "JetBrains Mono"
@@ -25,6 +25,10 @@ citation:
   url: https://github.com/jeremyfprice/school-corporation-opportunity-score
 google-scholar: true
 ---
+
+<style>
+.cell { font-family: "JetBrains Mono", mono; }
+</style>
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
@@ -85,7 +89,7 @@ $$
 Then...
 
 $$
-S_{ac} = \frac{\left(S_{a_{lit}}^\prime + S_{a_{math}}^\prime + S_{a_{gpc}}^\prime\right)}{3} + 1
+S_{ac} = \frac{\left(S_{a_{ela}}^\prime + S_{a_{math}}^\prime + S_{a_{gpc}}^\prime\right)}{3} + 1
 $$
 
 Finally...
@@ -96,15 +100,15 @@ $$
 This is what it looks like in R:
 
 ```{r show-code, eval = FALSE, echo = TRUE}
-school_corp_frame <- school_corp_frame |> # <1>
+school_corp_frame <- school_corp_frame |>
   mutate(
     adj_3rd = if_else(
-      ela_3rd < state_3rd_proficiency, # <2>
-      (state_3rd_proficiency - ela_3rd + 1), # <3>
-      0 # <4>
+      ela_3rd < state_3rd_proficiency, # <1>
+      (state_3rd_proficiency - ela_3rd + 1), # <2>
+      0 # <3>
     )
   ) |>
-  mutate( # <5>
+  mutate( # <4>
     adj_6th = if_else(
       math_6th < state_6th_proficiency,
       (state_6th_proficiency - math_6th + 1),
@@ -120,21 +124,23 @@ school_corp_frame <- school_corp_frame |> # <1>
   ) |>
   mutate(
     adj_academic = (
-      (((adj_3rd) + (adj_6th) + (adj_gpc)) / 3)) + 1 # <6>
+      (((adj_3rd) + (adj_6th) + (adj_gpc)) / 3)) + 1 # <5>
   ) |>
   mutate(
     scoScore = (
-      ((urm_pct * 1.5) + (frl_pct * 1.5) + (adj_academic)) / 3 # <7>
+      ((urm_pct * 1.5) + (frl_pct * 1.5) + (adj_academic)) / 3 # <6>
     )
   )
 ```
-1. Take
-2. Then
-3. Then
-4. Then
-5. Repeat
-6. Calculate
-7. Calculate
+1. Take the 3rd grade ELA pass rate and compare against the Indiana average
+2. If it is less than the state average ($S_a < S_{IN}$), subtract it from the
+state average and add `1`.
+3. If it is the same as or higher than the state average ($S_a \geq S_{IN}$),
+set it to `0`.
+4. Repeat the process for the remaining academic measures (6th grade math and
+graduation pathways completion rate).
+5. Calculate the Academic Score ($S_a^\prime$).
+6. Calculate the School Corporation Opportunity Score ($S_O$).
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
@@ -144,19 +150,24 @@ Quarto enables you to weave together content and executable code into a finished
 
 ```{r}
 
+SCO_display_frame <- SCO_frame |>
+  select(-leaid) |>
+  arrange(desc(scoScore), lea_name)
+
 datatable(
-  SCO_frame,
+  SCO_display_frame,
   rownames = FALSE,
   colnames = c(
     "Corporation",
     "Locale",
-    "% URM",
-    "% FRL",
+    "%URM",
+    "%FRL",
     "AcScore",
     "SCOscore"
     ),
   caption = "School Corporation Opportunity Scores for Indiana school corporations.",
-  filter = "top"
+  options = list(
+  pageLength = 5)
   ) |>
   formatStyle(columns = c(2), fontSize = "90%")
 
@@ -191,7 +202,7 @@ urcl_swarm <- ggplot(
     color = scoScore
   )
 ) +
-  geom_beeswarm(cex = 1.5, corral = "wrap", method = "center") +
+  geom_beeswarm(cex = 1.5, corral = "wrap", method = "center", shape = 18, size = 1) +
   annotate("segment", x = 0, xend = 12.5, y = 1, yend = 1, color = "#A7A9AB",
            linetype = "dotted") +
   scale_color_steps2(
@@ -254,6 +265,6 @@ sco_map <- ggplot(data = states) +
         axis.title = element_blank())
 ```
 
-```{r display-map}
+```{r display-map, results = "asis"}
 ggplotly(sco_map)
 ```

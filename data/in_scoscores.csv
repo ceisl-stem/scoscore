@@ -1,290 +1,191 @@
-leaid,lea_name,urban_centric_locale,urm_pct,frl_pct,academic,scoScore
-1804770,Indianapolis Public Schools,City large,78.9,62.94,2.14,1.42
-1805670,MSD Lawrence Township,Suburb large,81.07,59.68,1.75,1.29
-1808760,Penn-Harris-Madison School Corp,Suburb large,28.499999999999996,22.53,1,0.59
-1808820,Perry Township Schools,City large,62.32,69.28999999999999,1.37,1.11
-1808850,Peru Community Schools,Town distant,15.39,51.970000000000006,1.33,0.78
-1808900,Pike County School Corp,Rural distant,4.82,47.65,1.35,0.71
-1808910,MSD Pike Township,City large,92.95,63,1.78,1.37
-1808940,Pioneer Regional School Corp,Rural distant,9.81,50.71,1.77,0.89
-1808970,Plainfield Community School Corp,Suburb large,20.5,24.779999999999998,1,0.56
-1809000,East Porter County School Corp,Rural fringe,12.370000000000001,15.9,1,0.47
-1809060,Plymouth Community School Corp,Town distant,33.22,52.370000000000005,2.05,1.11
-1809120,John Glenn School Corporation,Rural fringe,9.89,38.940000000000005,1,0.58
-1809150,Portage Township Schools,Suburb large,47.94,49.99,1.7,1.06
-1809180,Porter Township School Corp,Rural fringe,19.28,24.16,1.4,0.68
-1809300,Prairie Heights Community Sch Corp,Rural distant,7.670000000000001,23.599999999999998,1.34,0.6
-1809360,West Central School Corp,Rural remote,12.26,49.21,1.34,0.75
-1809420,Rensselaer Central School Corp,Town distant,17.150000000000002,36.91,1.34,0.72
-1809480,Richland-Bean Blossom C S C,Suburb midsize,9.76,33.52,1.36,0.67
-1809510,Richmond Community Schools,Town distant,36.29,74.22999999999999,1.77,1.14
-1809630,Rochester Community School Corp,Town distant,9.520000000000001,51.06,1.72,0.88
-1809690,Merrillville Community School Corp,Suburb large,89.31,63.27,1.69,1.33
-1809720,Rossville Con School District,Rural distant,7.199999999999999,23.810000000000002,1,0.49
-1809750,Rush County Schools,Town distant,7.16,57.11000000000001,1,0.65
-1809810,Salem Community Schools,Town distant,6.069999999999999,51.980000000000004,1.73,0.87
-1809840,Daleville Community Schools,Suburb small,7.109999999999999,47.760000000000005,1.38,0.73
-1809990,Scott County School District 1,Town distant,6.9,53.97,2.15,1.02
-1810020,Scott County School District 2,Town distant,6.21,57.07,1.35,0.77
-1810080,Seymour Community Schools,Town distant,44.82,54.96,2.12,1.21
-1810110,MSD Shakamak Schools,Rural distant,4.75,45.62,1.34,0.7
-1810140,Shelbyville Central Schools,Town distant,24.560000000000002,48.199999999999996,1.33,0.81
-1810170,Shoals Community School Corp,Rural distant,4.06,58.93000000000001,1.36,0.77
-1810260,South Adams Schools,Town distant,14.96,41.44,1,0.62
-1810290,South Bend Community School Corp,City midsize,72.74000000000001,61.19,2.19,1.4
-1810350,South Gibson School Corporation,Rural distant,6.279999999999999,23.44,1,0.48
-1810360,South Harrison Com Schools,Town fringe,10.620000000000001,46.08,1,0.62
-1810380,South Henry School Corp,Rural distant,5.94,45.2,1.37,0.71
-1810410,South Knox School Corp,Rural distant,3.4799999999999995,35.52,1,0.53
-1810440,South Madison Com Sch Corp,Suburb small,11.49,27.810000000000002,1,0.53
-1810450,South Montgomery Com Sch Corp,Rural distant,7.82,29.349999999999998,1,0.52
-1810470,South Newton School Corp,Rural remote,18.01,49.76,1.75,0.92
-1810500,South Putnam Community Schools,Rural distant,6.23,40.660000000000004,1,0.57
-1810530,South Ripley Com Sch Corp,Rural distant,5.0200000000000005,40.73,1,0.56
-1810560,South Spencer County Sch Corp,Rural distant,6.660000000000001,43.919999999999995,1.33,0.7
-1810590,South Vermillion Com Sch Corp,Rural fringe,4.3999999999999995,53,1.36,0.74
-1810620,Southeast Fountain School Corp,Rural distant,9.719999999999999,48.480000000000004,1.35,0.74
-1810640,Southeast Dubois Co Sch Corp,Rural distant,6.43,23.669999999999998,1,0.48
-1810650,Hamilton Southeastern Schools,Suburb large,31.119999999999997,15.509999999999998,1,0.57
-1810680,Lewis Cass Schools,Rural distant,13.930000000000001,44.72,1.36,0.75
-1810710,Southern Hancock Co Com Sch Corp,Rural fringe,8.68,24.6,1,0.5
-1810740,Randolph Southern School Corp,Rural distant,9.27,45.75,1.35,0.73
-1810770,Southern Wells Com Schools,Rural distant,4.97,37.51,1,0.55
-1810800,Southwestern-Jefferson Co Con,Rural fringe,10.13,55.95,1.41,0.8
-1810830,Southwestern Con Sch Shelby Co,Rural distant,6.21,37.580000000000005,1.35,0.67
-1810860,Southwest School Corporation,Rural fringe,4.91,46.61,1.68,0.82
-1810870,Southwest Dubois Co Sch Corp,Rural fringe,36.25,44.84,1.35,0.85
-1810900,Southwest Parke Com Sch Corp,Rural distant,7.02,51.92,1.73,0.87
-1810920,School Town of Speedway,Suburb large,61.14000000000001,51.480000000000004,1,0.9
-1810980,Springs Valley Com School Corp,Rural distant,11.86,47.9,1.73,0.88
-1811100,MSD Steuben County,Rural fringe,16.31,36.730000000000004,1.68,0.83
-1811190,Sunman-Dearborn Com Sch Corp,Rural distant,4.96,18.060000000000002,1.34,0.56
-1811220,Switzerland County School Corp,Rural distant,5.76,50.739999999999995,1.38,0.74
-1811250,Taylor Community School Corp,Rural fringe,34.1,53.99,2.13,1.15
-1811260,Tell City-Troy Twp School Corp,Rural fringe,8.62,45.06,1.71,0.84
-1811340,Tippecanoe School Corp,Suburb midsize,29.599999999999998,35.699999999999996,1.34,0.77
-1811370,Tippecanoe Valley School Corp,Rural distant,18.84,50.36000000000001,1.35,0.8
-1811400,Tipton Community School Corp,Town fringe,9.9,37.6,1.34,0.69
-1811430,Tri-County School Corporation,Rural distant,14.01,38.22,1.34,0.71
-1811460,Tri-Creek School Corporation,Rural fringe,14.649999999999999,24.84,1,0.53
-1811490,Triton School Corporation,Rural distant,8.93,34.86,1.37,0.67
-1811580,Twin Lakes School Corp,Town distant,18.12,58.63,1.68,0.95
-1811610,Union Co/Clg Corner Joint Sch Dist,Rural distant,5.47,47.04,1,0.6
-1811700,Union Township School Corp,Rural fringe,17.84,27.29,1,0.56
-1811730,Union School Corporation,Rural distant,32.22,62.7,1.77,1.06
-1811910,Union-North United School Corp,Rural distant,10.83,43.72,1,0.61
-1811970,Valparaiso Community Schools,Suburb large,24.48,28.349999999999998,1,0.6
-1812060,Crothersville Community Schools,Rural distant,7.26,60.79,1.76,0.93
-1812090,Vigo County School Corp,City small,19.54,54.379999999999995,2.07,1.06
-1812120,Vincennes Community School Corp,Town remote,13.52,47.23,1,0.64
-1812150,Wabash City Schools,Town distant,8.799999999999999,50.29,1.41,0.77
-1812180,MSD Wabash County Schools,Rural distant,9.04,45.93,1.38,0.73
-1812240,Wa-Nee Community Schools,Town fringe,16.68,29.64,1,0.56
-1812360,MSD Warren Township,City large,82.97,59.27,2.14,1.42
-1812390,Warrick County School Corp,Suburb midsize,13.07,28.82,1,0.54
-1812420,Warsaw Community Schools,Town distant,28.84,42.24,1.33,0.8
-1812450,Washington Community Schools,Town remote,32.17,61.519999999999996,1.7,1.03
-1812720,MSD Washington Township,City large,71.31,38.86,1.74,1.13
-1812810,MSD Wayne Township,City large,75.59,61.28,2.13,1.39
-1812870,West Lafayette Com School Corp,City small,43.35,16.17,1,0.63
-1812880,Frankton-Lapel Community Schools,Rural fringe,8.08,32.019999999999996,1,0.53
-1812900,West Noble School Corporation,Rural fringe,55.45,46.589999999999996,1.72,1.08
-1812930,West Washington School Corp,Rural distant,5.62,100,1.33,0.97
-1812990,Western Boone Co Com Sch Dist,Rural distant,6.09,31.380000000000003,1,0.52
-1813050,Western Wayne Schools,Town distant,6.99,54.559999999999995,1.41,0.78
-1813080,Westfield-Washington Schools,Suburb large,22.189999999999998,15.8,1,0.52
-1813110,Westview School Corporation,Rural distant,5.7,21.36,1,0.47
-1813200,School City of Whiting,Suburb large,81.78,62.870000000000005,1.69,1.29
-1813230,Whitko Community School Corp,Rural distant,7.48,41.83,1,0.58
-1800008,White River Valley School District,Rural distant,9.19,59.95,1,0.68
-1800030,MSD Southwest Allen County Schls,Suburb large,24.26,17.560000000000002,1.35,0.66
-1800060,Adams Central Community Schools,Rural distant,7.62,19.98,1,0.47
-1800107,Tri-Township Cons School Corp,Rural distant,5.12,33.73,1.38,0.65
-1800118,North Central Parke Comm Schl Corp,Town distant,7.79,56.730000000000004,1.37,0.78
-1800120,Alexandria Community School Corp,Suburb small,11.93,52.09,1,0.65
-1800150,Anderson Community School Corp,City small,49.24,69.26,2.12,1.3
-1800180,Argos Community Schools,Rural distant,8.53,45.269999999999996,1,0.6
-1800210,Attica Consolidated School Corp,Town distant,8.62,50.64999999999999,1.37,0.75
-1800240,South Dearborn Community Sch Corp,Rural fringe,5.510000000000001,41.31,1.72,0.81
-1800270,Avon Community School Corp,Suburb large,43.5,33.25,1,0.72
-1800330,Barr-Reeve Community Schools Inc,Rural distant,3.32,22.509999999999998,1,0.46
-1800360,Bartholomew Con School Corp,City small,32.300000000000004,40.06,1.69,0.92
-1800390,Batesville Community School Corp,Rural fringe,8.64,24.87,1,0.5
-1800420,Baugo Community Schools,Suburb midsize,22.91,21.55,1,0.56
-1800450,Beech Grove City Schools,Suburb large,35.5,46.489999999999995,2.06,1.1
-1800480,Benton Community School Corp,Rural distant,14.95,49.47,1.37,0.78
-1800570,Blackford County Schools,Rural fringe,9.99,46.26,1.33,0.73
-1800600,Bloomfield School District,Town distant,6.5600000000000005,41.92,1,0.58
-1800630,Monroe County Community Sch Corp,City small,25.44,30.65,1,0.61
-1800660,Blue River Valley Schools,Rural fringe,5.029999999999999,46.23,1.37,0.71
-1800690,North Harrison Com School Corp,Rural fringe,5.9799999999999995,41.43,1,0.57
-1800720,MSD Bluffton-Harrison,Town distant,13.43,39.839999999999996,1.36,0.72
-1800750,MSD Boone Township,Rural fringe,15.939999999999998,42.370000000000005,1.38,0.75
-1800840,Clay Community Schools,Rural fringe,6.2,46.79,1.35,0.72
-1800900,Bremen Public Schools,Town distant,31.91,38.269999999999996,1,0.68
-1800960,Brown County School Corporation,Rural distant,6.02,44.36,1.74,0.83
-1801020,Brownsburg Community School Corp,Suburb large,32.28,24.01,1,0.61
-1801050,Brownstown Cnt Com Sch Corp,Town distant,4.97,38.62,1.71,0.79
-1801060,C A Beard Memorial School Corp,Rural fringe,5.34,42.99,1,0.57
-1801170,Cannelton City Schools,Town distant,10.040000000000001,65.27,2.13,1.09
-1801200,Carmel Clay Schools,City small,30.44,9.98,1,0.54
-1801290,Carroll Consolidated School Corp,Rural distant,9.01,42.5,1,0.59
-1801410,Caston School Corporation,Rural distant,8.86,48.05,1.39,0.75
-1801440,Center Grove Community School Corp,Suburb large,19.009999999999998,18.69,1,0.52
-1801560,Centerville-Abington Com Schs,Town distant,10.56,31.96,1,0.55
-1801590,DeKalb Co Ctl United Sch Dist,Town fringe,8.17,40.65,1.35,0.69
-1801710,Central Noble Com School Corp,Rural distant,5.36,35.32,1.37,0.66
-1801740,Perry Central Com Schools Corp,Rural remote,3.92,32.47,1,0.52
-1801770,Randolph Central School Corp,Town distant,9.46,39.64,1.4,0.71
-1801890,Clark-Pleasant Community Sch Corp,Suburb large,31.97,40.37,1,0.7
-1801920,Clarksville Community School Corp,Suburb large,36.370000000000005,32.85,2.2,1.08
-1802040,Northwestern School Corp,Rural fringe,10.03,25.61,1,0.51
-1802130,Clinton Central School Corporation,Rural distant,9.56,42.970000000000006,1,0.6
-1802160,Clinton Prairie School Corporation,Rural fringe,9.1,41.52,1,0.59
-1802190,South Central Com School Corp,Rural distant,11.110000000000001,34.599999999999994,1,0.56
-1802220,Cloverdale Community Schools,Rural distant,9.17,42.46,1.35,0.71
-1802280,Whitley County Con Schools,Rural fringe,9.28,27.11,1.36,0.64
-1802400,Concord Community Schools,Suburb midsize,59.41,46.61,1.72,1.1
-1802430,Covington Community School Corp,Town fringe,8.86,30.19,1.34,0.64
-1802440,Crawford County Community Sch Corp,Rural distant,3.8699999999999997,60.36,2.08,1.02
-1802460,Crawfordsville Community Schools,Town distant,26.88,57.63,1.71,1
-1802490,Crown Point Community School Corp,Suburb large,24.5,19.75,1,0.55
-1802520,Culver Community Schools Corp,Rural distant,15.72,51.51,1.71,0.9
-1802550,Danville Community School Corp,Suburb large,10.639999999999999,24.21,1,0.51
-1802610,Decatur County Community Schools,Rural fringe,4.99,45.94,1,0.59
-1802640,MSD Decatur Township,City large,43.8,55.88999999999999,1.7,1.07
-1802660,Delaware Community School Corp,Rural fringe,9.53,38.82,1.34,0.69
-1802700,Delphi Community School Corp,Rural fringe,14.56,49.059999999999995,1.75,0.9
-1802800,Duneland School Corporation,Suburb large,22.21,25.88,1,0.57
-1802830,Zionsville Community Schools,Suburb large,19.400000000000002,5.2,1,0.46
-1802850,East Allen County Schools,Suburb large,39.290000000000006,48.449999999999996,1.35,0.89
-1802880,School City of East Chicago,Suburb large,98.02,75.85,2.26,1.62
-1802910,Lake Station Community Schools,Suburb large,61.79,76.42999999999999,1.78,1.28
-1802940,East Gibson School Corporation,Town distant,6.54,50.2,1.34,0.73
-1802970,East Noble School Corporation,Town distant,9.59,45.300000000000004,1.36,0.73
-1803000,East Washington School Corp,Rural distant,6.43,40.47,1.34,0.68
-1803030,Eastbrook Community Sch Corp,Rural distant,8.51,31.879999999999995,1,0.54
-1803060,DeKalb Co Eastern Com Sch Dist,Rural fringe,6.3100000000000005,37.51,1,0.55
-1803090,Eastern Greene Schools,Rural distant,5.56,47.04,1.36,0.72
-1803120,Eastern Hancock Co Com Sch Corp,Rural distant,4.569999999999999,29.29,1,0.5
-1803150,Eastern Howard School Corporation,Town fringe,8.75,41.699999999999996,1,0.59
-1803180,Randolph Eastern School Corp,Town distant,38.129999999999995,56.19,1.69,1.03
-1803210,Shelby Eastern Schools,Rural distant,3.95,35.79,1,0.53
-1803240,Edinburgh Community School Corp,Suburb small,12.6,66.2,1.73,0.97
-1803270,Elkhart Community Schools,City small,61.24000000000001,53.81,1.76,1.16
-1803300,Elwood Community School Corp,Town fringe,12.120000000000001,52.61,1.36,0.78
-1803330,Eminence Community School Corp,Rural distant,5.029999999999999,46.54,1.37,0.71
-1803450,Evansville Vanderburgh School Corp,City midsize,33.21,45.26,2.06,1.08
-1803480,Fairfield Community Schools,Rural fringe,10.69,22.11,1,0.5
-1803510,Fayette County School Corporation,Town distant,5.63,60.85,1.35,0.78
-1803570,Flat Rock-Hawcreek School Corp,Rural distant,7.140000000000001,38.37,1.37,0.68
-1803630,Fort Wayne Community Schools,City large,61.88,65.29,1.75,1.22
-1803660,Community Schools of Frankfort,Rural fringe,57.410000000000004,69.95,1.73,1.21
-1803690,Franklin Community School Corp,Suburb large,13.950000000000001,37.25,1.34,0.7
-1803700,Franklin County Community Sch Corp,Rural distant,2.5700000000000003,41.52,1,0.55
-1803720,Lanesville Community School Corp,Rural fringe,5.66,22.37,1.37,0.6
-1803750,Franklin Township Com Sch Corp,City large,38.690000000000005,42.89,1.34,0.86
-1803780,Fremont Community Schools,Rural distant,5.6000000000000005,34.32,1,0.53
-1803810,Frontier School Corporation,Rural distant,5.93,24.3,1.34,0.6
-1803870,Gary Community School Corp,City small,98.77,85.53,2.25,1.67
-1803930,Goshen Community Schools,City small,63.2,54.98,1.71,1.16
-1805190,NA,NA,NA,NA,NA,NA
-1808160,NA,NA,NA,NA,NA,NA
-1806900,NA,NA,NA,NA,NA,NA
-1807290,NA,NA,NA,NA,NA,NA
-1807950,NA,NA,NA,NA,NA,NA
-1803960,NA,NA,NA,NA,NA,NA
-1808120,NA,NA,NA,NA,NA,NA
-1804080,NA,NA,NA,NA,NA,NA
-1808010,NA,NA,NA,NA,NA,NA
-1804140,NA,NA,NA,NA,NA,NA
-1806630,NA,NA,NA,NA,NA,NA
-1808310,NA,NA,NA,NA,NA,NA
-1809600,NA,NA,NA,NA,NA,NA
-1810950,NA,NA,NA,NA,NA,NA
-1808490,NA,NA,NA,NA,NA,NA
-1807770,NA,NA,NA,NA,NA,NA
-1807860,NA,NA,NA,NA,NA,NA
-1805700,NA,NA,NA,NA,NA,NA
-1807710,NA,NA,NA,NA,NA,NA
-1807410,NA,NA,NA,NA,NA,NA
-1801230,NA,NA,NA,NA,NA,NA
-1806060,NA,NA,NA,NA,NA,NA
-1807620,NA,NA,NA,NA,NA,NA
-1809370,NA,NA,NA,NA,NA,NA
-1803940,NA,NA,NA,NA,NA,NA
-1804800,NA,NA,NA,NA,NA,NA
-1807830,NA,NA,NA,NA,NA,NA
-1806510,NA,NA,NA,NA,NA,NA
-1807140,NA,NA,NA,NA,NA,NA
-1803990,NA,NA,NA,NA,NA,NA
-1804110,NA,NA,NA,NA,NA,NA
-1805910,NA,NA,NA,NA,NA,NA
-1806120,NA,NA,NA,NA,NA,NA
-1808640,NA,NA,NA,NA,NA,NA
-1808130,NA,NA,NA,NA,NA,NA
-1807890,NA,NA,NA,NA,NA,NA
-1806570,NA,NA,NA,NA,NA,NA
-1804980,NA,NA,NA,NA,NA,NA
-1807470,NA,NA,NA,NA,NA,NA
-1805280,NA,NA,NA,NA,NA,NA
-1807110,NA,NA,NA,NA,NA,NA
-1808220,NA,NA,NA,NA,NA,NA
-1806390,NA,NA,NA,NA,NA,NA
-1806870,NA,NA,NA,NA,NA,NA
-1806270,NA,NA,NA,NA,NA,NA
-1806600,NA,NA,NA,NA,NA,NA
-1807320,NA,NA,NA,NA,NA,NA
-1808040,NA,NA,NA,NA,NA,NA
-1808250,NA,NA,NA,NA,NA,NA
-1807920,NA,NA,NA,NA,NA,NA
-1808070,NA,NA,NA,NA,NA,NA
-1807260,NA,NA,NA,NA,NA,NA
-1804320,NA,NA,NA,NA,NA,NA
-1805400,NA,NA,NA,NA,NA,NA
-1807020,NA,NA,NA,NA,NA,NA
-1805880,NA,NA,NA,NA,NA,NA
-1805550,NA,NA,NA,NA,NA,NA
-1805580,NA,NA,NA,NA,NA,NA
-1807380,NA,NA,NA,NA,NA,NA
-1808280,NA,NA,NA,NA,NA,NA
-1807680,NA,NA,NA,NA,NA,NA
-1804500,NA,NA,NA,NA,NA,NA
-1807230,NA,NA,NA,NA,NA,NA
-1806480,NA,NA,NA,NA,NA,NA
-1807440,NA,NA,NA,NA,NA,NA
-1807800,NA,NA,NA,NA,NA,NA
-1804350,NA,NA,NA,NA,NA,NA
-1804560,NA,NA,NA,NA,NA,NA
-1804590,NA,NA,NA,NA,NA,NA
-1804620,NA,NA,NA,NA,NA,NA
-1806840,NA,NA,NA,NA,NA,NA
-1805340,NA,NA,NA,NA,NA,NA
-1805450,NA,NA,NA,NA,NA,NA
-1805460,NA,NA,NA,NA,NA,NA
-1807350,NA,NA,NA,NA,NA,NA
-1807650,NA,NA,NA,NA,NA,NA
-1804710,NA,NA,NA,NA,NA,NA
-1806030,NA,NA,NA,NA,NA,NA
-1807560,NA,NA,NA,NA,NA,NA
-1808190,NA,NA,NA,NA,NA,NA
-1804470,NA,NA,NA,NA,NA,NA
-1805370,NA,NA,NA,NA,NA,NA
-1808100,NA,NA,NA,NA,NA,NA
-1807080,NA,NA,NA,NA,NA,NA
-1804050,NA,NA,NA,NA,NA,NA
-1806090,NA,NA,NA,NA,NA,NA
-1807900,NA,NA,NA,NA,NA,NA
-1808460,NA,NA,NA,NA,NA,NA
-1804170,NA,NA,NA,NA,NA,NA
-1806240,NA,NA,NA,NA,NA,NA
-1808340,NA,NA,NA,NA,NA,NA
-1810230,NA,NA,NA,NA,NA,NA
-1805520,NA,NA,NA,NA,NA,NA
-1804260,NA,NA,NA,NA,NA,NA
-1803840,NA,NA,NA,NA,NA,NA
-1804230,NA,NA,NA,NA,NA,NA
-1806080,NA,NA,NA,NA,NA,NA
-1805790,NA,NA,NA,NA,NA,NA
-1807980,NA,NA,NA,NA,NA,NA
-1806660,NA,NA,NA,NA,NA,NA
+leaid,lea_name,enrollment,urban_centric_locale,urm_pct,frl_pct,academic,scoScore
+1804770,Indianapolis Public Schools,22115,City large,78.9,62.94,2.14,1.42
+1805670,MSD Lawrence Township,16247,Suburb large,81.07,59.68,1.75,1.29
+1808760,Penn-Harris-Madison School Corp,11513,Suburb large,28.499999999999996,22.53,1,0.59
+1808820,Perry Township Schools,16603,City large,62.32,69.28999999999999,1.37,1.11
+1808850,Peru Community Schools,1982,Town distant,15.39,51.970000000000006,1.33,0.78
+1808900,Pike County School Corp,1618,Rural distant,4.82,47.65,1.35,0.71
+1808910,MSD Pike Township,10928,City large,92.95,63,1.78,1.37
+1808940,Pioneer Regional School Corp,979,Rural distant,9.81,50.71,1.77,0.89
+1808970,Plainfield Community School Corp,5766,Suburb large,20.5,24.779999999999998,1,0.56
+1809000,East Porter County School Corp,2441,Rural fringe,12.370000000000001,15.9,1,0.47
+1809060,Plymouth Community School Corp,3359,Town distant,33.22,52.370000000000005,2.05,1.11
+1809120,John Glenn School Corporation,2003,Rural fringe,9.89,38.940000000000005,1,0.58
+1809150,Portage Township Schools,6963,Suburb large,47.94,49.99,1.7,1.06
+1809180,Porter Township School Corp,1494,Rural fringe,19.28,24.16,1.4,0.68
+1809300,Prairie Heights Community Sch Corp,1356,Rural distant,7.670000000000001,23.599999999999998,1.34,0.6
+1809360,West Central School Corp,636,Rural remote,12.26,49.21,1.34,0.75
+1809420,Rensselaer Central School Corp,1539,Town distant,17.150000000000002,36.91,1.34,0.72
+1809480,Richland-Bean Blossom C S C,2705,Suburb midsize,9.76,33.52,1.36,0.67
+1809510,Richmond Community Schools,4638,Town distant,36.29,74.22999999999999,1.77,1.14
+1809630,Rochester Community School Corp,1692,Town distant,9.520000000000001,51.06,1.72,0.88
+1809690,Merrillville Community School Corp,6055,Suburb large,89.31,63.27,1.69,1.33
+1809720,Rossville Con School District,945,Rural distant,7.199999999999999,23.810000000000002,1,0.49
+1809750,Rush County Schools,1913,Town distant,7.16,57.11000000000001,1,0.65
+1809810,Salem Community Schools,1745,Town distant,6.069999999999999,51.980000000000004,1.73,0.87
+1809840,Daleville Community Schools,984,Suburb small,7.109999999999999,47.760000000000005,1.38,0.73
+1809990,Scott County School District 1,1246,Town distant,6.9,53.97,2.15,1.02
+1810020,Scott County School District 2,2610,Town distant,6.21,57.07,1.35,0.77
+1810080,Seymour Community Schools,5281,Town distant,44.82,54.96,2.12,1.21
+1810110,MSD Shakamak Schools,673,Rural distant,4.75,45.62,1.34,0.7
+1810140,Shelbyville Central Schools,4052,Town distant,24.560000000000002,48.199999999999996,1.33,0.81
+1810170,Shoals Community School Corp,689,Rural distant,4.06,58.93000000000001,1.36,0.77
+1810260,South Adams Schools,1250,Town distant,14.96,41.44,1,0.62
+1810290,South Bend Community School Corp,15964,City midsize,72.74000000000001,61.19,2.19,1.4
+1810350,South Gibson School Corporation,2069,Rural distant,6.279999999999999,23.44,1,0.48
+1810360,South Harrison Com Schools,3071,Town fringe,10.620000000000001,46.08,1,0.62
+1810380,South Henry School Corp,707,Rural distant,5.94,45.2,1.37,0.71
+1810410,South Knox School Corp,1236,Rural distant,3.4799999999999995,35.52,1,0.53
+1810440,South Madison Com Sch Corp,4481,Suburb small,11.49,27.810000000000002,1,0.53
+1810450,South Montgomery Com Sch Corp,1625,Rural distant,7.82,29.349999999999998,1,0.52
+1810470,South Newton School Corp,844,Rural remote,18.01,49.76,1.75,0.92
+1810500,South Putnam Community Schools,1060,Rural distant,6.23,40.660000000000004,1,0.57
+1810530,South Ripley Com Sch Corp,1095,Rural distant,5.0200000000000005,40.73,1,0.56
+1810560,South Spencer County Sch Corp,1111,Rural distant,6.660000000000001,43.919999999999995,1.33,0.7
+1810590,South Vermillion Com Sch Corp,1615,Rural fringe,4.3999999999999995,53,1.36,0.74
+1810620,Southeast Fountain School Corp,988,Rural distant,9.719999999999999,48.480000000000004,1.35,0.74
+1810640,Southeast Dubois Co Sch Corp,1276,Rural distant,6.43,23.669999999999998,1,0.48
+1810650,Hamilton Southeastern Schools,21603,Suburb large,31.119999999999997,15.509999999999998,1,0.57
+1810680,Lewis Cass Schools,1393,Rural distant,13.930000000000001,44.72,1.36,0.75
+1810710,Southern Hancock Co Com Sch Corp,3756,Rural fringe,8.68,24.6,1,0.5
+1810740,Randolph Southern School Corp,518,Rural distant,9.27,45.75,1.35,0.73
+1810770,Southern Wells Com Schools,845,Rural distant,4.97,37.51,1,0.55
+1810800,Southwestern-Jefferson Co Con,1303,Rural fringe,10.13,55.95,1.41,0.8
+1810830,Southwestern Con Sch Shelby Co,596,Rural distant,6.21,37.580000000000005,1.35,0.67
+1810860,Southwest School Corporation,1650,Rural fringe,4.91,46.61,1.68,0.82
+1810870,Southwest Dubois Co Sch Corp,1898,Rural fringe,36.25,44.84,1.35,0.85
+1810900,Southwest Parke Com Sch Corp,1040,Rural distant,7.02,51.92,1.73,0.87
+1810920,School Town of Speedway,1863,Suburb large,61.14000000000001,51.480000000000004,1,0.9
+1810980,Springs Valley Com School Corp,835,Rural distant,11.86,47.9,1.73,0.88
+1811100,MSD Steuben County,2581,Rural fringe,16.31,36.730000000000004,1.68,0.83
+1811190,Sunman-Dearborn Com Sch Corp,3770,Rural distant,4.96,18.060000000000002,1.34,0.56
+1811220,Switzerland County School Corp,1494,Rural distant,5.76,50.739999999999995,1.38,0.74
+1811250,Taylor Community School Corp,1302,Rural fringe,34.1,53.99,2.13,1.15
+1811260,Tell City-Troy Twp School Corp,1416,Rural fringe,8.62,45.06,1.71,0.84
+1811340,Tippecanoe School Corp,13591,Suburb midsize,29.599999999999998,35.699999999999996,1.34,0.77
+1811370,Tippecanoe Valley School Corp,1805,Rural distant,18.84,50.36000000000001,1.35,0.8
+1811400,Tipton Community School Corp,1444,Town fringe,9.9,37.6,1.34,0.69
+1811430,Tri-County School Corporation,764,Rural distant,14.01,38.22,1.34,0.71
+1811460,Tri-Creek School Corporation,3229,Rural fringe,14.649999999999999,24.84,1,0.53
+1811490,Triton School Corporation,918,Rural distant,8.93,34.86,1.37,0.67
+1811580,Twin Lakes School Corp,2252,Town distant,18.12,58.63,1.68,0.95
+1811610,Union Co/Clg Corner Joint Sch Dist,1299,Rural distant,5.47,47.04,1,0.6
+1811700,Union Township School Corp,1407,Rural fringe,17.84,27.29,1,0.56
+1811730,Union School Corporation,6338,Rural distant,32.22,62.7,1.77,1.06
+1811910,Union-North United School Corp,1274,Rural distant,10.83,43.72,1,0.61
+1811970,Valparaiso Community Schools,6356,Suburb large,24.48,28.349999999999998,1,0.6
+1812060,Crothersville Community Schools,482,Rural distant,7.26,60.79,1.76,0.93
+1812090,Vigo County School Corp,13940,City small,19.54,54.379999999999995,2.07,1.06
+1812120,Vincennes Community School Corp,2818,Town remote,13.52,47.23,1,0.64
+1812150,Wabash City Schools,1569,Town distant,8.799999999999999,50.29,1.41,0.77
+1812180,MSD Wabash County Schools,2125,Rural distant,9.04,45.93,1.38,0.73
+1812240,Wa-Nee Community Schools,2878,Town fringe,16.68,29.64,1,0.56
+1812360,MSD Warren Township,11801,City large,82.97,59.27,2.14,1.42
+1812390,Warrick County School Corp,10070,Suburb midsize,13.07,28.82,1,0.54
+1812420,Warsaw Community Schools,6731,Town distant,28.84,42.24,1.33,0.8
+1812450,Washington Community Schools,2443,Town remote,32.17,61.519999999999996,1.7,1.03
+1812720,MSD Washington Township,10901,City large,71.31,38.86,1.74,1.13
+1812810,MSD Wayne Township,16343,City large,75.59,61.28,2.13,1.39
+1812870,West Lafayette Com School Corp,2369,City small,43.35,16.17,1,0.63
+1812880,Frankton-Lapel Community Schools,3132,Rural fringe,8.08,32.019999999999996,1,0.53
+1812900,West Noble School Corporation,2202,Rural fringe,55.45,46.589999999999996,1.72,1.08
+1812930,West Washington School Corp,872,Rural distant,5.62,100,1.33,0.97
+1812990,Western Boone Co Com Sch Dist,1676,Rural distant,6.09,31.380000000000003,1,0.52
+1813050,Western Wayne Schools,801,Town distant,6.99,54.559999999999995,1.41,0.78
+1813080,Westfield-Washington Schools,8820,Suburb large,22.189999999999998,15.8,1,0.52
+1813110,Westview School Corporation,2107,Rural distant,5.7,21.36,1,0.47
+1813200,School City of Whiting,1158,Suburb large,81.78,62.870000000000005,1.69,1.29
+1813230,Whitko Community School Corp,1243,Rural distant,7.48,41.83,1,0.58
+1800008,White River Valley School District,794,Rural distant,9.19,59.95,1,0.68
+1800030,MSD Southwest Allen County Schls,7800,Suburb large,24.26,17.560000000000002,1.35,0.66
+1800060,Adams Central Community Schools,1326,Rural distant,7.62,19.98,1,0.47
+1800107,Tri-Township Cons School Corp,332,Rural distant,5.12,33.73,1.38,0.65
+1800118,North Central Parke Comm Schl Corp,1181,Town distant,7.79,56.730000000000004,1.37,0.78
+1800120,Alexandria Community School Corp,1534,Suburb small,11.93,52.09,1,0.65
+1800150,Anderson Community School Corp,6470,City small,49.24,69.26,2.12,1.3
+1800180,Argos Community Schools,645,Rural distant,8.53,45.269999999999996,1,0.6
+1800210,Attica Consolidated School Corp,615,Town distant,8.62,50.64999999999999,1.37,0.75
+1800213,Silver Creek School Corporation,2993,Suburb large,18.94,20.05,1.33,0.64
+1800240,South Dearborn Community Sch Corp,1960,Rural fringe,5.510000000000001,41.31,1.72,0.81
+1800270,Avon Community School Corp,10310,Suburb large,43.5,33.25,1,0.72
+1800330,Barr-Reeve Community Schools Inc,995,Rural distant,3.32,22.509999999999998,1,0.46
+1800360,Bartholomew Con School Corp,11691,City small,32.300000000000004,40.06,1.69,0.92
+1800390,Batesville Community School Corp,2187,Rural fringe,8.64,24.87,1,0.5
+1800420,Baugo Community Schools,1838,Suburb midsize,22.91,21.55,1,0.56
+1800450,Beech Grove City Schools,2837,Suburb large,35.5,46.489999999999995,2.06,1.1
+1800480,Benton Community School Corp,1619,Rural distant,14.95,49.47,1.37,0.78
+1800570,Blackford County Schools,1552,Rural fringe,9.99,46.26,1.33,0.73
+1800600,Bloomfield School District,854,Town distant,6.5600000000000005,41.92,1,0.58
+1800630,Monroe County Community Sch Corp,10613,City small,25.44,30.65,1,0.61
+1800660,Blue River Valley Schools,636,Rural fringe,5.029999999999999,46.23,1.37,0.71
+1800690,North Harrison Com School Corp,2157,Rural fringe,5.9799999999999995,41.43,1,0.57
+1800720,MSD Bluffton-Harrison,1802,Town distant,13.43,39.839999999999996,1.36,0.72
+1800750,MSD Boone Township,1029,Rural fringe,15.939999999999998,42.370000000000005,1.38,0.75
+1800840,Clay Community Schools,4014,Rural fringe,6.2,46.79,1.35,0.72
+1800900,Bremen Public Schools,1479,Town distant,31.91,38.269999999999996,1,0.68
+1800960,Brown County School Corporation,1693,Rural distant,6.02,44.36,1.74,0.83
+1801020,Brownsburg Community School Corp,9799,Suburb large,32.28,24.01,1,0.61
+1801050,Brownstown Cnt Com Sch Corp,1450,Town distant,4.97,38.62,1.71,0.79
+1801060,C A Beard Memorial School Corp,1105,Rural fringe,5.34,42.99,1,0.57
+1801170,Cannelton City Schools,239,Town distant,10.040000000000001,65.27,2.13,1.09
+1801200,Carmel Clay Schools,16215,City small,30.44,9.98,1,0.54
+1801290,Carroll Consolidated School Corp,1066,Rural distant,9.01,42.5,1,0.59
+1801410,Caston School Corporation,745,Rural distant,8.86,48.05,1.39,0.75
+1801440,Center Grove Community School Corp,9173,Suburb large,19.009999999999998,18.69,1,0.52
+1801560,Centerville-Abington Com Schs,1790,Town distant,10.56,31.96,1,0.55
+1801590,DeKalb Co Ctl United Sch Dist,3609,Town fringe,8.17,40.65,1.35,0.69
+1801710,Central Noble Com School Corp,1175,Rural distant,5.36,35.32,1.37,0.66
+1801740,Perry Central Com Schools Corp,1275,Rural remote,3.92,32.47,1,0.52
+1801770,Randolph Central School Corp,1395,Town distant,9.46,39.64,1.4,0.71
+1801890,Clark-Pleasant Community Sch Corp,6809,Suburb large,31.97,40.37,1,0.7
+1801920,Clarksville Community School Corp,3129,Suburb large,36.370000000000005,32.85,2.2,1.08
+1802040,Northwestern School Corp,1894,Rural fringe,10.03,25.61,1,0.51
+1802130,Clinton Central School Corporation,868,Rural distant,9.56,42.970000000000006,1,0.6
+1802160,Clinton Prairie School Corporation,1209,Rural fringe,9.1,41.52,1,0.59
+1802190,South Central Com School Corp,945,Rural distant,11.110000000000001,34.599999999999994,1,0.56
+1802220,Cloverdale Community Schools,1406,Rural distant,9.17,42.46,1.35,0.71
+1802280,Whitley County Con Schools,3652,Rural fringe,9.28,27.11,1.36,0.64
+1802400,Concord Community Schools,5235,Suburb midsize,59.41,46.61,1.72,1.1
+1802430,Covington Community School Corp,858,Town fringe,8.86,30.19,1.34,0.64
+1802440,Crawford County Community Sch Corp,1342,Rural distant,3.8699999999999997,60.36,2.08,1.02
+1802460,Crawfordsville Community Schools,2504,Town distant,26.88,57.63,1.71,1
+1802490,Crown Point Community School Corp,8819,Suburb large,24.5,19.75,1,0.55
+1802520,Culver Community Schools Corp,827,Rural distant,15.72,51.51,1.71,0.9
+1802550,Danville Community School Corp,2557,Suburb large,10.639999999999999,24.21,1,0.51
+1802610,Decatur County Community Schools,1824,Rural fringe,4.99,45.94,1,0.59
+1802640,MSD Decatur Township,6681,City large,43.8,55.88999999999999,1.7,1.07
+1802660,Delaware Community School Corp,2571,Rural fringe,9.53,38.82,1.34,0.69
+1802700,Delphi Community School Corp,1429,Rural fringe,14.56,49.059999999999995,1.75,0.9
+1802800,Duneland School Corporation,5831,Suburb large,22.21,25.88,1,0.57
+1802830,Zionsville Community Schools,7784,Suburb large,19.400000000000002,5.2,1,0.46
+1802850,East Allen County Schools,10126,Suburb large,39.290000000000006,48.449999999999996,1.35,0.89
+1802880,School City of East Chicago,3378,Suburb large,98.02,75.85,2.26,1.62
+1802910,Lake Station Community Schools,1154,Suburb large,61.79,76.42999999999999,1.78,1.28
+1802940,East Gibson School Corporation,749,Town distant,6.54,50.2,1.34,0.73
+1802970,East Noble School Corporation,3450,Town distant,9.59,45.300000000000004,1.36,0.73
+1803000,East Washington School Corp,1416,Rural distant,6.43,40.47,1.34,0.68
+1803030,Eastbrook Community Sch Corp,1634,Rural distant,8.51,31.879999999999995,1,0.54
+1803060,DeKalb Co Eastern Com Sch Dist,1237,Rural fringe,6.3100000000000005,37.51,1,0.55
+1803090,Eastern Greene Schools,1098,Rural distant,5.56,47.04,1.36,0.72
+1803120,Eastern Hancock Co Com Sch Corp,1161,Rural distant,4.569999999999999,29.29,1,0.5
+1803150,Eastern Howard School Corporation,1566,Town fringe,8.75,41.699999999999996,1,0.59
+1803180,Randolph Eastern School Corp,897,Town distant,38.129999999999995,56.19,1.69,1.03
+1803210,Shelby Eastern Schools,1165,Rural distant,3.95,35.79,1,0.53
+1803240,Edinburgh Community School Corp,849,Suburb small,12.6,66.2,1.73,0.97
+1803270,Elkhart Community Schools,11659,City small,61.24000000000001,53.81,1.76,1.16
+1803300,Elwood Community School Corp,1494,Town fringe,12.120000000000001,52.61,1.36,0.78
+1803330,Eminence Community School Corp,318,Rural distant,5.029999999999999,46.54,1.37,0.71
+1803450,Evansville Vanderburgh School Corp,21942,City midsize,33.21,45.26,2.06,1.08
+1803480,Fairfield Community Schools,2171,Rural fringe,10.69,22.11,1,0.5
+1803510,Fayette County School Corporation,3305,Town distant,5.63,60.85,1.35,0.78
+1803570,Flat Rock-Hawcreek School Corp,967,Rural distant,7.140000000000001,38.37,1.37,0.68
+1803630,Fort Wayne Community Schools,28778,City large,61.88,65.29,1.75,1.22
+1803660,Community Schools of Frankfort,3055,Rural fringe,57.410000000000004,69.95,1.73,1.21
+1803690,Franklin Community School Corp,4966,Suburb large,13.950000000000001,37.25,1.34,0.7
+1803700,Franklin County Community Sch Corp,2098,Rural distant,2.5700000000000003,41.52,1,0.55
+1803720,Lanesville Community School Corp,742,Rural fringe,5.66,22.37,1.37,0.6
+1803750,Franklin Township Com Sch Corp,11139,City large,38.690000000000005,42.89,1.34,0.86
+1803780,Fremont Community Schools,982,Rural distant,5.6000000000000005,34.32,1,0.53
+1803810,Frontier School Corporation,675,Rural distant,5.93,24.3,1.34,0.6
+1803870,Gary Community School Corp,4374,City small,98.77,85.53,2.25,1.67
+1803930,Goshen Community Schools,6364,City small,63.2,54.98,1.71,1.16

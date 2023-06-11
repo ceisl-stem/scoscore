@@ -99,7 +99,7 @@ school_corp_frame <- read_csv(here("data", "in_sc-data.csv")) |>
   mutate(scoScore = round(scoScore, digits = 2))
 
 output_frame <- school_corp_frame |>
-  select(leaid, lea_name, urban_centric_locale, urm_pct, frl_pct, academic = adj_academic, scoScore) |>
+  select(leaid, lea_name, enrollment, urban_centric_locale, urm_pct, frl_pct, academic = adj_academic, scoScore) |>
   write_csv(file = here("data", "in_scoscores.csv"))
 
 school_corp_frame$urban_centric_locale <- factor(
