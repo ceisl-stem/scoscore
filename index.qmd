@@ -6,6 +6,15 @@ author:
     affiliation: CEISL / IU School of Education-Indianapolis
     affiliation_url: https://education.iupui.edu/
     orcid: 0000-0002-6506-3526
+  - name: Akaash Arora
+    affiliation: CEISL / IU School of Education-Indianapolis
+    affiliation_url: https://education.iupui.edu/
+  - name: Maxim Bulanov
+    affiliation: CEISL / IU School of Education-Indianapolis
+    affiliation_url: https://education.iupui.edu/
+  - name: AJ Knoors
+    affiliation: CEISL / IU School of Education-Indianapolis
+    affiliation_url: https://education.iupui.edu/
 license: "CC BY-SA"
 code-annotations: true
 mainfont: spectral
