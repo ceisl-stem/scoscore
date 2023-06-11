@@ -1,0 +1,259 @@
+---
+title: "SCOscore: School Corporation Opportunity Score"
+author:
+  - name: Jeremy Price 
+    url: https://www.jeremyfprice.info/
+    affiliation: CEISL / IU School of Education-Indianapolis
+    affiliation_url: https://education.iupui.edu/
+    orcid: 0000-0002-6506-3526
+license: "CC BY-SA"
+code-annotations: TRUE
+mainfont: spectral
+sansfont: rubik
+monofont: "JetBrains Mono"
+format: html
+highlight-style: a11y
+code-overflow: wrap
+reference-location: margin
+cap-location: margin
+link-external-icon: false
+link-external-newwindow: true
+repo-url: https://github.com/jeremyfprice/school-corporation-opportunity-score
+citation:
+  type: document
+  issued: 2023
+  url: https://github.com/jeremyfprice/school-corporation-opportunity-score
+google-scholar: true
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+```{r load-libraries}
+library(readr)
+library(tidyr)
+library(dplyr)
+library(here)
+library(DT)
+library(ggplot2)
+library(ggpubr)
+library(plotly)
+library(ggbeeswarm)
+library(edbuildmapr)
+library(maps)
+library(mapdata)
+library(sf)
+library(showtext)
+```
+
+```{r load-fonts, echo = FALSE, include=FALSE, cache = TRUE}
+font_add_google("Rubik", "rubik", regular.wt = 700)
+font_add_google("JetBrains Mono", "jetbrains", regular.wt = 700)
+font_add_google("Spectral", "spectral", regular.wt = 700)
+```
+
+```{r read-data}
+SCO_frame <- read_csv(here("data", "in_scoscores.csv"), show_col_types = FALSE) |>
+  na.omit()
+
+SCO_frame$urm_pct <- round(SCO_frame$urm_pct, digits = 2)
+SCO_frame$frl_pct = round(SCO_frame$frl_pct, digits = 2)
+SCO_frame$academic = round(SCO_frame$academic, digits = 2)
+SCO_frame$scoScore = round(SCO_frame$scoScore, digits = 2)
+```
+## Introduction
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Methods
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+$$
+f(S_a^\prime) = \begin{cases}
+(S_{IN} - S_a) + 1, & \text{if } S_a < S_{IN} \\
+0, &\text{otherwise}
+\end{cases}
+$$
+
+Then...
+
+$$
+S_{ac} = \frac{\left(S_{a_{lit}}^\prime + S_{a_{math}}^\prime + S_{a_{gpc}}^\prime\right)}{3} + 1
+$$
+
+Finally...
+
+$$
+S_{O} = \frac{\left[\left(P_{urm} \times 1.5\right) + \left(P_{frl} \times 1.5\right) + S_{ac}\right]}{3}
+$$
+This is what it looks like in R:
+
+```{r show-code, eval = FALSE, echo = TRUE}
+school_corp_frame <- school_corp_frame |> # <1>
+  mutate(
+    adj_3rd = if_else(
+      ela_3rd < state_3rd_proficiency, # <2>
+      (state_3rd_proficiency - ela_3rd + 1), # <3>
+      0 # <4>
+    )
+  ) |>
+  mutate( # <5>
+    adj_6th = if_else(
+      math_6th < state_6th_proficiency,
+      (state_6th_proficiency - math_6th + 1),
+      0
+    )
+  ) |>
+  mutate(
+    adj_gpc = if_else(
+      grad_comp < state_gpc,
+      (state_gpc - grad_comp + 1),
+      0
+    )
+  ) |>
+  mutate(
+    adj_academic = (
+      (((adj_3rd) + (adj_6th) + (adj_gpc)) / 3)) + 1 # <6>
+  ) |>
+  mutate(
+    scoScore = (
+      ((urm_pct * 1.5) + (frl_pct * 1.5) + (adj_academic)) / 3 # <7>
+    )
+  )
+```
+1. Take
+2. Then
+3. Then
+4. Then
+5. Repeat
+6. Calculate
+7. Calculate
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+## School Corporation Opportunity Scores for Indiana
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+```{r}
+
+datatable(
+  SCO_frame,
+  rownames = FALSE,
+  colnames = c(
+    "Corporation",
+    "Locale",
+    "% URM",
+    "% FRL",
+    "AcScore",
+    "SCOscore"
+    ),
+  caption = "School Corporation Opportunity Scores for Indiana school corporations.",
+  filter = "top"
+  ) |>
+  formatStyle(columns = c(2), fontSize = "90%")
+
+```
+
+### Understanding Relationships
+
+```{r plot-beeswarm, results = "asis", cache = TRUE}
+SCO_frame$urban_centric_locale <- factor(
+  SCO_frame$urban_centric_locale,
+  levels = c(
+    "City large",
+    "City midsize",
+    "City small",
+    "Suburb large",
+    "Suburb midsize",
+    "Suburb small",
+    "Town fringe",
+    "Town distant",
+    "Town remote",
+    "Rural fringe",
+    "Rural distant",
+    "Rural remote"
+  )
+)
+urcl_swarm <- ggplot(
+  SCO_frame,
+  aes(
+    label = lea_name,
+    x = urban_centric_locale,
+    y = scoScore,
+    color = scoScore
+  )
+) +
+  geom_beeswarm(cex = 1.5, corral = "wrap", method = "center") +
+  annotate("segment", x = 0, xend = 12.5, y = 1, yend = 1, color = "#A7A9AB",
+           linetype = "dotted") +
+  scale_color_steps2(
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.1,
+    breaks = c(0, 0.5, 0.75, 1, 1.25, 1.5)
+  ) +
+  ylim(0, 2) +
+  ylab("School Corporation Opportunity Score") +
+  xlab("NCES Urban-Centric Locale Category") +
+  theme_pubr() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+    legend.position = "none"
+  )
+ggplotly(urcl_swarm)
+```
+
+### Maps
+
+```{r sc-map, message = FALSE, warning=FALSE, output = FALSE, cache = TRUE}
+in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
+  filter(State == "Indiana") |>
+  select(leaid = GEOID, geometry) |>
+  mutate(leaid = as.numeric(leaid))
+
+SCO_frame <- SCO_frame |>
+  right_join(in_sc_shapes)
+
+states <- st_as_sf(map("state", plot = FALSE, fill = TRUE))
+
+school_corp_map <- st_as_sf(SCO_frame)
+
+# corp_map <- SCO_frame |>
+#   select(leaid, scoScore, geometry) |>
+#   st_as_sf(map("state", plot = FALSE, fill = TRUE))
+
+sco_map <- ggplot(data = states) +
+  geom_sf(data = states, fill = "#eeeeee") +
+  geom_sf(data = school_corp_map, color = "#243142", aes(
+    label = lea_name,
+    fill = scoScore)) +
+  scale_fill_steps2(
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.1,
+    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
+  ) +
+  coord_sf(xlim = c(-88.5, -84.5), ylim = c(37.5, 42), expand = FALSE) +
+  annotate("text", x = -89.25, y = 40, label = "ILLINOIS") +
+  annotate("text", x = -83.25, y = 40, label = "OHIO") +
+  annotate("text", x = -84.75, y = 38, label = "KENTUCKY") +
+  theme_minimal()  +
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_rect(fill = "#E9F6FC"),
+        axis.text = element_blank(),
+        axis.title = element_blank())
+```
+
+```{r display-map}
+ggplotly(sco_map)
+```

@@ -38,6 +38,7 @@ state_gpc <- .864
 
 school_corp_frame <- read_csv(here("data", "in_sc-data.csv")) |>
   na.omit() |>
+  mutate(urm_pct = round(urm_pct, digits = 4)) |>
   # mutate(ela_3rd = if_else(
   #   is.na(ela_3rd),
   #   state_3rd_proficiency,
@@ -93,7 +94,13 @@ school_corp_frame <- read_csv(here("data", "in_sc-data.csv")) |>
     scoScore < 1 & scoScore > 0.99,
     1,
     scoScore
-  ))
+  )) |>
+  mutate(adj_academic = round(adj_academic, digits = 2)) |>
+  mutate(scoScore = round(scoScore, digits = 2))
+
+output_frame <- school_corp_frame |>
+  select(leaid, lea_name, urban_centric_locale, urm_pct, frl_pct, academic = adj_academic, scoScore) |>
+  write_csv(file = here("data", "in_scoscores.csv"))
 
 school_corp_frame$urban_centric_locale <- factor(
   school_corp_frame$urban_centric_locale,
@@ -136,18 +143,25 @@ urcl_swarm <- ggplot(
   aes(
   x = urban_centric_locale,
   y = scoScore,
-  color = urban_centric_locale
+  color = scoScore
   )
 ) +
-  geom_beeswarm(method = "center", cex = 1.5, corral = "wrap", shape = 18, size = 3) +
+  geom_beeswarm(method = "center", cex = 1.5, corral = "wrap", shape = 18, size = 3)# +
   geom_text_repel(aes(x = urban_centric_locale, 
                       y = scoScore, 
                       label = lea_name), size = 2.75, color = "#243142",
                   max.overlaps = 4,
                   point.padding = 0.5) +
   annotate("segment", x = 0, xend = 12.5, y = 1, yend = 1, color = "#A7A9AB",
-           linetype = "longdash") +
-  scale_color_manual(values = ucl_palette) +
+           linetype = "dotted") +
+  #scale_color_manual(values = ucl_palette) +
+  scale_color_steps2(
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.1,
+    breaks = c(0, 0.5, 0.75, 1, 1.25, 1.5)
+  ) +
   ylim(0, 2) +
   ylab("School Corporation Opportunity Score") +
   xlab("NCES Urban-Centric Locale Category") +
@@ -348,7 +362,7 @@ sco_map <- ggplot(data = states) +
     high = "#990000",
     mid = "#FFAA00",
     midpoint = 1.1,
-    breaks = c(0, 0.5, 0.75, 1, 1.25, 1.5)
+    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
   ) +
   coord_sf(xlim = c(-88.5, -84.5), ylim = c(37.5, 42), expand = FALSE) +
   theme_minimal()  +
@@ -376,3 +390,8 @@ the_region_map <- sco_map +
   coord_sf(xlim = c(-87.6, -86.8), ylim = c(41.2, 41.8), expand = FALSE)
 the_region_map
 ggsave(here("outputs", "trin_sco_map.png"), the_region_map, dpi = 300, width = 11, height = 11, units = "in")
+
+the_region_map <- the_region_map +
+  theme(legend.position = "none")
+close_maps <- ggarrange(the_region_map, central_indiana_map, ncol = 2)
+ggsave(here("outputs", "inset_maps.png"), close_maps, dpi = 300, width = 16, height = 9, units = "in")

@@ -1,4 +1,6 @@
 leaid,lea_name,enrollment,urban_centric_locale,urm_pct,frl_pct,ela_3rd,math_6th,grad_comp
+1804770,Indianapolis Public Schools,22115,City large,0.789011983,0.6294,0.636,0.186,0.775
+1805670,MSD Lawrence Township,16247,Suburb large,0.810734289,0.5968,0.639,0.26,0.926
 1808760,Penn-Harris-Madison School Corp,11513,Suburb large,0.284982194,0.2253,0.883,0.419,0.964
 1808820,Perry Township Schools,16603,City large,0.623200626,0.6929,0.713,0.348,0.927
 1808850,Peru Community Schools,1982,Town distant,0.153884965,0.5197,0.887,0.458,0.862
