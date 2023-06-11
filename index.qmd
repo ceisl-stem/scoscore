@@ -56,7 +56,7 @@ library(sf)
 library(showtext)
 ```
 
-```{r load-fonts, echo = FALSE, include=FALSE, cache = TRUE}
+```{r load-fonts, echo = FALSE, include=FALSE}
 font_add_google("Rubik", "rubik", regular.wt = 700)
 font_add_google("JetBrains Mono", "jetbrains", regular.wt = 700)
 font_add_google("Spectral", "spectral", regular.wt = 700)
@@ -97,50 +97,6 @@ Finally...
 $$
 S_{O} = \frac{\left[\left(P_{urm} \times 1.5\right) + \left(P_{frl} \times 1.5\right) + S_{ac}\right]}{3}
 $$
-This is what it looks like in R:
-
-```{r show-code, eval = FALSE, echo = TRUE}
-school_corp_frame <- school_corp_frame |>
-  mutate(
-    adj_3rd = if_else(
-      ela_3rd < state_3rd_proficiency, # <1>
-      (state_3rd_proficiency - ela_3rd + 1), # <2>
-      0 # <3>
-    )
-  ) |>
-  mutate( # <4>
-    adj_6th = if_else(
-      math_6th < state_6th_proficiency,
-      (state_6th_proficiency - math_6th + 1),
-      0
-    )
-  ) |>
-  mutate(
-    adj_gpc = if_else(
-      grad_comp < state_gpc,
-      (state_gpc - grad_comp + 1),
-      0
-    )
-  ) |>
-  mutate(
-    adj_academic = (
-      (((adj_3rd) + (adj_6th) + (adj_gpc)) / 3)) + 1 # <5>
-  ) |>
-  mutate(
-    scoScore = (
-      ((urm_pct * 1.5) + (frl_pct * 1.5) + (adj_academic)) / 3 # <6>
-    )
-  )
-```
-1. Take the 3rd grade ELA pass rate and compare against the Indiana average
-2. If it is less than the state average ($S_a < S_{IN}$), subtract it from the
-state average and add `1`.
-3. If it is the same as or higher than the state average ($S_a \geq S_{IN}$),
-set it to `0`.
-4. Repeat the process for the remaining academic measures (6th grade math and
-graduation pathways completion rate).
-5. Calculate the Academic Score ($S_a^\prime$).
-6. Calculate the School Corporation Opportunity Score ($S_O$).
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
@@ -151,7 +107,7 @@ Quarto enables you to weave together content and executable code into a finished
 ```{r}
 
 SCO_display_frame <- SCO_frame |>
-  select(-leaid) |>
+  select(-leaid, -enrollment) |>
   arrange(desc(scoScore), lea_name)
 
 datatable(
@@ -175,7 +131,7 @@ datatable(
 
 ### Understanding Relationships
 
-```{r plot-beeswarm, results = "asis", cache = TRUE}
+```{r plot-beeswarm, results = "asis"}
 SCO_frame$urban_centric_locale <- factor(
   SCO_frame$urban_centric_locale,
   levels = c(
@@ -210,7 +166,7 @@ urcl_swarm <- ggplot(
     high = "#990000",
     mid = "#FFAA00",
     midpoint = 1.1,
-    breaks = c(0, 0.5, 0.75, 1, 1.25, 1.5)
+    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
   ) +
   ylim(0, 2) +
   ylab("School Corporation Opportunity Score") +
@@ -225,7 +181,7 @@ ggplotly(urcl_swarm)
 
 ### Maps
 
-```{r sc-map, message = FALSE, warning=FALSE, output = FALSE, cache = TRUE}
+```{r sc-map, message = FALSE, warning=FALSE, output = FALSE}
 in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
   filter(State == "Indiana") |>
   select(leaid = GEOID, geometry) |>
