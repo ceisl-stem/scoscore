@@ -61,6 +61,8 @@ library(ggbeeswarm)
 library(edbuildmapr)
 library(maps)
 library(mapdata)
+library(ggmap)
+library(ggrepel)
 library(sf)
 library(showtext)
 ```
@@ -69,6 +71,26 @@ library(showtext)
 font_add_google("Rubik", "rubik", regular.wt = 700)
 font_add_google("JetBrains Mono", "jetbrains", regular.wt = 700)
 font_add_google("Spectral", "spectral", regular.wt = 700)
+```
+
+```{r define-functions}
+plot_mapdata <- function(df)
+{
+  states <- ggplot2::map_data("state")
+
+  ggplot2::ggplot(data = df, ggplot2::aes(x = long, y = lat)) + 
+    ggplot2::lims(x = c(-140, 50), y = c(20, 60)) +
+    ggplot2::coord_cartesian(xlim = c(-130, -60), ylim = c(25, 50)) +
+    ggplot2::geom_polygon(data = states, ggplot2::aes(x = long, y = lat, group = group), 
+                 color = "black", fill = "white") +
+    ggplot2::stat_density2d(ggplot2::aes(fill = ..level.., alpha = ..level..), 
+                            geom = "polygon") +
+    ggplot2::scale_fill_gradientn(colours = rev(RColorBrewer::brewer.pal(7, "Spectral"))) +
+    ggplot2::geom_polygon(data = states, ggplot2::aes(x = long, y = lat, group = group), 
+                 color = "black", fill = "none") +
+    ggplot2::facet_wrap( ~type, nrow = 2) + 
+    ggplot2::theme(legend.position = "none")
+}
 ```
 
 ```{r read-data}
@@ -109,7 +131,7 @@ $$
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
-## School Corporation Opportunity Scores for Indiana
+## School Corporation Opportunity Scores (SCOscores) for Indiana
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
@@ -138,7 +160,133 @@ datatable(
 
 ```
 
-### Understanding Relationships
+
+
+```{r sc-map, message = FALSE, warning=FALSE, output = FALSE}
+in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
+  filter(State == "Indiana") |>
+  select(leaid = GEOID, geometry) |>
+  mutate(leaid = as.numeric(leaid))
+
+SCO_frame <- SCO_frame |>
+  right_join(in_sc_shapes)
+
+#states <- st_as_sf(map("state", plot = FALSE, fill = TRUE))
+states <- sf::st_as_sf(map("state", region = "indiana", plot = FALSE, fill = TRUE))
+
+school_corp_map <- st_as_sf(SCO_frame)
+
+# corp_map <- SCO_frame |>
+#   select(leaid, scoScore, geometry) |>
+#   st_as_sf(map("state", plot = FALSE, fill = TRUE))
+
+sco_map <- ggplot(data = states) +
+  geom_sf(data = states, fill = "#eeeeee") +
+  geom_sf(data = school_corp_map, color = "#243142", aes(
+    label = lea_name,
+    fill = scoScore)) +
+  scale_fill_steps2(
+    name = "SCOscore",
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.1,
+    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
+  ) +
+  coord_sf(xlim = c(-88.5, -84.5), ylim = c(37.5, 42), expand = FALSE) +
+  # annotate("text", x = -89.25, y = 40, label = "ILLINOIS") +
+  # annotate("text", x = -83.25, y = 40, label = "OHIO") +
+  # annotate("text", x = -84.75, y = 38, label = "KENTUCKY") +
+  theme_minimal()  +
+  theme(panel.grid.major = element_blank(),
+        # panel.background = element_rect(fill = "#E9F6FC"),
+        axis.text = element_blank(),
+        axis.title = element_blank())
+```
+
+```{r display-map, results = "asis"}
+ggplotly(sco_map)
+```
+
+### Statewide Trends
+
+```{r plot-heat-map, warning=FALSE}
+sc_map <- ggplot(data = states) +
+  geom_sf(data = states, fill = "#eeeeee") +
+  geom_sf(data = school_corp_map, color = "#A7A9AB", aes(
+    label = lea_name))
+# base_map <- ggplot() +
+#   geom_polygon(data = indiana_map, aes(x = long, y = lat, group = group), fill = "#eeeeee", color = "#243142") +
+#   coord_map(xlim = range(indiana_map$long), ylim = range(indiana_map$lat))
+
+SCO_heat <- SCO_frame |>
+  select(longitude, latitude, scoScore)
+
+cities_frame <- data.frame(
+  city = c(
+    "Indianapolis",
+    "Gary",
+    "South Bend",
+    "Ft Wayne",
+    "Richmond",
+    "Bloomington",
+    "Kokomo",
+    "New Albany",
+    "Columbus"
+  ),
+  latitude = c(
+    39.77733,
+    41.59393,
+    41.67453,
+    41.07438,
+    39.8245,
+    39.14494,
+    40.4768618,
+    38.3147169,
+    39.1977044
+  ),
+  longitude = c(
+    -86.15460,
+    -87.40824,
+    -86.24909,
+    -85.13782,
+    -84.90206,
+    -86.53058,
+    -86.2202796,
+    -85.9060672,
+    -86.0643281
+  )
+)
+
+SCO_heat_map <- sc_map +
+  stat_density2d(
+    data = SCO_heat,
+    aes(
+      x = longitude,
+      y = latitude,
+      fill = ..level..,
+      alpha = ..level..
+    ),
+    geom = "polygon", bins = 12
+  ) +
+  scale_fill_gradient(
+    high = "#990000",
+    low = "#FFFCEB"
+  ) +
+  geom_point(data = cities_frame, aes(x = longitude, y = latitude), color = "#243142", size = 3) +
+  geom_text_repel(data = cities_frame, aes(x = longitude, y = latitude, label = city), color = "#243142",
+                   nudge_x = c(-1.5, -1, 1, 1, 1, -2), nudge_y = c(0.25, -0.25, 0.25, -0.5, -0.5)) +
+  theme_pubr() +
+  theme(
+    legend.position = "none",
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.line = element_blank()
+  )
+
+SCO_heat_map
+```
 
 ```{r plot-beeswarm, results = "asis"}
 SCO_frame$urban_centric_locale <- factor(
@@ -167,7 +315,7 @@ urcl_swarm <- ggplot(
     color = scoScore
   )
 ) +
-  geom_beeswarm(cex = 1.5, corral = "wrap", method = "center", shape = 18, size = 1) +
+  geom_beeswarm(cex = 1.5, corral = "wrap", shape = 18, size = 1) + #, method = "center"
   annotate("segment", x = 0, xend = 12.5, y = 1, yend = 1, color = "#A7A9AB",
            linetype = "dotted") +
   scale_color_steps2(
@@ -188,48 +336,19 @@ urcl_swarm <- ggplot(
 ggplotly(urcl_swarm)
 ```
 
-### Maps
+### Central Indiana
 
-```{r sc-map, message = FALSE, warning=FALSE, output = FALSE}
-in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
-  filter(State == "Indiana") |>
-  select(leaid = GEOID, geometry) |>
-  mutate(leaid = as.numeric(leaid))
-
-SCO_frame <- SCO_frame |>
-  right_join(in_sc_shapes)
-
-states <- st_as_sf(map("state", plot = FALSE, fill = TRUE))
-
-school_corp_map <- st_as_sf(SCO_frame)
-
-# corp_map <- SCO_frame |>
-#   select(leaid, scoScore, geometry) |>
-#   st_as_sf(map("state", plot = FALSE, fill = TRUE))
-
-sco_map <- ggplot(data = states) +
-  geom_sf(data = states, fill = "#eeeeee") +
-  geom_sf(data = school_corp_map, color = "#243142", aes(
-    label = lea_name,
-    fill = scoScore)) +
-  scale_fill_steps2(
-    low = "#FFF4C6",
-    high = "#990000",
-    mid = "#FFAA00",
-    midpoint = 1.1,
-    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
-  ) +
-  coord_sf(xlim = c(-88.5, -84.5), ylim = c(37.5, 42), expand = FALSE) +
-  annotate("text", x = -89.25, y = 40, label = "ILLINOIS") +
-  annotate("text", x = -83.25, y = 40, label = "OHIO") +
-  annotate("text", x = -84.75, y = 38, label = "KENTUCKY") +
-  theme_minimal()  +
-  theme(panel.grid.major = element_blank(),
-        panel.background = element_rect(fill = "#E9F6FC"),
-        axis.text = element_blank(),
-        axis.title = element_blank())
+```{r central-indiana-map}
+central_indiana_map <- sco_map +
+  coord_sf(xlim = c(-86.5, -85.75), ylim = c(39.5, 40.1), expand = FALSE) +
+  #xlim = c(-86.35, -85.9), ylim = c(39.62, 39.95)
+  geom_label(
+    data = SCO_frame,
+    aes(longitude, latitude,
+        label = lea_name),
+    color = "#191919",
+    size = 3
+    )
+print(central_indiana_map)
 ```
 
-```{r display-map, results = "asis"}
-ggplotly(sco_map)
-```

@@ -395,3 +395,7 @@ the_region_map <- the_region_map +
   theme(legend.position = "none")
 close_maps <- ggarrange(the_region_map, central_indiana_map, ncol = 2)
 ggsave(here("outputs", "inset_maps.png"), close_maps, dpi = 300, width = 16, height = 9, units = "in")
+
+output_frame <- school_corp_frame |>
+  select(leaid, lea_name, enrollment, urban_centric_locale, urm_pct, frl_pct, academic = adj_academic, scoScore, latitude, longitude) |>
+  write_csv(file = here("data", "in_scoscores.csv"))
