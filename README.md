@@ -30,7 +30,7 @@ is 1, which indicates the transition between high priority (scores above 1) and 
 Indiana University-Indianapolis has prioritized engagement with schools meeting the threshold score of 1, and
 has set the goal of 80% engagement with school corporations with a score of 1 or higher by 2030.
 
-An interactive website for exploring the SCOscore is available at [jeremyfprice.github.io/scoscore/](jeremyfprice.github.io/scoscore/).
+An interactive website for exploring the SCOscore is available at [jeremyfprice.github.io/scoscore/](https://jeremyfprice.github.io/scoscore/).
 
 ## Data Sources
 * Indiana Department of Education's [Indiana Graduates Prepared to Succeed (GPS)](https://indianagps.doe.in.gov/)
