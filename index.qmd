@@ -35,9 +35,9 @@ citation:
 google-scholar: true
 ---
 
-<style>
+<!--<style>
 .cell { font-family: "JetBrains Mono", mono; }
-</style>
+</style>-->
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
@@ -418,8 +418,10 @@ data set.
 ```{r}
 
 SCO_display_frame <- SCO_frame |>
-  select(-leaid, -enrollment, -latitude, -longitude) |>
-  arrange(desc(scoScore), lea_name)
+  select(lea_name, urban_centric_locale, enrollment, urm_pct, frl_pct, academic, scoScore) |>
+  arrange(desc(scoScore), desc(enrollment), lea_name) |>
+  na.omit()
+#  select(-enrollment)
 
 datatable(
   SCO_display_frame,
@@ -427,12 +429,12 @@ datatable(
   colnames = c(
     "Corporation",
     "Locale",
+    "Enrollment",
     "%URM",
     "%FRL",
     "AcScore",
     "SCOscore"
     ),
-  caption = "School Corporation Opportunity Scores for Indiana school corporations.",
   options = list(
   pageLength = 5)
   ) |>
