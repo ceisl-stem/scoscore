@@ -62,6 +62,7 @@ library(edbuildmapr)
 library(maps)
 library(mapdata)
 library(ggmap)
+library(akima)
 library(ggrepel)
 library(sf)
 library(showtext)
@@ -71,26 +72,6 @@ library(showtext)
 font_add_google("Rubik", "rubik", regular.wt = 700)
 font_add_google("JetBrains Mono", "jetbrains", regular.wt = 700)
 font_add_google("Spectral", "spectral", regular.wt = 700)
-```
-
-```{r define-functions}
-plot_mapdata <- function(df)
-{
-  states <- ggplot2::map_data("state")
-
-  ggplot2::ggplot(data = df, ggplot2::aes(x = long, y = lat)) + 
-    ggplot2::lims(x = c(-140, 50), y = c(20, 60)) +
-    ggplot2::coord_cartesian(xlim = c(-130, -60), ylim = c(25, 50)) +
-    ggplot2::geom_polygon(data = states, ggplot2::aes(x = long, y = lat, group = group), 
-                 color = "black", fill = "white") +
-    ggplot2::stat_density2d(ggplot2::aes(fill = ..level.., alpha = ..level..), 
-                            geom = "polygon") +
-    ggplot2::scale_fill_gradientn(colours = rev(RColorBrewer::brewer.pal(7, "Spectral"))) +
-    ggplot2::geom_polygon(data = states, ggplot2::aes(x = long, y = lat, group = group), 
-                 color = "black", fill = "none") +
-    ggplot2::facet_wrap( ~type, nrow = 2) + 
-    ggplot2::theme(legend.position = "none")
-}
 ```
 
 ```{r read-data}
@@ -138,7 +119,7 @@ Quarto enables you to weave together content and executable code into a finished
 ```{r}
 
 SCO_display_frame <- SCO_frame |>
-  select(-leaid, -enrollment) |>
+  select(-leaid, -enrollment, -latitude, -longitude) |>
   arrange(desc(scoScore), lea_name)
 
 datatable(
@@ -271,7 +252,7 @@ SCO_heat_map <- sc_map +
   ) +
   scale_fill_gradient(
     high = "#990000",
-    low = "#FFFCEB"
+    low = "#FFF4C6"
   ) +
   geom_point(data = cities_frame, aes(x = longitude, y = latitude), color = "#243142", size = 3) +
   geom_text_repel(data = cities_frame, aes(x = longitude, y = latitude, label = city), color = "#243142",
@@ -285,7 +266,97 @@ SCO_heat_map <- sc_map +
     axis.line = element_blank()
   )
 
+
+
+
+SCO_heat <- SCO_heat |>
+  na.omit()
+SCO_heat <- interp2xyz(interp(x=SCO_heat$longitude, y=SCO_heat$latitude, z=SCO_heat$scoScore, duplicate="mean"), data.frame=TRUE)
+SCO_heat <- SCO_heat |>
+    filter(!is.na(z)) |>
+  tbl_df()
+
+SCO_heat_map <- ggplot(SCO_heat, aes(x = x, y = y, z = z, fill = z)) + 
+  geom_tile() + 
+  geom_contour(color = "white", alpha = 0.05) + 
+    scale_fill_steps2(
+    name = "SCOscore",
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.1,
+    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
+  ) +
+  coord_fixed() +
+    theme_pubr() +
+  theme(
+    legend.position = "right",
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.line = element_blank()
+  )
+ggsave(here("outputs", "heat_map.png"), SCO_heat_map, dpi = 300, width = 8.5, height = 11, units = "in")
 SCO_heat_map
+```
+
+```{r sco-lolipop}
+sco_lol <- SCO_frame |>
+  mutate(weight = enrollment * scoScore) |>
+  group_by(urban_centric_locale) |>
+  summarize(mean_weight = mean(weight)) |>
+  ungroup() |>
+  na.omit()
+mean_of_means <- mean(sco_lol$mean_weight)
+sco_lol$difference <- log2(sco_lol$mean_weight / mean_of_means)
+
+sco_lol$difference[sco_lol$difference > 3] <- 3
+sco_lol$difference[sco_lol$difference < -3] <- -3
+
+sd_difference <- sd(sco_lol$difference)
+low_sd <- 0 - sd_difference
+
+compare.graph2 <-
+  ggdotchart(
+    sco_lol,
+    x = "urban_centric_locale",
+    y = "difference",
+    color = "difference",
+    sorting = "descending",
+    add = "segments",
+    rotate = TRUE,
+    dot.size = 6,
+    add.params = list(color = "#A7A9AB"),
+    #palette = iu.colors,
+    label = abs(round(sco_lol$difference, 1)),
+    font.label = list(size = 8, vjust = 0.5, color = "#A7A9AB"),
+    ggtheme = theme_pubr()
+  ) +
+  geom_hline(yintercept = 0,
+             #linetype = 3,
+             color = "#A7A9AB") +
+  geom_hline(yintercept = sd_difference,
+             linetype = 3,
+             color = "#A7A9AB") +
+    geom_hline(yintercept = low_sd,
+             linetype = 3,
+             color = "#A7A9AB") +
+  scale_y_continuous(
+    breaks = c(-3, low_sd, 0, sd_difference, 3),
+    limits = c(-3, 3),
+    labels = c("Low", "1 SD", " ", "1 SD", "High")
+  ) + xlab("NCES Urban-Centric Locale Category") +
+  ylab("Relative Opportunity (log2)") +
+      scale_color_gradient2(
+    name = "SCOscore",
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 0
+  ) +
+  theme(text = element_text(size = 10), legend.position = "none")
+ggsave(here("outputs", "relative_opp.png"), compare.graph2, dpi = 300, width = 16, height = 9, units = "in")
+compare.graph2
 ```
 
 ```{r plot-beeswarm, results = "asis"}

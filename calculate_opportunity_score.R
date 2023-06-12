@@ -146,7 +146,7 @@ urcl_swarm <- ggplot(
   color = scoScore
   )
 ) +
-  geom_beeswarm(method = "center", cex = 1.5, corral = "wrap", shape = 18, size = 3)# +
+  geom_beeswarm(method = "center", cex = 1.5, corral = "wrap", shape = 18, size = 3) +
   geom_text_repel(aes(x = urban_centric_locale, 
                       y = scoScore, 
                       label = lea_name), size = 2.75, color = "#243142",
@@ -349,10 +349,6 @@ school_corp_frame <- school_corp_frame |>
 states <- st_as_sf(map("state", plot = FALSE, fill = TRUE))
 
 school_corp_map <- st_as_sf(school_corp_frame)
-
-corp_map <- school_corp_frame |>
-  select(leaid, scoScore, geometry) |>
-  st_as_sf(map("state", plot = FALSE, fill = TRUE))
 
 sco_map <- ggplot(data = states) +
   geom_sf(data = states, fill = "#eeeeee") +

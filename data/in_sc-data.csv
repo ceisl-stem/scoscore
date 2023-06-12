@@ -1,6 +1,4 @@
 leaid,lea_name,enrollment,urban_centric_locale,urm_pct,frl_pct,ela_3rd,math_6th,grad_comp
-1804770,Indianapolis Public Schools,22115,City large,0.789011983,0.6294,0.636,0.186,0.775
-1805670,MSD Lawrence Township,16247,Suburb large,0.810734289,0.5968,0.639,0.26,0.926
 1808760,Penn-Harris-Madison School Corp,11513,Suburb large,0.284982194,0.2253,0.883,0.419,0.964
 1808820,Perry Township Schools,16603,City large,0.623200626,0.6929,0.713,0.348,0.927
 1808850,Peru Community Schools,1982,Town distant,0.153884965,0.5197,0.887,0.458,0.862
@@ -195,3 +193,99 @@ leaid,lea_name,enrollment,urban_centric_locale,urm_pct,frl_pct,ela_3rd,math_6th,
 1803840,Garrett-Keyser-Butler Com Sch Corp,1717,Town fringe,0.086779266,0.4321,0.858,NA,0.925
 1803870,Gary Community School Corp,4374,City small,0.987654321,0.8553,0.569,0.014,0.699
 1803930,Goshen Community Schools,6364,City small,0.631992458,0.5498,0.76,0.253,0.923
+1803940,Greater Clark County Schools,10320,Suburb large,0.424806202,0.516,0.82,0.312,0.937
+1803960,Greater Jasper Consolidated Schs,3235,Rural fringe,0.222256569,0.3552,0.944,0.384,0.931
+1803990,Greencastle Community School Corp,1842,Town distant,0.075461455,0.4343,0.906,0.348,0.888
+1804050,Greenfield-Central Com Schools,4421,Suburb large,0.103370278,0.3183,0.922,0.399,0.898
+1804080,Greensburg Community Schools,2178,Town distant,0.082644628,0.3976,0.957,0.279,0.977
+1804110,Greenwood Community Sch Corp,3968,Suburb large,0.26234879,0.381,0.884,0.381,0.892
+1804140,Monroe-Gregg School District,1539,Rural fringe,0.070825211,0.321,0.814,0.212,0.782
+1804170,Griffith Public Schools,2005,Suburb large,0.54713217,0.4888,0.887,0.298,0.846
+1804230,Hamilton Community Schools,359,Rural distant,0.066852368,0.3649,0.75,0.2,0.833
+1804260,Hamilton Heights School Corp,2302,Suburb large,0.070807993,0.2754,0.933,0.512,0.956
+1804320,School City of Hammond,11957,Suburb large,0.892615204,0.7341,0.633,0.12,0.664
+1804350,Hanover Community School Corp,2615,Suburb large,0.248948375,0.174,0.949,0.47,0.908
+1804470,Western School Corporation,2570,Rural fringe,0.142801556,0.235,0.937,0.458,0.941
+1804500,Wes-Del Community Schools,893,Rural fringe,0.075027996,0.5207,0.866,0.323,0.94
+1804560,School Town of Highland,3072,Suburb large,0.487304688,0.3441,0.897,0.531,0.939
+1804590,School City of Hobart,4039,Suburb large,0.386729388,0.4499,0.85,0.241,0.911
+1804620,River Forest Community Sch Corp,1583,Suburb large,0.632975363,0.5713,0.804,0.137,0.864
+1804710,Huntington Co Com Sch Corp,4996,Town distant,0.085868695,0.4229,0.848,0.223,0.893
+1804770,Indianapolis Public Schools,22115,City large,0.789011983,0.6294,0.636,0.186,0.775
+1804800,Jac-Cen-Del Community Sch Corp,773,Rural distant,0.034928849,0.4683,0.878,0.34,0.945
+1804980,Jay School Corporation,2984,Rural fringe,0.100871314,0.5174,0.86,0.495,0.837
+1805190,Jennings County School Corporation,4023,Rural fringe,0.107631121,0.5625,0.792,0.346,0.791
+1805280,Kankakee Valley School Corp,3252,Rural distant,0.147293973,0.4154,0.917,0.308,0.923
+1805340,Knox Community School Corp,1751,Town distant,0.075385494,0.5802,0.876,0.079,0.911
+1805370,Kokomo School Corporation,5301,City small,0.422561781,0.5612,0.706,0.233,0.932
+1805400,Lafayette School Corporation,7430,City small,0.568371467,0.6676,0.884,0.203,0.787
+1805450,Lake Central School Corporation,9418,Suburb large,0.35485241,0.2389,0.897,0.349,0.956
+1805460,Lake Ridge New Tech Schools,1559,Suburb large,0.657472739,0.898,0.53,0.112,0.853
+1805520,Lakeland School Corporation,1682,Town distant,0.274673008,0.3942,0.781,0.276,0.805
+1805550,Wawasee Community School Corp,2925,Rural fringe,0.144273504,0.439,0.882,0.198,0.83
+1805580,LaPorte Community School Corp,6323,City small,0.24956508,0.4998,0.878,0.294,0.842
+1805670,MSD Lawrence Township,16247,Suburb large,0.810734289,0.5968,0.639,0.26,0.926
+1805700,Lawrenceburg Community School Corp,2099,Town fringe,0.113387327,0.3492,0.869,0.24,0.941
+1805790,Lebanon Community School Corp,3351,Town fringe,0.157266488,0.3357,0.846,0.395,0.936
+1805880,Liberty-Perry Community Sch Corp,1189,Rural fringe,0.077375946,0.4138,NA,0.5,0.976
+1805910,Linton-Stockton School Corporation,1378,Town distant,0.047895501,0.4673,0.843,0.431,0.962
+1806030,Logansport Community Sch Corp,4331,Town distant,0.565689217,0.5468,0.738,0.272,0.851
+1806060,Loogootee Community Sch Corp,733,Rural fringe,0.053206003,0.3492,0.931,0.383,0.955
+1806080,MSD Warren County,1363,Rural distant,0.058694057,0.4343,0.83,0.43,0.948
+1806090,Maconaquah School Corp,1961,Rural fringe,0.175420704,0.5324,0.836,0.148,0.898
+1806120,Madison Consolidated Schools,2704,Town distant,0.108727811,0.4458,0.823,0.446,0.741
+1806240,Madison-Grant United School Corp,1262,Rural fringe,0.122820919,0.3875,0.716,0.129,0.901
+1806270,Manchester Community Schools,1456,Rural fringe,0.116758242,0.3819,1,NA,0.88
+1806390,Marion Community Schools,3753,Town distant,0.521449507,0.6725,0.663,0.254,0.839
+1806480,Sheridan Community Schools,1052,Town fringe,0.085551331,0.3337,0.866,0.296,0.938
+1806510,MSD Martinsville Schools,4086,Town fringe,0.061429271,0.4006,0.916,0.532,0.837
+1806570,Michigan City Area Schools,5314,City small,0.583176515,0.7612,0.713,0.251,0.837
+1806600,Middlebury Community Schools,4299,Rural fringe,0.157943708,0.248,0.876,0.345,0.851
+1806630,Milan Community Schools,970,Rural distant,0.030927835,0.4557,0.805,0.219,0.918
+1806660,Mill Creek Community Sch Corp,1569,Rural distant,0.070745698,0.2479,0.91,0.212,0.983
+1806840,School City of Mishawaka,5274,City small,0.341865757,0.5336,0.705,0.299,0.774
+1806870,Mississinewa Community School Corp,2490,Town distant,0.180321285,0.6378,0.792,0.189,0.966
+1806900,Mitchell Community Schools,1490,Town distant,0.06442953,0.5678,0.78,0.161,0.786
+1807020,Cowan Community School Corp,814,Rural fringe,0.097051597,0.4779,0.889,0.625,0.983
+1807080,Monroe Central School Corp,1105,Rural fringe,0.066968326,0.4452,0.975,0.56,0.96
+1807110,Eastern Pulaski Community Sch Corp,1177,Town distant,0.088360238,0.4486,0.778,0.611,0.98
+1807140,Mooresville Con School Corp,4340,Suburb large,0.082949309,0.4037,0.878,0.434,0.953
+1807230,Yorktown Community Schools,2686,Suburb small,0.16344006,0.3157,0.912,0.467,0.941
+1807260,Mt Vernon Community School Corp,4526,Rural fringe,0.22691118,0.2298,0.924,0.418,0.935
+1807290,MSD Mount Vernon,2064,Town fringe,0.100775194,0.3406,0.871,0.265,0.975
+1807320,Muncie Community Schools,5141,City small,0.426570706,0.6853,0.5,0.125,0.772
+1807350,School Town of Munster,4148,Suburb large,0.489392478,0.1786,0.964,0.556,0.967
+1807380,Nettle Creek School Corporation,1110,Rural distant,0.059459459,0.3955,0.952,0.447,0.987
+1807410,New Albany-Floyd Co Con Sch,11570,Suburb large,0.23673293,0.3111,0.87,0.428,0.931
+1807440,New Castle Community School Corp,2886,Town distant,0.131323631,0.5776,0.887,0.233,0.92
+1807470,MSD of New Durham Township,873,Town fringe,0.132875143,0.3505,0.898,0.136,0.931
+1807560,New Prairie United School Corp,2869,Rural fringe,0.132101778,0.351,0.96,0.438,0.972
+1807620,Nineveh-Hensley-Jackson United,2028,Rural distant,0.050788955,0.289,0.932,0.395,0.858
+1807650,Noblesville Schools,10643,Suburb large,0.192520906,0.2091,0.909,0.51,0.976
+1807680,North Adams Community Schools,1628,Town distant,0.181203931,0.4539,0.824,0.194,0.91
+1807710,North Daviess Com Schools,1099,Rural remote,0.070063694,0.4518,0.835,0.329,0.966
+1807770,North Gibson School Corporation,1921,Rural fringe,0.180114524,0.418,0.773,0.333,0.812
+1807800,North Judson-San Pierre Sch Corp,914,Rural distant,0.076586433,0.4387,0.875,0.5,0.85
+1807830,North Knox School Corp,1224,Rural distant,0.071895425,0.5229,0.902,0.392,0.953
+1807860,North Lawrence Com Schools,3886,Rural fringe,0.077972208,0.4655,0.845,0.332,0.853
+1807890,North Miami Community Schools,858,Rural distant,0.090909091,0.3939,0.865,0.191,0.9
+1807900,North Montgomery Com Sch Corp,1875,Rural distant,0.104533333,0.3157,0.908,0.456,0.922
+1807920,North Newton School Corp,1169,Rural distant,0.153977759,0.485,0.787,0.495,0.889
+1807950,MSD North Posey Co Schools,1483,Rural distant,0.064733648,0.2967,0.923,0.561,0.944
+1807980,North Putnam Community Schools,1360,Rural distant,0.039705882,0.4467,0.856,0.287,0.96
+1808010,North Spencer County Sch Corp,2081,Rural distant,0.102354637,0.3181,0.935,0.562,0.993
+1808040,Tri-Central Community Schools,761,Rural fringe,0.122207622,0.4258,0.889,0.407,0.945
+1808070,North Vermillion Com Sch Corp,694,Rural distant,0.057636888,0.4726,0.778,0.264,0.82
+1808100,North West Hendricks Schools,1955,Rural fringe,0.091048593,0.2164,0.953,0.514,0.903
+1808120,Northeast Dubois Co Sch Corp,876,Rural distant,0.043378995,0.2158,0.897,0.673,0.885
+1808130,North White School Corp,909,Rural distant,0.515951595,0.7415,0.694,0.127,0.983
+1808160,Northeast School Corp,786,Rural distant,0.031806616,0.5929,0.88,0.275,0.898
+1808190,Northeastern Wayne Schools,1317,Rural distant,0.070615034,0.4017,0.926,0.274,0.946
+1808220,Northern Wells Community Schools,2467,Rural distant,0.097689501,0.2554,0.843,0.442,0.928
+1808250,Northwest Allen County Schools,7955,Rural fringe,0.190571967,0.1769,0.918,0.379,0.948
+1808280,Shenandoah School Corporation,1351,Rural distant,0.053293856,0.2635,0.894,0.258,0.949
+1808310,Northwestern Con School Corp,1462,Rural fringe,0.078659371,0.3208,0.886,0.252,0.94
+1808340,Oak Hill United School Corp,1642,Rural distant,0.113276492,0.3788,0.883,0.289,0.93
+1808460,Oregon-Davis School Corp,478,Rural distant,0.069037657,0.5711,0.805,0.128,0.919
+1808490,Orleans Community Schools,887,Rural distant,0.033821871,0.5614,0.817,0.373,0.755
+1808640,Paoli Community School Corp,1287,Town distant,0.066822067,0.5781,0.925,0.406,0.934
