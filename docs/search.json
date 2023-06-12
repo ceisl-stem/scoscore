@@ -4,14 +4,14 @@
     "href": "index.html#introduction",
     "title": "SCOscore: School Corporation Opportunity Score",
     "section": "Introduction",
-    "text": "Introduction\nQuarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+    "text": "Introduction\nThe School Corporation Opportunity Score (SCOscore) is a measure of potentiality for learners in a school community. It is a composite score that combines multiple factors, particularly structural factors such as race and SES, as well as performance factors such as test scores and graduation pathway completion rates, to provide a more holistic view of school corporations."
   },
   {
     "objectID": "index.html#methods",
     "href": "index.html#methods",
     "title": "SCOscore: School Corporation Opportunity Score",
     "section": "Methods",
-    "text": "Methods\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\\[\nf(S_a^\\prime) = \\begin{cases}\n(S_{IN} - S_a) + 1, & \\text{if } S_a &lt; S_{IN} \\\\\n0, &\\text{otherwise}\n\\end{cases}\n\\]\nThen…\n\\[\nS_{ac} = \\frac{\\left(S_{a_{ela}}^\\prime + S_{a_{math}}^\\prime + S_{a_{gpc}}^\\prime\\right)}{3} + 1\n\\]\nFinally…\n\\[\nS_{O} = \\frac{\\left[\\left(P_{urm} \\times 1.5\\right) + \\left(P_{frl} \\times 1.5\\right) + S_{ac}\\right]}{3}\n\\]\nThe echo: false option disables the printing of code (only output is displayed)."
+    "text": "Methods\nThe SCOscore of a school corporation is calculated through the following formula:\n\\[\nS_{O} = \\frac{\\left[\\left(P_{urm} \\times 1.5\\right) + \\left(P_{frl} \\times 1.5\\right) + S_{ac}\\right]}{3}\n\\]\nwhere \\(S_{O}\\) is the SCOscore, \\(P_{urm}\\) is the proportion of underrepresented minority students, \\(P_{frl}\\) is the proportion of students eligible for free or reduced lunch, and \\(S_{ac}\\) is an academic achievement score for the corporation as a whole.\nThe academic achievement score accounts for 3rd grade ELA proficiency, 8th grade math proficiency, and graduation pathways completion rates. In order to account for those factors, the following equation is utilized:\n\\[\nS_{ac} = \\frac{\\left(S_{a_{ela}}^\\prime + S_{a_{math}}^\\prime + S_{a_{gpc}}^\\prime\\right)}{3} + 1\n\\] where \\(S_{a_{ela}}^\\prime\\) is the calculated 3rd grade ELA proficiency measure, \\(S_{a_{math}}^\\prime\\) is the calculated 6th grade math proficiency measure, and \\(S_{a_{gpc}}^\\prime\\) is the calculated graduation pathway completion measure.\nThe \\(S_a^\\prime\\) measures are determined in the following manner:\n\\[\nf(S_a^\\prime) = \\begin{cases}\n(S_{IN} - S_a) + 1, & \\text{if } S_a &lt; S_{IN} \\\\\n0, &\\text{otherwise}\n\\end{cases}\n\\]\nwhere \\(S_a\\) is the school corporation average proficiency or completion rate and \\(S_{IN}\\) is the state-level average proficiency or completion rate.\n\nAcknowledging Inequality Within School Corporations\nIt needs to be recognized that there is the potential for inequality within a single school corporation and the SCOscore is calculated based on reported averages across all schools in the corporation. The school corporation-level score should be considered within the local building context. A building or school-level score can be calculated using the same general equation:\n\\[\nS_{O} = \\frac{\\left[\\left(P_{urm} \\times 1.5\\right) + \\left(P_{frl} \\times 1.5\\right) + S_{ac}\\right]}{3}\n\\]\nRather than calculating a combined academic score, however, the specific academic measure–3rd grade ELA proficiency rates for elementary schools, 6th grade math proficiency rates for middle schools, and graduation pathways completion rates for high schools–can be used. The \\(S_a^\\prime\\) still needs to be calculated by comparing the measure to the Indiana statewide average as above, where it becomes \\(0\\) if it is above the statewide average or \\((S_{IN} - S_a) + 1\\) if it is below the statewide average.\n\n\n\n\n\n\nCharter Schools\n\n\n\nIt is also important to consider the status of charter schools when identifying schools to work with. Despite the “public school” designation by the Indiana Department of Education, charter schools are not technically public schools in important ways, particularly when it comes to accountability to the community in which they are embedded. Other problematic issues with respect to oppression by race and ability are well-documented.\n\n\n\n\nData Sources\nData for these calculations are drawn from the following sources:\n\nIndiana Department of Education’s Indiana Graduates Prepared to Succeed (GPS)\nUrban Institute’s Education Data Explorer via the educationdata R package"
   },
   {
     "objectID": "index.html#school-corporation-opportunity-scores-for-indiana",
@@ -81,6 +81,20 @@
     "href": "index.html#school-corporation-opportunity-scores-scoscores-for-indiana",
     "title": "SCOscore: School Corporation Opportunity Score",
     "section": "School Corporation Opportunity Scores (SCOscores) for Indiana",
-    "text": "School Corporation Opportunity Scores (SCOscores) for Indiana\nQuarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nStatewide Trends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCentral Indiana"
+    "text": "School Corporation Opportunity Scores (SCOscores) for Indiana\nGeneral Heat Map:\n\n\n\n\n\nRelative opportunity by NCES urban-centric locale categories:\n\n\n\n\n\n\nCentral Indiana\nThe school corporations with SCOscores greater than 1 in Central Indiana are as follows:\n\n\n\nSchool Corporation\nEnrollment\nSCOscore\n\n\n\n\nIndianapolis Public Schools\n22,115\n1.42\n\n\nMSD Warren Twp\n11,801\n1.42\n\n\nMSD Wayne Twp\n16,343\n1.39\n\n\nMSD Pike Twp\n10,928\n1.37\n\n\nAnderson Community Schools\n6470\n1.30\n\n\nMSD Lawrence Twp\n16,247\n1.29\n\n\nMSD Washington Twp\n10,901\n1.13\n\n\nPerry Twp Schools\n16,603\n1.11\n\n\nBeech Grove City Schools\n2837\n1.10"
+  },
+  {
+    "objectID": "index.html#indiana-scoscoredata-explorer",
+    "href": "index.html#indiana-scoscoredata-explorer",
+    "title": "SCOscore: School Corporation Opportunity Score",
+    "section": "Indiana SCOscoreData Explorer",
+    "text": "Indiana SCOscoreData Explorer\nAll elements from here are interactive and may be used to explore the SCOscore data set."
+  },
+  {
+    "objectID": "index.html#school-corporation-opportunity-scores-scoscores",
+    "href": "index.html#school-corporation-opportunity-scores-scoscores",
+    "title": "SCOscore: School Corporation Opportunity Score",
+    "section": "School Corporation Opportunity Scores (SCOscores)",
+    "text": "School Corporation Opportunity Scores (SCOscores)\nThe following map provides a big-picture overview of where the highest opportunity exists across the state.\n\n\n\n\n\nThe following plot provides the relative opportunity by NCES urban-centric locale categories:\n\n\n\n\n\n\nCentral Indiana\nThe school corporations with SCOscores greater than 1 in Central Indiana are as follows:\n\n\n\nSchool Corporation\nEnrollment\nSCOscore\n\n\n\n\nIndianapolis Public Schools\n22,115\n1.42\n\n\nMSD Warren Twp\n11,801\n1.42\n\n\nMSD Wayne Twp\n16,343\n1.39\n\n\nMSD Pike Twp\n10,928\n1.37\n\n\nAnderson Community Schools\n6470\n1.30\n\n\nMSD Lawrence Twp\n16,247\n1.29\n\n\nMSD Washington Twp\n10,901\n1.13\n\n\nPerry Twp Schools\n16,603\n1.11\n\n\nBeech Grove City Schools\n2837\n1.10"
   }
 ]

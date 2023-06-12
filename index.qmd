@@ -85,11 +85,35 @@ SCO_frame$scoScore = round(SCO_frame$scoScore, digits = 2)
 ```
 ## Introduction
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+The School Corporation Opportunity Score (SCOscore) is a measure of potentiality for learners in a
+school community. It is a composite score that combines multiple factors, particularly structural
+factors such as race and SES, as well as performance factors such as test scores and graduation
+pathway completion rates, to provide a more holistic view of school corporations.
 
 ## Methods
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+The SCOscore of a school corporation is calculated through the following formula:
+
+$$
+S_{O} = \frac{\left[\left(P_{urm} \times 1.5\right) + \left(P_{frl} \times 1.5\right) + S_{ac}\right]}{3}
+$$
+
+where $S_{O}$ is the SCOscore, $P_{urm}$ is the proportion of underrepresented minority students,
+$P_{frl}$ is the proportion of students eligible for free or reduced lunch, and $S_{ac}$ is an academic
+achievement score for the corporation as a whole.
+
+The academic achievement score accounts for 3rd grade ELA proficiency, 8th grade 
+math proficiency, and graduation pathways completion rates. In order to account
+for those factors, the following equation is utilized:
+
+$$
+S_{ac} = \frac{\left(S_{a_{ela}}^\prime + S_{a_{math}}^\prime + S_{a_{gpc}}^\prime\right)}{3} + 1
+$$
+where $S_{a_{ela}}^\prime$ is the calculated 3rd grade ELA proficiency measure,
+$S_{a_{math}}^\prime$ is the calculated 6th grade math proficiency measure, and
+$S_{a_{gpc}}^\prime$ is the calculated graduation pathway completion measure.
+
+The $S_a^\prime$ measures are determined in the following manner:
 
 $$
 f(S_a^\prime) = \begin{cases}
@@ -98,173 +122,128 @@ f(S_a^\prime) = \begin{cases}
 \end{cases}
 $$
 
-Then...
+where $S_a$ is the school corporation average proficiency or completion rate and 
+$S_{IN}$ is the state-level average proficiency or completion rate.
 
-$$
-S_{ac} = \frac{\left(S_{a_{ela}}^\prime + S_{a_{math}}^\prime + S_{a_{gpc}}^\prime\right)}{3} + 1
-$$
+### Acknowledging Inequality *Within* School Corporations
 
-Finally...
+It needs to be recognized that there is the potential for inequality *within* a
+single school corporation and the SCOscore is calculated based on reported *averages*
+across all schools in the corporation. The school corporation-level score should be considered
+within the local building context. A building or school-level score can be calculated using
+the same general equation:
 
 $$
 S_{O} = \frac{\left[\left(P_{urm} \times 1.5\right) + \left(P_{frl} \times 1.5\right) + S_{ac}\right]}{3}
 $$
 
-The `echo: false` option disables the printing of code (only output is displayed).
+Rather than calculating a combined academic score, however, the specific academic
+measure--3rd grade ELA proficiency rates for elementary schools, 6th grade math
+proficiency rates for middle schools, and graduation pathways completion rates for
+high schools--can be used. The $S_a^\prime$ still needs to be calculated by
+comparing the measure to the Indiana statewide average as above, where it becomes
+$0$ if it is above the statewide average or $(S_{IN} - S_a) + 1$ if it is below
+the statewide average.
 
-## School Corporation Opportunity Scores (SCOscores) for Indiana
+::: {.callout-important}
+## Charter Schools
+It is also important to consider the status of charter schools when identifying
+schools to work with. Despite the ["public school" designation](https://www.in.gov/icsb/families-and-students/charter-school-faqs/)
+by the Indiana Department of Education, [charter schools are not technically public schools](https://www.forbes.com/sites/petergreene/2019/02/02/charter-schools-are-not-public-schools/?sh=17e935536832) in important ways, particularly when it comes to accountability to the community
+in which they are embedded. Other problematic issues with respect to oppression by
+[race](https://journals.sagepub.com/doi/full/10.1177/1478210319875385) and
+[ability](https://dsq-sds.org/article/%20view/3187/3072) are well-documented.
+:::
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+### Data Sources
 
-```{r}
+Data for these calculations are drawn from the following sources:
 
-SCO_display_frame <- SCO_frame |>
-  select(-leaid, -enrollment, -latitude, -longitude) |>
-  arrange(desc(scoScore), lea_name)
+* Indiana Department of Education's [Indiana Graduates Prepared to Succeed (GPS)](https://indianagps.doe.in.gov/)
+* Urban Institute's [Education Data Explorer](https://educationdata.urban.org/data-explorer) via
+the [educationdata](https://github.com/UrbanInstitute/education-data-package-r) R package
 
-datatable(
-  SCO_display_frame,
-  rownames = FALSE,
-  colnames = c(
-    "Corporation",
-    "Locale",
-    "%URM",
-    "%FRL",
-    "AcScore",
-    "SCOscore"
-    ),
-  caption = "School Corporation Opportunity Scores for Indiana school corporations.",
-  options = list(
-  pageLength = 5)
-  ) |>
-  formatStyle(columns = c(2), fontSize = "90%")
+## School Corporation Opportunity Scores (SCOscores)
 
-```
-
-
-
-```{r sc-map, message = FALSE, warning=FALSE, output = FALSE}
-in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
-  filter(State == "Indiana") |>
-  select(leaid = GEOID, geometry) |>
-  mutate(leaid = as.numeric(leaid))
-
-SCO_frame <- SCO_frame |>
-  right_join(in_sc_shapes)
-
-#states <- st_as_sf(map("state", plot = FALSE, fill = TRUE))
-states <- sf::st_as_sf(map("state", region = "indiana", plot = FALSE, fill = TRUE))
-
-school_corp_map <- st_as_sf(SCO_frame)
-
-# corp_map <- SCO_frame |>
-#   select(leaid, scoScore, geometry) |>
-#   st_as_sf(map("state", plot = FALSE, fill = TRUE))
-
-sco_map <- ggplot(data = states) +
-  geom_sf(data = states, fill = "#eeeeee") +
-  geom_sf(data = school_corp_map, color = "#243142", aes(
-    label = lea_name,
-    fill = scoScore)) +
-  scale_fill_steps2(
-    name = "SCOscore",
-    low = "#FFF4C6",
-    high = "#990000",
-    mid = "#FFAA00",
-    midpoint = 1.1,
-    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
-  ) +
-  coord_sf(xlim = c(-88.5, -84.5), ylim = c(37.5, 42), expand = FALSE) +
-  # annotate("text", x = -89.25, y = 40, label = "ILLINOIS") +
-  # annotate("text", x = -83.25, y = 40, label = "OHIO") +
-  # annotate("text", x = -84.75, y = 38, label = "KENTUCKY") +
-  theme_minimal()  +
-  theme(panel.grid.major = element_blank(),
-        # panel.background = element_rect(fill = "#E9F6FC"),
-        axis.text = element_blank(),
-        axis.title = element_blank())
-```
-
-```{r display-map, results = "asis"}
-ggplotly(sco_map)
-```
-
-### Statewide Trends
+The following map provides a big-picture overview of where the highest opportunity
+exists across the state.
 
 ```{r plot-heat-map, warning=FALSE}
-sc_map <- ggplot(data = states) +
-  geom_sf(data = states, fill = "#eeeeee") +
-  geom_sf(data = school_corp_map, color = "#A7A9AB", aes(
-    label = lea_name))
-# base_map <- ggplot() +
-#   geom_polygon(data = indiana_map, aes(x = long, y = lat, group = group), fill = "#eeeeee", color = "#243142") +
-#   coord_map(xlim = range(indiana_map$long), ylim = range(indiana_map$lat))
+states <- sf::st_as_sf(map("state", region = "indiana", plot = FALSE, fill = TRUE))
 
+#  sc_map <- ggplot(data = states) +
+#   geom_sf(data = states, fill = "#eeeeee") +
+#   geom_sf(data = school_corp_map, color = "#A7A9AB", aes(
+#     label = lea_name))
+# # base_map <- ggplot() +
+# #   geom_polygon(data = indiana_map, aes(x = long, y = lat, group = group), fill = "#eeeeee", color = "#243142") +
+# #   coord_map(xlim = range(indiana_map$long), ylim = range(indiana_map$lat))
+# 
 SCO_heat <- SCO_frame |>
   select(longitude, latitude, scoScore)
-
-cities_frame <- data.frame(
-  city = c(
-    "Indianapolis",
-    "Gary",
-    "South Bend",
-    "Ft Wayne",
-    "Richmond",
-    "Bloomington",
-    "Kokomo",
-    "New Albany",
-    "Columbus"
-  ),
-  latitude = c(
-    39.77733,
-    41.59393,
-    41.67453,
-    41.07438,
-    39.8245,
-    39.14494,
-    40.4768618,
-    38.3147169,
-    39.1977044
-  ),
-  longitude = c(
-    -86.15460,
-    -87.40824,
-    -86.24909,
-    -85.13782,
-    -84.90206,
-    -86.53058,
-    -86.2202796,
-    -85.9060672,
-    -86.0643281
-  )
-)
-
-SCO_heat_map <- sc_map +
-  stat_density2d(
-    data = SCO_heat,
-    aes(
-      x = longitude,
-      y = latitude,
-      fill = ..level..,
-      alpha = ..level..
-    ),
-    geom = "polygon", bins = 12
-  ) +
-  scale_fill_gradient(
-    high = "#990000",
-    low = "#FFF4C6"
-  ) +
-  geom_point(data = cities_frame, aes(x = longitude, y = latitude), color = "#243142", size = 3) +
-  geom_text_repel(data = cities_frame, aes(x = longitude, y = latitude, label = city), color = "#243142",
-                   nudge_x = c(-1.5, -1, 1, 1, 1, -2), nudge_y = c(0.25, -0.25, 0.25, -0.5, -0.5)) +
-  theme_pubr() +
-  theme(
-    legend.position = "none",
-    axis.title = element_blank(),
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    axis.line = element_blank()
-  )
+# 
+# cities_frame <- data.frame(
+#   city = c(
+#     "Indianapolis",
+#     "Gary",
+#     "South Bend",
+#     "Ft Wayne",
+#     "Richmond",
+#     "Bloomington",
+#     "Kokomo",
+#     "New Albany",
+#     "Columbus"
+#   ),
+#   latitude = c(
+#     39.77733,
+#     41.59393,
+#     41.67453,
+#     41.07438,
+#     39.8245,
+#     39.14494,
+#     40.4768618,
+#     38.3147169,
+#     39.1977044
+#   ),
+#   longitude = c(
+#     -86.15460,
+#     -87.40824,
+#     -86.24909,
+#     -85.13782,
+#     -84.90206,
+#     -86.53058,
+#     -86.2202796,
+#     -85.9060672,
+#     -86.0643281
+#   )
+# )
+# 
+# SCO_heat_map <- sc_map +
+#   stat_density2d(
+#     data = SCO_heat,
+#     aes(
+#       x = longitude,
+#       y = latitude,
+#       fill = ..level..,
+#       alpha = ..level..
+#     ),
+#     geom = "polygon", bins = 12
+#   ) +
+#   scale_fill_gradient(
+#     high = "#990000",
+#     low = "#FFF4C6"
+#   ) +
+#   geom_point(data = cities_frame, aes(x = longitude, y = latitude), color = "#243142", size = 3) +
+#   geom_text_repel(data = cities_frame, aes(x = longitude, y = latitude, label = city), color = "#243142",
+#                    nudge_x = c(-1.5, -1, 1, 1, 1, -2), nudge_y = c(0.25, -0.25, 0.25, -0.5, -0.5)) +
+#   theme_pubr() +
+#   theme(
+#     legend.position = "none",
+#     axis.title = element_blank(),
+#     axis.text = element_blank(),
+#     axis.ticks = element_blank(),
+#     axis.line = element_blank()
+#   )
 
 
 
@@ -299,6 +278,8 @@ SCO_heat_map <- ggplot(SCO_heat, aes(x = x, y = y, z = z, fill = z)) +
 ggsave(here("outputs", "heat_map.png"), SCO_heat_map, dpi = 300, width = 8.5, height = 11, units = "in")
 SCO_heat_map
 ```
+
+The following plot provides the relative opportunity by NCES urban-centric locale categories:
 
 ```{r sco-lolipop}
 sco_lol <- SCO_frame |>
@@ -359,6 +340,111 @@ ggsave(here("outputs", "relative_opp.png"), compare.graph2, dpi = 300, width = 1
 compare.graph2
 ```
 
+
+### Central Indiana
+
+The school corporations with SCOscores greater than 1 in Central Indiana are as follows:
+
+| School Corporation | Enrollment | SCOscore |
+|--------------------|------------|----------|
+| Indianapolis Public Schools | 22,115 | 1.42 |
+| MSD Warren Twp | 11,801 | 1.42 |
+| MSD Wayne Twp | 16,343 | 1.39 |
+| MSD Pike Twp | 10,928 | 1.37 |
+| Anderson Community Schools | 6470 | 1.30 |
+| MSD Lawrence Twp | 16,247 | 1.29 |
+| MSD Washington Twp | 10,901 | 1.13 |
+| Perry Twp Schools | 16,603 | 1.11 |
+| Beech Grove City Schools | 2837 | 1.10 |
+
+```{r sc-map, message = FALSE, warning=FALSE, output = FALSE}
+in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
+  filter(State == "Indiana") |>
+  select(leaid = GEOID, geometry) |>
+  mutate(leaid = as.numeric(leaid))
+
+SCO_frame <- SCO_frame |>
+  right_join(in_sc_shapes)
+
+school_corp_map <- st_as_sf(SCO_frame)
+
+# corp_map <- SCO_frame |>
+#   select(leaid, scoScore, geometry) |>
+#   st_as_sf(map("state", plot = FALSE, fill = TRUE))
+
+sco_map <- ggplot(data = states) +
+  geom_sf(data = states, fill = "#eeeeee") +
+  geom_sf(data = school_corp_map, color = "#243142", aes(
+    label = lea_name,
+    fill = scoScore)) +
+  scale_fill_steps2(
+    name = "SCOscore",
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.1,
+    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
+  ) +
+  coord_sf(xlim = c(-88.5, -84.5), ylim = c(37.5, 42), expand = FALSE) +
+  # annotate("text", x = -89.25, y = 40, label = "ILLINOIS") +
+  # annotate("text", x = -83.25, y = 40, label = "OHIO") +
+  # annotate("text", x = -84.75, y = 38, label = "KENTUCKY") +
+  theme_minimal()  +
+  theme(panel.grid.major = element_blank(),
+        # panel.background = element_rect(fill = "#E9F6FC"),
+        axis.text = element_blank(),
+        axis.title = element_blank())
+```
+
+```{r central-indiana-map}
+central_indiana_map <- sco_map +
+  coord_sf(xlim = c(-86.5, -85.75), ylim = c(39.5, 40.1), expand = FALSE)# +
+  #xlim = c(-86.35, -85.9), ylim = c(39.62, 39.95)
+  # geom_label(
+  #   data = SCO_frame,
+  #   aes(longitude, latitude,
+  #       label = lea_name),
+  #   color = "#191919",
+  #   size = 3
+  #   )
+ggplotly(central_indiana_map)
+```
+
+## Indiana SCOscoreData Explorer
+
+All elements from here are interactive and may be used to explore the SCOscore
+data set.
+
+```{r}
+
+SCO_display_frame <- SCO_frame |>
+  select(-leaid, -enrollment, -latitude, -longitude) |>
+  arrange(desc(scoScore), lea_name)
+
+datatable(
+  SCO_display_frame,
+  rownames = FALSE,
+  colnames = c(
+    "Corporation",
+    "Locale",
+    "%URM",
+    "%FRL",
+    "AcScore",
+    "SCOscore"
+    ),
+  caption = "School Corporation Opportunity Scores for Indiana school corporations.",
+  options = list(
+  pageLength = 5)
+  ) |>
+  formatStyle(columns = c(2), fontSize = "90%")
+
+```
+
+
+```{r display-map, results = "asis"}
+ggplotly(sco_map)
+```
+
 ```{r plot-beeswarm, results = "asis"}
 SCO_frame$urban_centric_locale <- factor(
   SCO_frame$urban_centric_locale,
@@ -406,20 +492,3 @@ urcl_swarm <- ggplot(
   )
 ggplotly(urcl_swarm)
 ```
-
-### Central Indiana
-
-```{r central-indiana-map}
-central_indiana_map <- sco_map +
-  coord_sf(xlim = c(-86.5, -85.75), ylim = c(39.5, 40.1), expand = FALSE) +
-  #xlim = c(-86.35, -85.9), ylim = c(39.62, 39.95)
-  geom_label(
-    data = SCO_frame,
-    aes(longitude, latitude,
-        label = lea_name),
-    color = "#191919",
-    size = 3
-    )
-print(central_indiana_map)
-```
-
