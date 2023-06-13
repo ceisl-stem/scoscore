@@ -66,6 +66,21 @@ library(akima)
 library(ggrepel)
 library(sf)
 library(showtext)
+
+ucl_palette <- c(
+  "City large" = "#990000",
+  "City midsize" = "#F23A3F",
+  "City small" = "#FF636A",
+  "Suburb large" = "#FFAA00",
+  "Suburb midsize" = "#FFD563",
+  "Suburb small" = "#FFE694",
+  "Town fringe" = "#056E41",
+  "Town distant" = "#63B363",
+  "Town remote" = "#A7D094",
+  "Rural fringe" = "#006298",
+  "Rural distant" = "#63B1D3",
+  "Rural remote" = "#94D2E7"
+)
 ```
 
 ```{r load-fonts, echo = FALSE, include=FALSE}
@@ -165,10 +180,9 @@ the [educationdata](https://github.com/UrbanInstitute/education-data-package-r) 
 
 ## School Corporation Opportunity Scores (SCOscores)
 
-The following map provides a big-picture overview of where the highest opportunity
-exists across the state.
-
 ```{r plot-heat-map, warning=FALSE}
+#| column: margin
+#| fig-cap: "Big-picture overview of where the highest opportunity exists across the state of Indiana."
 states <- sf::st_as_sf(map("state", region = "indiana", plot = FALSE, fill = TRUE))
 
 #  sc_map <- ggplot(data = states) +
@@ -269,7 +283,7 @@ SCO_heat_map <- ggplot(SCO_heat, aes(x = x, y = y, z = z, fill = z)) +
   coord_fixed() +
     theme_pubr() +
   theme(
-    legend.position = "right",
+    legend.position = "none",
     axis.title = element_blank(),
     axis.text = element_blank(),
     axis.ticks = element_blank(),
@@ -277,6 +291,149 @@ SCO_heat_map <- ggplot(SCO_heat, aes(x = x, y = y, z = z, fill = z)) +
   )
 ggsave(here("outputs", "heat_map.png"), SCO_heat_map, dpi = 300, width = 8.5, height = 11, units = "in")
 SCO_heat_map
+```
+
+The following is a density plot of the SCOscores across the state.
+
+```{r density-plot}
+density_plot <- ggdensity(SCO_frame, x = "scoScore", fill = "#990000", rug = TRUE) +
+  scale_x_continuous(limits = c(0, 2)) +
+  theme_pubr()
+density_plot
+```
+
+```{r sc-map, message = FALSE, warning=FALSE, output = FALSE}
+in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
+  filter(State == "Indiana") |>
+  select(leaid = GEOID, geometry) |>
+  mutate(leaid = as.numeric(leaid))
+
+SCO_frame <- SCO_frame |>
+  right_join(in_sc_shapes)
+
+school_corp_map <- st_as_sf(SCO_frame)
+
+# corp_map <- SCO_frame |>
+#   select(leaid, scoScore, geometry) |>
+#   st_as_sf(map("state", plot = FALSE, fill = TRUE))
+
+sco_map <- ggplot(data = states) +
+  geom_sf(data = states, fill = "#eeeeee") +
+  geom_sf(data = school_corp_map, color = "#243142", aes(
+    label = lea_name,
+    fill = scoScore)) +
+  scale_fill_steps2(
+    name = "SCOscore",
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.1,
+    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
+  ) +
+  coord_sf(xlim = c(-88.5, -84.5), ylim = c(37.5, 42), expand = FALSE) +
+  # annotate("text", x = -89.25, y = 40, label = "ILLINOIS") +
+  # annotate("text", x = -83.25, y = 40, label = "OHIO") +
+  # annotate("text", x = -84.75, y = 38, label = "KENTUCKY") +
+  theme_minimal()  +
+  theme(panel.grid.major = element_blank(),
+        # panel.background = element_rect(fill = "#E9F6FC"),
+        axis.text = element_blank(),
+        axis.title = element_blank())
+ggsave(here("outputs", "indiana_wo_campuses.png"), sco_map, dpi = 300, width = 9, height = 16, units = "in")
+```
+
+```{r hi-res-map}
+cities_frame <- data.frame(
+  city = c(
+    "IU Indianapolis",
+    "IU Northwest",
+    "IU South Bend",
+    "IU Ft Wayne",
+    "IU East",
+    "IU Bloomington",
+    "IU Kokomo",
+    "IU South East",
+    "IUPUC"
+  ),
+  latitude = c(
+    39.77733,
+    41.59393,
+    41.67453,
+    41.07438,
+    39.8245,
+    39.14494,
+    40.4768618,
+    38.3147169,
+    39.1977044
+  ),
+  longitude = c(
+    -86.15460,
+    -87.40824,
+    -86.24909,
+    -85.13782,
+    -84.90206,
+    -86.53058,
+    -86.2202796,
+    -85.9060672,
+    -86.0643281
+  )
+)
+
+hi_res_map <- sco_map +
+  geom_point(data = cities_frame, aes(x = longitude, y = latitude), color = "#243142", size = 2) +
+   geom_text_repel(data = cities_frame, aes(x = longitude, y = latitude, label = city), color = "#243142",
+                    nudge_x = c(-2, -1, 1, 1.25, 1, -2), nudge_y = c(0.25, -0.25, 0.25, -0.5, -0.5))
+ggsave(here("outputs", "indiana_w_campuses.png"), hi_res_map, dpi = 300, width = 9, height = 16, units = "in")
+hi_res_map
+```
+
+### Urban-Centric Locales
+
+The following are density plots of the SCOscores by urban-centric locale.
+
+```{r density-ucl-plot}
+SCO_frame$urban_centric_locale <- factor(
+  SCO_frame$urban_centric_locale,
+  levels = c(
+    "City large",
+    "City midsize",
+    "City small",
+    "Suburb large",
+    "Suburb midsize",
+    "Suburb small",
+    "Town fringe",
+    "Town distant",
+    "Town remote",
+    "Rural fringe",
+    "Rural distant",
+    "Rural remote"
+  )
+)
+SCO_frame <- SCO_frame |>
+  na.omit()
+density_ucl_plot <- ggdensity(
+  SCO_frame,
+  x = "scoScore",
+  color = "#243142",
+  fill = "urban_centric_locale",
+  rug = FALSE
+) +
+  facet_wrap(
+    ~urban_centric_locale,
+    ncol = 3
+  ) +
+  scale_fill_manual(values = ucl_palette) +
+  scale_x_continuous(limits = c(0, 2)) +
+  geom_vline(
+    xintercept = 1,
+    linetype = 3,
+    color = "#A7A9AB"
+  ) +
+  theme_pubr() +
+  theme(
+    legend.position = "none"
+  )
+density_ucl_plot
 ```
 
 The following plot provides the relative opportunity by NCES urban-centric locale categories:
@@ -356,45 +513,6 @@ The school corporations with SCOscores greater than 1 in Central Indiana are as 
 | MSD Washington Twp | 10,901 | 1.13 |
 | Perry Twp Schools | 16,603 | 1.11 |
 | Beech Grove City Schools | 2837 | 1.10 |
-
-```{r sc-map, message = FALSE, warning=FALSE, output = FALSE}
-in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
-  filter(State == "Indiana") |>
-  select(leaid = GEOID, geometry) |>
-  mutate(leaid = as.numeric(leaid))
-
-SCO_frame <- SCO_frame |>
-  right_join(in_sc_shapes)
-
-school_corp_map <- st_as_sf(SCO_frame)
-
-# corp_map <- SCO_frame |>
-#   select(leaid, scoScore, geometry) |>
-#   st_as_sf(map("state", plot = FALSE, fill = TRUE))
-
-sco_map <- ggplot(data = states) +
-  geom_sf(data = states, fill = "#eeeeee") +
-  geom_sf(data = school_corp_map, color = "#243142", aes(
-    label = lea_name,
-    fill = scoScore)) +
-  scale_fill_steps2(
-    name = "SCOscore",
-    low = "#FFF4C6",
-    high = "#990000",
-    mid = "#FFAA00",
-    midpoint = 1.1,
-    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
-  ) +
-  coord_sf(xlim = c(-88.5, -84.5), ylim = c(37.5, 42), expand = FALSE) +
-  # annotate("text", x = -89.25, y = 40, label = "ILLINOIS") +
-  # annotate("text", x = -83.25, y = 40, label = "OHIO") +
-  # annotate("text", x = -84.75, y = 38, label = "KENTUCKY") +
-  theme_minimal()  +
-  theme(panel.grid.major = element_blank(),
-        # panel.background = element_rect(fill = "#E9F6FC"),
-        axis.text = element_blank(),
-        axis.title = element_blank())
-```
 
 ```{r central-indiana-map}
 central_indiana_map <- sco_map +
