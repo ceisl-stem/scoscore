@@ -17,14 +17,16 @@ author:
     affiliation_url: https://education.iupui.edu/
 license: "CC BY-SA"
 code-annotations: true
+#mainfont: ETbb
 mainfont: spectral
-sansfont: rubik
+sansfont: "Gill Sans"
 monofont: "JetBrains Mono"
 format: html
 highlight-style: a11y
 code-overflow: wrap
 reference-location: margin
 cap-location: margin
+tbl-cap-location: margin
 link-external-icon: false
 link-external-newwindow: true
 repo-url: https://github.com/jeremyfprice/school-corporation-opportunity-score
@@ -32,12 +34,10 @@ citation:
   type: document
   issued: 2023
   url: https://github.com/jeremyfprice/school-corporation-opportunity-score
+  doi: 10.17605/OSF.IO/ZT9UX
 google-scholar: true
+bibliography: scoscores-references.bib
 ---
-
-<!--<style>
-.cell { font-family: "JetBrains Mono", mono; }
-</style>-->
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
@@ -62,7 +62,7 @@ library(edbuildmapr)
 library(maps)
 library(mapdata)
 library(ggmap)
-library(akima)
+#library(akima)
 library(ggrepel)
 library(sf)
 library(showtext)
@@ -84,7 +84,7 @@ ucl_palette <- c(
 ```
 
 ```{r load-fonts, echo = FALSE, include=FALSE}
-font_add_google("Rubik", "rubik", regular.wt = 700)
+#font_add_google("Rubik", "rubik", regular.wt = 700)
 font_add_google("JetBrains Mono", "jetbrains", regular.wt = 700)
 font_add_google("Spectral", "spectral", regular.wt = 700)
 ```
@@ -98,7 +98,10 @@ SCO_frame$frl_pct = round(SCO_frame$frl_pct, digits = 2)
 SCO_frame$academic = round(SCO_frame$academic, digits = 2)
 SCO_frame$scoScore = round(SCO_frame$scoScore, digits = 2)
 ```
+
 ## Introduction
+
+[This is an Open Access Project {{< ai open-access title='open access' >}}]{.aside}
 
 The School Corporation Opportunity Score (SCOscore) is a measure of potentiality for learners in a
 school community. It is a composite score that combines multiple factors, particularly structural
@@ -170,139 +173,59 @@ in which they are embedded. Other problematic issues with respect to oppression 
 [ability](https://dsq-sds.org/article/%20view/3187/3072) are well-documented.
 :::
 
+### SCO Scores and Critical Quantitative Methodologies
+
+The School Corporation Opportunity Score model can be seen as *consistent* with
+the five tenents of Critical Quantitative (QuantCrit) methodologies [@gillbornQuantCritEducationPolicy2018],
+or at least can be utilized in light of QuantCrit. In particular, the SCO scores model
+is *intended* to be utilized for social justice, recognizes the centrality of racism,
+pushes back on static categories, and through transparency attempts to illuminate
+that numbers are not neutral.
+
+We also recognize, however, that the SCO scores model *violates* several principal
+values of the QuantCrit methodology [@youngDecodingDataDichotomy2022]. SCO scores
+are based on comparative assumptions, comparing typically "successful" school corporations
+(predominantly white, predominantly wealthy) with those that are not. Even with
+an assets-based framing ("opportunity" rather than "need")--or at least a positive
+spin--school corporations that are predominantly white and wealthy "[hover] over
+Black and Latinx scores, which creates academic imagery that promotes racial
+achievement hierarchies and White supremacy" [@youngDecodingDataDichotomy2022, p. 392].
+Even though it is the school corporations with high Black, brown, immigrant,
+refugee, and poor populations that rise up, it still creates a sense of (inverted)
+hierarchies.
+
+What would an approach more tightly entwined with QuantCrit methodologies look like?
+The *single-group summary meta-analysis* proposed by Young and Young [-@youngDecodingDataDichotomy2022]
+provides guidance. Academic achievement--through the measures provided by the
+Indiana Department of Education's GPS Dashboard [@IndianaGraduatesPrepared]--can be examined over time for
+specific groups of interest (e.g., Black students, Latinx students, refugee students,
+recipients of free or reduced lunch, etc.) and an effect size can be calculated for
+each group independently. If the effect size for *any* particular group is less than
+or equal to 0.4, that school corporation becomes a high opportunity school corporation
+because the potential achievement of that group of students has not yet been realized.
+This would provide a much more textured and measured approach to understanding the
+experiences of under- or mis-supported student populations.
+
 ### Data Sources
 
 Data for these calculations are drawn from the following sources:
 
-* Indiana Department of Education's [Indiana Graduates Prepared to Succeed (GPS)](https://indianagps.doe.in.gov/)
+* Indiana Department of Education's [Indiana Graduates Prepared to Succeed (GPS)](https://indianagps.doe.in.gov/) Dashboard [@IndianaGraduatesPrepared].
 * Urban Institute's [Education Data Explorer](https://educationdata.urban.org/data-explorer) via
-the [educationdata](https://github.com/UrbanInstitute/education-data-package-r) R package
+the educationdata R package [@ueyamaEducationdata].
 
-## School Corporation Opportunity Scores (SCOscores)
+## School Corporation Opportunity Scores (SCO Scores)
 
-```{r plot-heat-map, warning=FALSE}
-#| column: margin
-#| fig-cap: "Big-picture overview of where the highest opportunity exists across the state of Indiana."
-states <- sf::st_as_sf(map("state", region = "indiana", plot = FALSE, fill = TRUE))
+This section will highlight three areas for consideration: School corporation SCO scores
+in central Indiana; SCO score trends across the state; and, a brief examination of
+SCO scores by urban-centric locale categories.
 
-#  sc_map <- ggplot(data = states) +
-#   geom_sf(data = states, fill = "#eeeeee") +
-#   geom_sf(data = school_corp_map, color = "#A7A9AB", aes(
-#     label = lea_name))
-# # base_map <- ggplot() +
-# #   geom_polygon(data = indiana_map, aes(x = long, y = lat, group = group), fill = "#eeeeee", color = "#243142") +
-# #   coord_map(xlim = range(indiana_map$long), ylim = range(indiana_map$lat))
-# 
-SCO_heat <- SCO_frame |>
-  select(longitude, latitude, scoScore)
-# 
-# cities_frame <- data.frame(
-#   city = c(
-#     "Indianapolis",
-#     "Gary",
-#     "South Bend",
-#     "Ft Wayne",
-#     "Richmond",
-#     "Bloomington",
-#     "Kokomo",
-#     "New Albany",
-#     "Columbus"
-#   ),
-#   latitude = c(
-#     39.77733,
-#     41.59393,
-#     41.67453,
-#     41.07438,
-#     39.8245,
-#     39.14494,
-#     40.4768618,
-#     38.3147169,
-#     39.1977044
-#   ),
-#   longitude = c(
-#     -86.15460,
-#     -87.40824,
-#     -86.24909,
-#     -85.13782,
-#     -84.90206,
-#     -86.53058,
-#     -86.2202796,
-#     -85.9060672,
-#     -86.0643281
-#   )
-# )
-# 
-# SCO_heat_map <- sc_map +
-#   stat_density2d(
-#     data = SCO_heat,
-#     aes(
-#       x = longitude,
-#       y = latitude,
-#       fill = ..level..,
-#       alpha = ..level..
-#     ),
-#     geom = "polygon", bins = 12
-#   ) +
-#   scale_fill_gradient(
-#     high = "#990000",
-#     low = "#FFF4C6"
-#   ) +
-#   geom_point(data = cities_frame, aes(x = longitude, y = latitude), color = "#243142", size = 3) +
-#   geom_text_repel(data = cities_frame, aes(x = longitude, y = latitude, label = city), color = "#243142",
-#                    nudge_x = c(-1.5, -1, 1, 1, 1, -2), nudge_y = c(0.25, -0.25, 0.25, -0.5, -0.5)) +
-#   theme_pubr() +
-#   theme(
-#     legend.position = "none",
-#     axis.title = element_blank(),
-#     axis.text = element_blank(),
-#     axis.ticks = element_blank(),
-#     axis.line = element_blank()
-#   )
-
-
-
-
-SCO_heat <- SCO_heat |>
-  na.omit()
-SCO_heat <- interp2xyz(interp(x=SCO_heat$longitude, y=SCO_heat$latitude, z=SCO_heat$scoScore, duplicate="mean"), data.frame=TRUE)
-SCO_heat <- SCO_heat |>
-    filter(!is.na(z)) |>
-  tbl_df()
-
-SCO_heat_map <- ggplot(SCO_heat, aes(x = x, y = y, z = z, fill = z)) + 
-  geom_tile() + 
-  geom_contour(color = "white", alpha = 0.05) + 
-    scale_fill_steps2(
-    name = "SCOscore",
-    low = "#FFF4C6",
-    high = "#990000",
-    mid = "#FFAA00",
-    midpoint = 1.1,
-    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
-  ) +
-  coord_fixed() +
-    theme_pubr() +
-  theme(
-    legend.position = "none",
-    axis.title = element_blank(),
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    axis.line = element_blank()
-  )
-ggsave(here("outputs", "heat_map.png"), SCO_heat_map, dpi = 300, width = 8.5, height = 11, units = "in")
-SCO_heat_map
-```
-
-The following is a density plot of the SCOscores across the state.
-
-```{r density-plot}
-density_plot <- ggdensity(SCO_frame, x = "scoScore", fill = "#990000", rug = TRUE) +
-  scale_x_continuous(limits = c(0, 2)) +
-  theme_pubr()
-density_plot
-```
+There is an [Indiana SCO Score Dashboard](https://jeremyfprice.github.io/SCOscore-dashboard/) available, in which you can explore
+the data in more detail and depth.
 
 ```{r sc-map, message = FALSE, warning=FALSE, output = FALSE}
+states <- sf::st_as_sf(map("state", region = "indiana", plot = FALSE, fill = TRUE))
+
 in_sc_shapes <- sd_shapepull("2019", with_data = TRUE) |>
   filter(State == "Indiana") |>
   select(leaid = GEOID, geometry) |>
@@ -342,7 +265,113 @@ sco_map <- ggplot(data = states) +
 ggsave(here("outputs", "indiana_wo_campuses.png"), sco_map, dpi = 300, width = 9, height = 16, units = "in")
 ```
 
+### Central Indiana
+
+The primary purpose of this model is to provide insight into identifying high-opportunity
+school corporations for IU-Indianapolis faculty, staff, and projects. The school corporations
+in Central Indiana (Indianapolis–Carmel–Anderson Metropolitan Statistical Area)
+with SCOscores greater than 1 are as follows:
+
+```{r display-table}
+#| label: tbl-central-indiana
+#| tbl-cap: School corporations in the Indianapolis–Carmel–Anderson Metropolitan Statistical Area with SCO scores greater than 1.
+
+table_frame <- data.frame(
+  "School Corporation" = c(
+    "Indianapolis Public Schools",
+    "MSD Warren Twp",
+    "MSD Wayne Twp",
+    "MSD Pike Twp",
+    "Anderson Community Schools",
+    "MSD Lawrence Twp",
+    "MSD Washington Twp",
+    "Perry Twp Schools",
+    "Beech Grove City Schools",
+    "MSD Decatur Twp"
+  ),
+  Enrollment = c(
+    22115,
+    11801,
+    16343,
+    10928,
+    6470,
+    16247,
+    10901,
+    16603,
+    2837,
+    6681
+  ),
+  "SCO Score" = c(
+    1.42,
+    1.42,
+    1.39,
+    1.37,
+    1.30,
+    1.29,
+    1.13,
+    1.11,
+    1.10,
+    1.07
+  )
+)
+
+library(knitr)
+kable(table_frame)
+```
+
+```{r central-indiana-map}
+#| label: fig-central-indiana-map
+#| fig-cap: "A map of school corporations in the Indianapolis–Carmel–Anderson Metropolitan Statistical Area with SCO scores."
+#| column: margin
+
+central_indiana_map <- sco_map +
+  coord_sf(xlim = c(-86.5, -85.45), ylim = c(39.5, 40.25), expand = FALSE) +
+  theme(legend.position = "top")
+
+central_indiana_map
+```
+
+Most of the high opportunity schools are centered in Marion County (with the notable
+exception of Anderson Community Schools). Indianapolis Public schools and the Metropolitan
+School District (MSD) of Warren Township are the school corporations with the *highest
+opportunity scores* in central Indiana, with a SCO score of 1.42. The MSD of Wayne
+Township and the MSD of Pike Township also have high opportunity scores (1.39 and 1.37,
+respectively). The other school corporations listed are also high opportunity.
+**Please note the sections above on inequalities within school corporations and the
+status of charter schools when reaching out to a specific school building.**
+
+### State Trends
+
+Overall, most of Indiana's school corporations' opportunity score fall under 1 (@fig-density-plot).
+This indicates that the majority of Indiana school corporations have low levels 
+of non-white students, low levels of students who qualify for free or reduced lunch,
+relatively high achievement, or some combination of the three. Many of the school
+corporations in Indiana fall between the 0.5 and 1 range. This doesn't mean that
+there *isn't* opportunity in these school corporations, particularly for those
+students who experience structure barriers and oppression; rather, as a matter of
+general priorities, the school corporations that score greater than 1 will see
+a higher level of potential in terms of growth.
+
+```{r density-plot}
+#| label: fig-density-plot
+#| fig-cap: "A density plot of SCO scores across the state of Indiana."
+
+density_plot <- ggdensity(SCO_frame, x = "scoScore", fill = "#990000", rug = TRUE) +
+  scale_x_continuous(limits = c(0, 2)) +
+  theme_pubr()
+density_plot
+```
+
+Over the state of Indiana as a whole (@fig-indiana-map), high opportunity school corporations are centered
+in Marion County (the Indianapolis area) and Lake County (the Northwest Region of
+Indiana). There are certainly other school corporations around the state that score
+above 1 in terms of opportunity, but they do not cluster in the same way as those
+in Marion and Lake Counties.
+
 ```{r hi-res-map}
+#| label: fig-indiana-map
+#| fig-cap: "A map of school corporations in Indiana with SCO scores."
+
 cities_frame <- data.frame(
   city = c(
     "IU Indianapolis",
@@ -387,11 +416,83 @@ ggsave(here("outputs", "indiana_w_campuses.png"), hi_res_map, dpi = 300, width =
 hi_res_map
 ```
 
-### Urban-Centric Locales
+### Urban-Centric Locale SCO Scores
 
-The following are density plots of the SCOscores by urban-centric locale.
+The National Center for Educational Statistics utilizes the [urban-centered locale](https://nces.ed.gov/pubs2007/ruraled/exhibit_a.asp)
+classification to categorize school districts and corporations into rural, town,
+suburban, and urban areas. These categories are further divided into large, medium,
+and small for urban and suburban areas and fringe, distant, and remote for towns and
+rural areas.
 
-```{r density-ucl-plot}
+::: {.callout-note}
+School corporations in Indiana span the full spectrum of these categories.
+While there is a higher *number of school corporations* that are rural, a much larger
+*number of students* attend urban and suburban schools.
+:::
+
+```{r}
+#| label: fig-donuts
+#| fig-cap: "Total enrollment and number of school corporations by urban-centered locale classification."
+
+urcl_frame <- SCO_frame |>
+  group_by(urban_centric_locale) |>
+  summarize(num = n(),
+            total_enrollment = sum(enrollment)) |>
+  na.omit()
+
+urcl_frame$urban_centric_locale <- factor(
+  urcl_frame$urban_centric_locale,
+  levels = c(
+    "City large",
+    "City midsize",
+    "City small",
+    "Suburb large",
+    "Suburb midsize",
+    "Suburb small",
+    "Town fringe",
+    "Town distant",
+    "Town remote",
+    "Rural fringe",
+    "Rural distant",
+    "Rural remote"
+  )
+)
+
+urcl_enrollment <- ggdonutchart(
+  urcl_frame,
+  "total_enrollment",
+  label = "urban_centric_locale",
+  fill = "urban_centric_locale",
+  font.label = list(size = 1),
+  palette = ucl_palette) +
+  theme(legend.position = "none")
+# urcl_enrollment
+# ggsave(here("outputs", "enrollment_donut.png"), urcl_enrollment, dpi = 300, width = 8.5, height = 11, units = "in")
+
+urcl_n <- ggdonutchart(
+  urcl_frame,
+  "num",
+  label = "urban_centric_locale",
+  fill = "urban_centric_locale",
+  palette = ucl_palette) +
+  theme(legend.position = "none")
+
+# urcl_n
+# ggsave(here("outputs", "scn_donut.png"), urcl_n, dpi = 300, width = 8.5, height = 11, units = "in")
+
+donut_charts <- ggarrange(urcl_enrollment, urcl_n, ncol = 2)
+donut_charts
+```
+
+@fig-beeswarm visualizes the SCO scores by urban-centered locale classification.
+Each of the dots represents an individual school corporation. This plot provides
+insight into how the school corporation opportunity scores are distributed across
+the urban-centered local classifications.
+
+```{r plot-beeswarm, results = "asis"}
+#| label: fig-beeswarm
+#| fig-cap: "Plot of SCO scores by urban-centered locale classification."
+
 SCO_frame$urban_centric_locale <- factor(
   SCO_frame$urban_centric_locale,
   levels = c(
@@ -411,34 +512,53 @@ SCO_frame$urban_centric_locale <- factor(
 )
 SCO_frame <- SCO_frame |>
   na.omit()
-density_ucl_plot <- ggdensity(
+urcl_swarm <- ggplot(
   SCO_frame,
-  x = "scoScore",
-  color = "#243142",
-  fill = "urban_centric_locale",
-  rug = FALSE
+  aes(
+  x = urban_centric_locale,
+  y = scoScore,
+  color = scoScore
+  )
 ) +
-  facet_wrap(
-    ~urban_centric_locale,
-    ncol = 3
+  geom_beeswarm(shape = 18, corral = "wrap", method = "hex", cex = 1.5) + # size = 3,  
+  geom_text_repel(aes(x = urban_centric_locale,
+                      y = scoScore,
+                      label = lea_name), size = 2.75, color = "#243142",
+                  max.overlaps = 8,
+                  point.padding = 0.5) +
+  annotate("segment", x = 0, xend = 12.5, y = 1, yend = 1, color = "#A7A9AB",
+           linetype = "dotted") +
+  #scale_color_manual(values = ucl_palette) +
+  scale_color_steps2(
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.1,
+    breaks = c(0, 0.5, 0.75, 1, 1.25, 1.5)
   ) +
-  scale_fill_manual(values = ucl_palette) +
-  scale_x_continuous(limits = c(0, 2)) +
-  geom_vline(
-    xintercept = 1,
-    linetype = 3,
-    color = "#A7A9AB"
-  ) +
+  ylim(0, 2) +
+  ylab("School Corporation Opportunity Score") +
+  xlab("NCES Urban-Centric Locale Category") +
   theme_pubr() +
   theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
     legend.position = "none"
   )
-density_ucl_plot
+urcl_swarm
 ```
 
-The following plot provides the relative opportunity by NCES urban-centric locale categories:
+We can then look at the *relative opportunity* for the various urban-centered locale
+classification (@fig-lolipop). The line in the center of the plot is the *mean relative opportunity.*
+As a class, school corporations in cities have higher relative opportunity than in
+other locales. This does not mean that there are not high opportunity school
+corporations in other locale classifications (there are), but rather this provides
+a sense of high-level priority which can then be broken down further and examined
+locally and in context.
 
 ```{r sco-lolipop}
+#| label: fig-lolipop
+#| fig-cap: "Plot of relative SCO scores by urban-centered locale classification."
+
 sco_lol <- SCO_frame |>
   mutate(weight = enrollment * scoScore) |>
   group_by(urban_centric_locale) |>
@@ -497,118 +617,17 @@ ggsave(here("outputs", "relative_opp.png"), compare.graph2, dpi = 300, width = 1
 compare.graph2
 ```
 
+## Repositories {.appendix}
 
-### Central Indiana
+Repositories that connect with this project can be found in the following locations.
 
-The school corporations with SCOscores greater than 1 in Central Indiana are as follows:
+* {{< ai osf >}} [OSF Repository](https://osf.io/zt9ux/?view_only=f7d37922696b4627b9081edf694bd96d) {{< ai open-data >}}
+* {{< fa brands github >}} [Github Repository](https://github.com/jeremyfprice/scoscore) {{< ai open-materials >}}
 
-| School Corporation | Enrollment | SCOscore |
-|--------------------|------------|----------|
-| Indianapolis Public Schools | 22,115 | 1.42 |
-| MSD Warren Twp | 11,801 | 1.42 |
-| MSD Wayne Twp | 16,343 | 1.39 |
-| MSD Pike Twp | 10,928 | 1.37 |
-| Anderson Community Schools | 6470 | 1.30 |
-| MSD Lawrence Twp | 16,247 | 1.29 |
-| MSD Washington Twp | 10,901 | 1.13 |
-| Perry Twp Schools | 16,603 | 1.11 |
-| Beech Grove City Schools | 2837 | 1.10 |
+## Session Information {.appendix}
 
-```{r central-indiana-map}
-central_indiana_map <- sco_map +
-  coord_sf(xlim = c(-86.5, -85.75), ylim = c(39.5, 40.1), expand = FALSE)# +
-  #xlim = c(-86.35, -85.9), ylim = c(39.62, 39.95)
-  # geom_label(
-  #   data = SCO_frame,
-  #   aes(longitude, latitude,
-  #       label = lea_name),
-  #   color = "#191919",
-  #   size = 3
-  #   )
-ggplotly(central_indiana_map)
-```
+Session information is provided for reproducibility purposes.
 
-## Indiana SCOscoreData Explorer
-
-All elements from here are interactive and may be used to explore the SCOscore
-data set.
-
-```{r}
-
-SCO_display_frame <- SCO_frame |>
-  select(lea_name, urban_centric_locale, enrollment, urm_pct, frl_pct, academic, scoScore) |>
-  arrange(desc(scoScore), desc(enrollment), lea_name) |>
-  na.omit()
-#  select(-enrollment)
-
-datatable(
-  SCO_display_frame,
-  rownames = FALSE,
-  colnames = c(
-    "Corporation",
-    "Locale",
-    "Enrollment",
-    "%URM",
-    "%FRL",
-    "AcScore",
-    "SCOscore"
-    ),
-  options = list(
-  pageLength = 5)
-  ) |>
-  formatStyle(columns = c(2), fontSize = "90%")
-
-```
-
-
-```{r display-map, results = "asis"}
-ggplotly(sco_map)
-```
-
-```{r plot-beeswarm, results = "asis"}
-SCO_frame$urban_centric_locale <- factor(
-  SCO_frame$urban_centric_locale,
-  levels = c(
-    "City large",
-    "City midsize",
-    "City small",
-    "Suburb large",
-    "Suburb midsize",
-    "Suburb small",
-    "Town fringe",
-    "Town distant",
-    "Town remote",
-    "Rural fringe",
-    "Rural distant",
-    "Rural remote"
-  )
-)
-urcl_swarm <- ggplot(
-  SCO_frame,
-  aes(
-    label = lea_name,
-    x = urban_centric_locale,
-    y = scoScore,
-    color = scoScore
-  )
-) +
-  geom_beeswarm(cex = 1.5, corral = "wrap", shape = 18, size = 1) + #, method = "center"
-  annotate("segment", x = 0, xend = 12.5, y = 1, yend = 1, color = "#A7A9AB",
-           linetype = "dotted") +
-  scale_color_steps2(
-    low = "#FFF4C6",
-    high = "#990000",
-    mid = "#FFAA00",
-    midpoint = 1.1,
-    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
-  ) +
-  ylim(0, 2) +
-  ylab("School Corporation Opportunity Score") +
-  xlab("NCES Urban-Centric Locale Category") +
-  theme_pubr() +
-  theme(
-    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
-    legend.position = "none"
-  )
-ggplotly(urcl_swarm)
+```{r print-session-info, purl=FALSE}
+sessioninfo::session_info(pkgs = "attached")
 ```
