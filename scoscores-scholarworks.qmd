@@ -28,11 +28,11 @@ cap-location: margin
 tbl-cap-location: margin
 link-external-icon: false
 link-external-newwindow: true
-repo-url: https://github.com/jeremyfprice/school-corporation-opportunity-score
+repo-url: https://github.com/jeremyfprice/scoscore
 citation:
   type: document
   issued: 2023
-  url: https://github.com/jeremyfprice/school-corporation-opportunity-score
+  url: https://github.com/jeremyfprice/scoscore
   doi: 10.17605/OSF.IO/ZT9UX
 google-scholar: true
 bibliography: scoscores-references.bib
