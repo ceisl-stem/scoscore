@@ -53,7 +53,6 @@ library(readr)
 library(tidyr)
 library(dplyr)
 library(here)
-library(DT)
 library(ggplot2)
 library(ggpubr)
 library(plotly)
@@ -62,8 +61,10 @@ library(edbuildmapr)
 library(maps)
 library(mapdata)
 library(ggmap)
+library(moments)
 #library(akima)
 library(ggrepel)
+library(knitr)
 library(sf)
 library(showtext)
 
@@ -265,6 +266,14 @@ sco_map <- ggplot(data = states) +
 ggsave(here("outputs", "indiana_wo_campuses.png"), sco_map, dpi = 300, width = 9, height = 16, units = "in")
 ```
 
+```{r calculate-skew}
+sco_vector <- SCO_frame$scoScore |>
+  na.omit()
+sco_vector <- as.numeric(sco_vector)
+sco_skew <<- skewness(sco_vector)
+sco_kurt <<- kurtosis(sco_vector)
+```
+
 ### Central Indiana
 
 The primary purpose of this model is to provide insight into identifying high-opportunity
@@ -314,8 +323,6 @@ table_frame <- data.frame(
     1.07
   )
 )
-
-library(knitr)
 kable(table_frame)
 ```
 
@@ -329,6 +336,8 @@ central_indiana_map <- sco_map +
   theme(legend.position = "top")
 
 central_indiana_map
+ggsave(here("outputs", "central_indiana_map.pdf"), central_indiana_map, dpi = 300, width = 8.5, height = 11, units = "in")
+
 ```
 
 Most of the high opportunity schools are centered in Marion County (with the notable
@@ -342,10 +351,13 @@ status of charter schools when reaching out to a specific school building.**
 
 ### State Trends
 
-Overall, most of Indiana's school corporations' opportunity score fall under 1 (@fig-density-plot).
-This indicates that the majority of Indiana school corporations have low levels 
-of non-white students, low levels of students who qualify for free or reduced lunch,
-relatively high achievement, or some combination of the three. Many of the school
+Overall, most of Indiana's school corporations' opportunity score fall under 1 (@fig-density-plot),
+with the skewness for the distribution calculated at `r round(sco_skew, digits=3) `
+and the kurtosis calculated at `r round(sco_kurt, digits = 3) `. With a skewness greater than 1,
+the data is highly concentrated to the left (relatively low opportunity scores) and sharply
+peaked (relatively highly concentrated opportunity scores) given a kurtosis greater than 3.
+
+Many of the school
 corporations in Indiana fall between the 0.5 and 1 range. This doesn't mean that
 there *isn't* opportunity in these school corporations, particularly for those
 students who experience structure barriers and oppression; rather, as a matter of
@@ -413,7 +425,71 @@ hi_res_map <- sco_map +
    geom_text_repel(data = cities_frame, aes(x = longitude, y = latitude, label = city), color = "#243142",
                     nudge_x = c(-2, -1, 1, 1.25, 1, -2), nudge_y = c(0.25, -0.25, 0.25, -0.5, -0.5))
 ggsave(here("outputs", "indiana_w_campuses.png"), hi_res_map, dpi = 300, width = 9, height = 16, units = "in")
+ggsave(here("outputs", "indiana_w_campuses.pdf"), hi_res_map, dpi = 300, width = 8.5, height = 11, units = "in")
+
 hi_res_map
+```
+
+We can look at how the different factors interact for Indiana school corporations
+in @fig-3dscatter. The plots are divided by SCO Score ranges, and demonstrate how
+the percentage of students who under-represented minority communities, and school
+corporation academic scores interact to result in ranges of School Corporation
+Opportunity Scores.
+
+```{r 3d-scatter}
+#| label: fig-3dscatter
+#| fig-cap: "Scatter plots of SCO scores for school corporations in Indiana by percent non-white, percent free/reduced lunch, and academic scores."
+
+SCO_scatter_frame <- SCO_frame |>
+  select(urm_pct, frl_pct, academic, scoScore) |>
+  mutate(academic_cat = case_when(
+    academic < 1.5 ~ "Academic Scores 1.0 - 1.4",
+    academic < 1.75 & academic >= 1.5 ~ "Academic Scores 1.5 - 1.74",
+    academic < 2 & academic >= 1.75 ~ "Academic Scores 1.75 - 1.99",
+    academic >= 2 ~ "Academic Scores 2.0 - 2.5"
+  )) |>
+  mutate(sco_cat = case_when(
+    scoScore < 0.6 ~ "SCO Scores 0.00 - 0.59",
+    scoScore < 0.8 & scoScore >= 0.6 ~ "SCO Scores 0.60 - 0.79",
+    scoScore < 1 & scoScore >= 0.8 ~ "SCO Scores 0.80 - 0.99",
+    scoScore < 1.2 & scoScore >= 1 ~ "SCO Scores 1.00 - 1.19",
+    scoScore < 1.4 & scoScore >= 1.2 ~ "SCO Scores 1.20 - 1.39",
+    scoScore >= 1.4 ~ "SCO Scores 1.40 - 2.00"
+  )) |>
+  na.omit()
+
+SCO_scatter <- ggscatter(
+  SCO_scatter_frame,
+  x = "urm_pct",
+  y = "frl_pct",
+  color = "academic",
+  xlab = "Percent of Under-Represented Minority Students",
+  ylab = "Percent of Free or Reduced Lunch Students",
+  size = 0.5
+) +
+  scale_color_steps2(
+    low = "#FFF4C6",
+    high = "#990000",
+    mid = "#FFAA00",
+    midpoint = 1.76,
+    breaks = c(1, 1.5, 1.75, 2)
+  ) +
+  theme_pubr()
+SCO_scatter <- SCO_scatter |>
+  facet(
+    facet.by = "sco_cat",
+    ncol = 3,
+    nrow = 2,
+    panel.labs.background = list(
+      color = "#243142",
+      fill = "#eeeeee"
+    )
+  ) |>
+  ggpar(
+    legend.title = "Academic Score"
+  )
+
+SCO_scatter
 ```
 
 ### Urban-Centric Locale SCO Scores
@@ -427,7 +503,7 @@ rural areas.
 ::: {.callout-note}
 School corporations in Indiana span the full spectrum of these categories.
 While there is a higher *number of school corporations* that are rural, a much larger
-*number of students* attend urban and suburban schools.
+*number of students* attend urban and suburban schools, as demonstrated in @fig-donuts.
 :::
 
 ```{r}
@@ -534,7 +610,7 @@ urcl_swarm <- ggplot(
     high = "#990000",
     mid = "#FFAA00",
     midpoint = 1.1,
-    breaks = c(0, 0.5, 0.75, 1, 1.25, 1.5)
+    breaks = c(0, 0.6, 0.8, 1, 1.2, 1.4)
   ) +
   ylim(0, 2) +
   ylab("School Corporation Opportunity Score") +
@@ -545,6 +621,7 @@ urcl_swarm <- ggplot(
     legend.position = "none"
   )
 urcl_swarm
+ggsave(here("outputs", "ucl-scoscores.pdf"), urcl_swarm, dpi = 300, width = 11, height = 8.5, units = "in")
 ```
 
 We can then look at the *relative opportunity* for the various urban-centered locale
