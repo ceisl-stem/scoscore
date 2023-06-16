@@ -57,12 +57,13 @@ library(ggplot2)
 library(ggpubr)
 library(plotly)
 library(ggbeeswarm)
+#library(ggstatsplot)
 library(edbuildmapr)
 library(maps)
 library(mapdata)
 library(ggmap)
 library(moments)
-#library(akima)
+#library(ggpp)
 library(ggrepel)
 library(knitr)
 library(sf)
@@ -338,6 +339,13 @@ central_indiana_map <- sco_map +
 central_indiana_map
 ggsave(here("outputs", "central_indiana_map.pdf"), central_indiana_map, dpi = 300, width = 8.5, height = 11, units = "in")
 
+#inset_small <- central_indiana_map +
+#  theme(legend.position = "none")
+
+#inset_map <- sco_map +
+#  annotate("plot_npc", npcx = "right", npcy = "bottom", label = inset_small) +
+#  expand_limits(y = 20, x = 20)
+#inset_map
 ```
 
 Most of the high opportunity schools are centered in Marion County (with the notable
@@ -441,7 +449,7 @@ Opportunity Scores.
 #| fig-cap: "Scatter plots of SCO scores for school corporations in Indiana by percent non-white, percent free/reduced lunch, and academic scores."
 
 SCO_scatter_frame <- SCO_frame |>
-  select(urm_pct, frl_pct, academic, scoScore) |>
+  select(urm_pct, frl_pct, academic, scoScore, enrollment) |>
   mutate(academic_cat = case_when(
     academic < 1.5 ~ "Academic Scores 1.0 - 1.4",
     academic < 1.75 & academic >= 1.5 ~ "Academic Scores 1.5 - 1.74",
@@ -463,17 +471,24 @@ SCO_scatter <- ggscatter(
   x = "urm_pct",
   y = "frl_pct",
   color = "academic",
+  size = "enrollment",
   xlab = "Percent of Under-Represented Minority Students",
-  ylab = "Percent of Free or Reduced Lunch Students",
-  size = 0.5
+  ylab = "Percent of Free or Reduced Lunch Students"#,
+  #size = 0.5
 ) +
   scale_color_steps2(
+    name = "Academic Score",
     low = "#FFF4C6",
     high = "#990000",
     mid = "#FFAA00",
     midpoint = 1.76,
     breaks = c(1, 1.5, 1.75, 2)
   ) +
+  scale_size_binned(
+    breaks = c(1000, 5000, 10000, 15000, 20000),
+    labels = c("1K", "5k", "10k", "15K", "20k"),
+    name = "Enrollment"
+    ) +
   theme_pubr()
 SCO_scatter <- SCO_scatter |>
   facet(
@@ -484,10 +499,10 @@ SCO_scatter <- SCO_scatter |>
       color = "#243142",
       fill = "#eeeeee"
     )
-  ) |>
-  ggpar(
-    legend.title = "Academic Score"
-  )
+  ) #|>
+  #ggpar(
+  #  legend.title = "Academic Score"
+  #)
 
 SCO_scatter
 ```
@@ -593,7 +608,8 @@ urcl_swarm <- ggplot(
   aes(
   x = urban_centric_locale,
   y = scoScore,
-  color = scoScore
+  color = scoScore,
+  size = enrollment
   )
 ) +
   geom_beeswarm(shape = 18, corral = "wrap", method = "hex", cex = 1.5) + # size = 3,  
@@ -622,6 +638,23 @@ urcl_swarm <- ggplot(
   )
 urcl_swarm
 ggsave(here("outputs", "ucl-scoscores.pdf"), urcl_swarm, dpi = 300, width = 11, height = 8.5, units = "in")
+
+# set.seed(123)
+# 
+# ggbetweenstats(
+#   data  = SCO_frame,
+#   x     = urban_centric_locale,
+#   y     = scoScore
+# )
+# 
+# set.seed(123)
+# 
+# gghistostats(
+#   data       = SCO_frame,
+#   x          = scoScore,
+#   test.value = 12,
+#   binwidth   = 0.1
+# )
 ```
 
 We can then look at the *relative opportunity* for the various urban-centered locale
