@@ -1,0 +1,10 @@
+ncessch,school_id,lea_name,leaid,school_name,latitude,longitude,urban_centric_locale,school_level,frl,enrollment,frl_pct,white,black,hispanic,asian,amerindian,pacislander,more,total,urm_total,urm_pct
+180015000020,1800020,Anderson Community School Corp,1800150,Edgewood Elementary School,40.107437,-85.733402,City small,Primary,161,265,0.6075471698113207,132,92,16,0,0,0,51,291,159,0.5463917525773195
+180015002109,1802109,Anderson Community School Corp,1800150,Eastside Elementary School,40.1241,-85.6521,City small,Primary,317,493,0.6430020283975659,425,93,52,2,0,0,63,635,210,0.33070866141732286
+180015000029,1800029,Anderson Community School Corp,1800150,Anderson High School,40.0661,-85.6912,City small,High,1207,1837,0.6570495372890582,1049,438,209,9,4,0,139,1848,799,0.43235930735930733
+180015000044,1800044,Anderson Community School Corp,1800150,Valley Grove Elementary School,40.0746,-85.6139,Rural fringe,Primary,263,378,0.6957671957671958,358,118,43,2,0,0,59,580,222,0.38275862068965516
+180015002110,1802110,Anderson Community School Corp,1800150,Erskine Elementary School,40.0529,-85.6902,City small,Primary,293,402,0.7288557213930348,350,130,71,2,0,0,84,637,287,0.45054945054945056
+180015002483,1802483,Anderson Community School Corp,1800150,Highland Middle School,40.136716,-85.630374,City small,Middle,735,991,0.7416750756811302,791,315,194,3,2,0,116,1421,630,0.4433497536945813
+180015002623,1802623,Anderson Community School Corp,1800150,COMPASS Alternative School,40.096061,-85.715677,City small,Secondary,37,48,0.7708333333333334,26,31,10,0,0,0,8,75,49,0.6533333333333333
+180015000041,1800041,Anderson Community School Corp,1800150,Tenth Street Elementary School,40.1071,-85.6366,City small,Primary,408,489,0.8343558282208589,398,118,44,2,3,0,74,639,241,0.37715179968701096
+180015001847,1801847,Anderson Community School Corp,1800150,Anderson Elementary School,40.0958,-85.7137,City small,Primary,322,377,0.8541114058355438,155,150,257,1,0,0,62,625,470,0.752

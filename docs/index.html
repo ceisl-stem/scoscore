@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -81,7 +81,8 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -202,6 +203,107 @@ f(S_a^\prime) = \begin{cases}
 \end{cases}
 \]</span></p>
 <p>where <span class="math inline">\(S_a\)</span> is the school corporation average proficiency or completion rate and <span class="math inline">\(S_{IN}\)</span> is the state-level average proficiency or completion rate.</p>
+<section id="fairness-and-counterfactual-inclusion" class="level3">
+<h3 class="anchored" data-anchor-id="fairness-and-counterfactual-inclusion">Fairness and Counterfactual Inclusion</h3>
+<p>A counterfactual analysis is an examination of data through which alternate realities are considered. If the situtation and demographics were different, would a school corporation demonstrate a SCOscore greater than 1, that is, demonstrate that school corporation should receive attention because of unrealized potential?</p>
+<p>A counterfactual analysis is therefore conducted on school corporations that demonstrate an adjusted academic score one standard deviation above the mean. If the proportion of non-white students is below the state mean, then the percentage is artificially increased to the state mean; the same occurs with the proportion of students who receive free and reduced lunch.</p>
+<p>The SCOscore is then recalculated based on those counterfactual variables. The following</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 10%">
+<col style="width: 17%">
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">School Corporation</th>
+<th style="text-align: right;">Enrollment</th>
+<th style="text-align: right;">Percent Non-White</th>
+<th style="text-align: right;">Percent FRL</th>
+<th style="text-align: right;">Academic Score</th>
+<th style="text-align: right;">SCO Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mississinewa Community School Corp</td>
+<td style="text-align: right;">2490</td>
+<td style="text-align: right;">18.03</td>
+<td style="text-align: right;">63.78</td>
+<td style="text-align: right;">1.73</td>
+<td style="text-align: right;">1.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Crothersville Community Schools</td>
+<td style="text-align: right;">482</td>
+<td style="text-align: right;">7.26</td>
+<td style="text-align: right;">60.79</td>
+<td style="text-align: right;">1.76</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hamilton Community Schools</td>
+<td style="text-align: right;">359</td>
+<td style="text-align: right;">6.69</td>
+<td style="text-align: right;">36.49</td>
+<td style="text-align: right;">2.08</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Monroe-Gregg School District</td>
+<td style="text-align: right;">1539</td>
+<td style="text-align: right;">7.08</td>
+<td style="text-align: right;">32.10</td>
+<td style="text-align: right;">2.07</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">North Vermillion Com Sch Corp</td>
+<td style="text-align: right;">694</td>
+<td style="text-align: right;">5.76</td>
+<td style="text-align: right;">47.26</td>
+<td style="text-align: right;">2.05</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">North Gibson School Corporation</td>
+<td style="text-align: right;">1921</td>
+<td style="text-align: right;">18.01</td>
+<td style="text-align: right;">41.80</td>
+<td style="text-align: right;">2.03</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Edinburgh Community School Corp</td>
+<td style="text-align: right;">849</td>
+<td style="text-align: right;">12.60</td>
+<td style="text-align: right;">66.20</td>
+<td style="text-align: right;">1.73</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Statistical Analyses are Never Politically Neutral
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Blah blah blah.</p>
+</div>
+</div>
+</section>
 <section id="acknowledging-inequality-within-school-corporations" class="level3">
 <h3 class="anchored" data-anchor-id="acknowledging-inequality-within-school-corporations">Acknowledging Inequality <em>Within</em> School Corporations</h3>
 <p>It needs to be recognized that there is the potential for inequality <em>within</em> a single school corporation and the SCOscore is calculated based on reported <em>averages</em> across all schools in the corporation. The school corporation-level score should be considered within the local building context. A building or school-level score can be calculated using the same general equation:</p>
@@ -248,6 +350,15 @@ Charter Schools
 <div class="cell">
 
 </div>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
 <section id="central-indiana" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="central-indiana">Central Indiana</h3>
 <p>The primary purpose of this model is to provide insight into identifying high-opportunity school corporations for IU-Indianapolis faculty, staff, and projects. The school corporations in Central Indiana (Indianapolis–Carmel–Anderson Metropolitan Statistical Area) with SCOscores greater than 1 are as follows:</p>
@@ -258,9 +369,9 @@ Charter Schools
 
 <thead>
 <tr class="header">
-<th style="text-align: left;">School.Corporation</th>
+<th style="text-align: left;">School Corporation</th>
 <th style="text-align: right;">Enrollment</th>
-<th style="text-align: right;">SCO.Score</th>
+<th style="text-align: right;">SCO Score</th>
 </tr>
 </thead>
 <tbody>
@@ -333,7 +444,7 @@ Charter Schools
 </section>
 <section id="state-trends" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="state-trends">State Trends</h3>
-<p>Overall, most of Indiana’s school corporations’ opportunity score fall under 1 (<a href="#fig-density-plot">Figure&nbsp;2</a>), with the skewness for the distribution calculated at 1.222 and the kurtosis calculated at 4.088. With a skewness greater than 1, the data is highly concentrated to the left (relatively low opportunity scores) and sharply peaked (relatively highly concentrated opportunity scores) given a kurtosis greater than 3.</p>
+<p>Overall, most of Indiana’s school corporations’ opportunity score fall under 1 (<a href="#fig-density-plot">Figure&nbsp;2</a>), with the skewness for the distribution calculated at 1.198 and the kurtosis calculated at 3.994. With a skewness greater than 1, the data is highly concentrated to the left (relatively low opportunity scores) and sharply peaked (relatively highly concentrated opportunity scores) given a kurtosis greater than 3.</p>
 <p>Many of the school corporations in Indiana fall between the 0.5 and 1 range. This doesn’t mean that there <em>isn’t</em> opportunity in these school corporations, particularly for those students who experience structure barriers and oppression; rather, as a matter of general priorities, the school corporations that score greater than 1 will see a higher level of potential in terms of growth.</p>
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
@@ -366,6 +477,9 @@ Charter Schools
 </figure>
 </div>
 </div>
+</div>
+<div class="cell">
+
 </div>
 </section>
 <section id="urban-centric-locale-sco-scores" class="level3 page-columns page-full">
@@ -431,16 +545,16 @@ Note
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────
 #&gt;  setting  value
-#&gt;  version  R version 4.3.0 (2023-04-21)
-#&gt;  os       macOS Ventura 13.4
+#&gt;  version  R version 4.3.1 (2023-06-16)
+#&gt;  os       macOS Ventura 13.5.2
 #&gt;  system   aarch64, darwin20
 #&gt;  ui       X11
 #&gt;  language (EN)
 #&gt;  collate  en_US.UTF-8
 #&gt;  ctype    en_US.UTF-8
 #&gt;  tz       America/Indiana/Indianapolis
-#&gt;  date     2023-06-16
-#&gt;  pandoc   3.1.3 @ /opt/homebrew/bin/ (via rmarkdown)
+#&gt;  date     2023-09-12
+#&gt;  pandoc   3.1.4 @ /opt/homebrew/bin/ (via rmarkdown)
 #&gt; 
 #&gt; ─ Packages ───────────────────────────────────────────────────────────────────
 #&gt;  package     * version date (UTC) lib source
@@ -448,17 +562,18 @@ Note
 #&gt;  edbuildmapr * 0.3.1   2021-06-15 [1] CRAN (R 4.3.0)
 #&gt;  ggbeeswarm  * 0.7.2   2023-04-29 [1] CRAN (R 4.3.0)
 #&gt;  ggmap       * 3.0.2   2023-03-14 [1] CRAN (R 4.3.0)
-#&gt;  ggplot2     * 3.4.2   2023-04-03 [1] CRAN (R 4.3.0)
+#&gt;  ggplot2     * 3.4.3   2023-08-14 [1] CRAN (R 4.3.0)
 #&gt;  ggpubr      * 0.6.0   2023-02-10 [1] CRAN (R 4.3.0)
 #&gt;  ggrepel     * 0.9.3   2023-02-03 [1] CRAN (R 4.3.0)
 #&gt;  here        * 1.0.1   2020-12-13 [1] CRAN (R 4.3.0)
-#&gt;  knitr       * 1.42    2023-01-25 [1] CRAN (R 4.3.0)
+#&gt;  knitr       * 1.43    2023-05-25 [1] CRAN (R 4.3.0)
 #&gt;  mapdata     * 2.3.1   2022-11-01 [1] CRAN (R 4.3.0)
 #&gt;  maps        * 3.4.1   2022-10-30 [1] CRAN (R 4.3.0)
 #&gt;  moments     * 0.14.1  2022-05-02 [1] CRAN (R 4.3.0)
 #&gt;  plotly      * 4.10.2  2023-06-03 [1] CRAN (R 4.3.0)
 #&gt;  readr       * 2.1.4   2023-02-10 [1] CRAN (R 4.3.0)
-#&gt;  sf          * 1.0-13  2023-05-24 [1] CRAN (R 4.3.0)
+#&gt;  scales      * 1.2.1   2022-08-20 [1] CRAN (R 4.3.0)
+#&gt;  sf          * 1.0-14  2023-07-11 [1] CRAN (R 4.3.0)
 #&gt;  showtext    * 0.9-6   2023-05-03 [1] CRAN (R 4.3.0)
 #&gt;  showtextdb  * 3.0     2020-06-04 [1] CRAN (R 4.3.0)
 #&gt;  sysfonts    * 0.8.8   2022-03-13 [1] CRAN (R 4.3.0)

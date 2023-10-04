@@ -68,6 +68,9 @@ library(ggrepel)
 library(knitr)
 library(sf)
 library(showtext)
+#library(ggcorrplot)
+library(scales)
+#library(effectsize)
 
 ucl_palette <- c(
   "City large" = "#990000",
@@ -144,6 +147,45 @@ $$
 
 where $S_a$ is the school corporation average proficiency or completion rate and 
 $S_{IN}$ is the state-level average proficiency or completion rate.
+
+### Fairness and Counterfactual Inclusion
+
+A counterfactual analysis is an examination of data through which alternate
+realities are considered. If the situtation and demographics were different, would
+a school corporation demonstrate a SCOscore greater than 1, that is, demonstrate
+that school corporation should receive attention because of unrealized potential?
+
+A counterfactual analysis is therefore conducted on school corporations that
+demonstrate an adjusted academic score one standard deviation above the mean.
+If the proportion of non-white students is below the state mean, then the percentage
+is artificially increased to the state mean; the same occurs with the proportion of
+students who receive free and reduced lunch.
+
+The SCOscore is then recalculated based on those counterfactual variables. The
+following
+
+```{r cf-scoscores}
+display_frame <- SCO_frame |>
+  filter(cf == TRUE) |>
+  select(lea_name, enrollment, urm_pct, frl_pct, academic, scoScore) |>
+  #rename(School.Corporation = lea_name) |>
+  arrange(desc(scoScore), desc(academic), lea_name)
+kable(
+  display_frame,
+  col.names = c(
+    "School Corporation",
+    "Enrollment",
+    "Percent Non-White",
+    "Percent FRL",
+    "Academic Score",
+    "SCO Score"
+  ))
+```
+
+::: {.callout-important}
+## Statistical Analyses are Never Politically Neutral
+Blah blah blah.
+:::
 
 ### Acknowledging Inequality *Within* School Corporations
 
@@ -275,6 +317,110 @@ sco_skew <<- skewness(sco_vector)
 sco_kurt <<- kurtosis(sco_vector)
 ```
 
+```{r calculate-corr, eval=FALSE}
+sco_corr_frame <- SCO_frame |>
+  select(urm_pct, frl_pct, enrollment, urban_centric_locale, academic) |>
+  mutate(
+    urban_centric_locale = plyr::mapvalues(
+      urban_centric_locale,
+      from = c(
+        "City large",
+        "City midsize",
+        "City small",
+        "Suburb large",
+        "Suburb midsize",
+        "Suburb small",
+        "Town fringe",
+        "Town distant",
+        "Town remote",
+        "Rural fringe",
+        "Rural distant",
+        "Rural remote"
+      ),
+      to = c(
+        12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
+      ))) |>
+  mutate(urban_centric_locale = as.numeric(urban_centric_locale))
+
+library(corrplot)
+corr <- cor(sco_corr_frame)
+p_mat <- cor_pmat((sco_corr_frame))
+# corrplot::corrplot(corr)
+
+sco_corr_plot <- ggcorrplot(
+  corr,
+  lab = TRUE,
+  outline.color = "white",
+  #hc.order = TRUE,
+  type = "lower",
+  colors = c("#006298", "white", "#990000"),
+  #p.mat = p_mat,
+  #insig = "blank"
+  )
+ggsave(here("outputs", "corr_plot.png"), sco_corr_plot, dpi = 300, width = 16, height = 16, units = "in")
+sco_corr_plot
+```
+
+
+```{r scoglm, eval=FALSE}
+sco_glm_frame <- SCO_frame |>
+  select(frl_pct, urm_pct, academic)
+frl_glm <- glm(academic ~ frl_pct,
+  data = sco_glm_frame)
+urm_glm <- glm(academic ~ urm_pct,
+  data = sco_glm_frame)
+# model_glm <- glm(academic ~ frl_pct * urm_pct,
+#   data = sco_glm_frame)
+# print(summary(frl_glm))
+# print(summary(urm_glm))
+frl_eff <- effectsize(frl_glm, method = "smart")
+print(frl_eff)
+urm_eff <- effectsize(urm_glm, method = "smart")
+print(urm_eff)
+# model_eff <- effectsize(model_glm, method = "smart")
+# print(model_eff)
+
+library(stargazer)
+stargazer(frl_glm, urm_glm, type = "text")
+#stargazer(model_glm, type = "text")
+```
+
+
+```{r ternplot, eval = FALSE}
+library(ggtern)
+set.seed(123)
+tern_frame <- SCO_frame |>
+  select(urm_pct, frl_pct, academic)
+adj_urm <- tern_frame$urm_pct
+adj_urm <- scales::rescale(adj_urm, to = c(0.01, 0.99))
+tern_frame$urm_pct <- adj_urm
+adj_frl <- tern_frame$frl_pct
+adj_frl <- scales::rescale(adj_frl, to = c(0.01, 0.99))
+tern_frame$frl_pct <- adj_frl
+adj_academic <- tern_frame$academic
+adj_academic <- scales::rescale(adj_academic, to = c(0.01, 0.99))
+tern_frame$academic <- adj_academic
+tern_frame <- na.omit(tern_frame)
+tern_plot <- ggtern(
+  tern_frame,
+  aes(
+    frl_pct,
+    academic,
+    urm_pct
+  )) +
+  # stat_density_tern(geom = 'polygon',
+  #                        n         = 400,
+  #                   bdl = 0.001,
+  #                   bins = 18,
+  #                        aes(fill  = ..level..,
+  #                            alpha = ..level..)) +
+  geom_point() +
+  theme_rgbw()  +
+#  scale_fill_gradient(low = "blue",high = "red")  +
+  guides(color = "none", fill = "none", alpha = "none")
+tern_plot
+```
+
 ### Central Indiana
 
 The primary purpose of this model is to provide insight into identifying high-opportunity
@@ -324,7 +470,13 @@ table_frame <- data.frame(
     1.07
   )
 )
-kable(table_frame)
+kable(
+  table_frame,
+  col.names = c(
+    "School Corporation",
+    "Enrollment",
+    "SCO Score"
+  ))
 ```
 
 ```{r central-indiana-map}
@@ -505,6 +657,34 @@ SCO_scatter <- SCO_scatter |>
   #)
 
 SCO_scatter
+```
+
+```{r sco-mds, eval = FALSE}
+mds <- SCO_frame |>
+  select(enrollment, urban_centric_locale, scoScore) |>
+  na.omit() %>%
+  dist() %>%
+  cmdscale() %>%
+  as_tibble()
+# K-means clustering
+clust <- kmeans(mds, 5)$cluster %>%
+  as.factor()
+mds <- mds %>%
+  mutate(groups = clust)
+rownames(mds) <- na.omit(SCO_frame$lea_name)
+colnames(mds) <- c("Dim.1", "Dim.2", "groups")
+ggscatter(mds, x = "Dim.1", y = "Dim.2",
+          color = "groups",
+          #label = rownames(mds),
+          palette = "jco", #c("#990000", "#FFAA00", "#056E41"),
+          ellipse = TRUE,
+          ellipse.type = "convex",
+          size = 1,
+          repel = FALSE)
+mds$lea_name <- rownames(mds)
+mds <- mds |>
+  select(lea_name, groups)
+write_csv(mds, "data/mds.csv")
 ```
 
 ### Urban-Centric Locale SCO Scores

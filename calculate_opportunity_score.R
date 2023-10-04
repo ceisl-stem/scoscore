@@ -98,8 +98,79 @@ school_corp_frame <- read_csv(here("data", "in_sc-data.csv")) |>
   mutate(adj_academic = round(adj_academic, digits = 2)) |>
   mutate(scoScore = round(scoScore, digits = 2))
 
+# Conduct a counterfactual analysis to ensure fairness for school corporations.
+# If a school corporation has an adjusted academic score **above** mean academic
+# score + 1 standard deviation then adjust the non-white and free and
+# reduced lunch percents to the state average if these are **lower** than the
+# state mean. This gives some school corporations a little "bump" so that it
+# cannot be said that any group is given an "unfair" advantage. If the newly
+# calculated SCOscore is then >=1, then keep that counterfactual score.
+
+urm_pct_mean <- round(mean(school_corp_frame$urm_pct)/100,2)
+frl_pct_mean <- round(mean(school_corp_frame$frl_pct)/100,2)
+adj_ac_mean <- round(mean(school_corp_frame$adj_academic),2)
+adj_ac_sd <- round(sd(school_corp_frame$adj_academic), 2)
+adj_ac_cutoff <- adj_ac_mean + adj_ac_sd
+
+whatif_frame <- school_corp_frame |>
+  filter(adj_academic >= adj_ac_cutoff) |>
+  filter(scoScore < 1) |>
+  select(-scoScore) |>
+  mutate(
+    urm_pct = urm_pct / 100
+  ) |>
+  mutate(
+    frl_pct = frl_pct / 100
+  ) |>
+  mutate(urm_pct = ifelse(
+    urm_pct < urm_pct_mean,
+    urm_pct_mean,
+    urm_pct
+  )) |>
+  mutate(frl_pct = ifelse(
+    frl_pct < frl_pct_mean,
+    frl_pct_mean,
+    frl_pct
+  )) |>
+  mutate(
+    scoScore = (
+      ((urm_pct * 1.5) + (frl_pct * 1.5) + (adj_academic)) / 3
+    )
+  ) |>
+  mutate(scoScore = if_else(
+    scoScore < 1 & scoScore > 0.99,
+    1,
+    scoScore
+  )) |>
+  mutate(
+    scoScore = round(scoScore, 2)
+  ) |>
+  filter(
+    scoScore >= 1
+  ) |>
+  select(leaid, scoScore)
+
+school_corp_frame$cf <- FALSE
+
+school_corp_frame <- school_corp_frame |>
+  mutate(scoScore = ifelse(
+    leaid %in% whatif_frame$leaid,
+    whatif_frame$scoScore,
+    scoScore)) |>
+  mutate(cf = ifelse(
+    leaid %in% whatif_frame$leaid,
+    TRUE,
+    FALSE))
+
+rural_opp_frame <- school_corp_frame |>
+  filter(urban_centric_locale %in% c("Town distant", "Town remote", "Rural fringe",
+                                     "Rural distant", "Rural remote")) |>
+  filter(scoScore >= 1)# |>
+  #filter(urm_pct >=50)
+ggscatter(rural_opp_frame, "frl_pct", "urm_pct")
+
 output_frame <- school_corp_frame |>
-  select(leaid, lea_name, enrollment, urban_centric_locale, urm_pct, frl_pct, academic = adj_academic, scoScore) |>
+  select(leaid, lea_name, cf, enrollment, urban_centric_locale, urm_pct, frl_pct, academic = adj_academic, scoScore) |>
   write_csv(file = here("data", "in_scoscores.csv"))
 
 school_corp_frame$urban_centric_locale <- factor(
@@ -136,7 +207,6 @@ urcl_pack = linearpackcircles(school_corp_frame,
                           size_text = 2,
                           area_multiplier = 1000)
 urcl_pack
-
 
 urcl_swarm <- ggplot(
   school_corp_frame,
