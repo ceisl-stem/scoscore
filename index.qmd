@@ -162,7 +162,8 @@ is artificially increased to the state mean; the same occurs with the proportion
 students who receive free and reduced lunch.
 
 The SCOscore is then recalculated based on those counterfactual variables. The
-following
+following is a table of the school corporations that result in a SCO Score ≥ 1 when
+a counterfactual analysis is conducted.
 
 ```{r cf-scoscores}
 display_frame <- SCO_frame |>
@@ -181,11 +182,6 @@ kable(
     "SCO Score"
   ))
 ```
-
-::: {.callout-important}
-## Statistical Analyses are Never Politically Neutral
-Blah blah blah.
-:::
 
 ### Acknowledging Inequality *Within* School Corporations
 
